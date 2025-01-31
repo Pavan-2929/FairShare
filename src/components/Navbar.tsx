@@ -4,7 +4,7 @@ import avatar from "@/assets/avatar.png";
 
 const Navbar = () => {
   return (
-    <div className="border-b-2 shadow-sm bg-card py-2 flex justify-end pe-24">
+    <div className="border-b-2 shadow-sm bg-card py-2 flex justify-end pe-16">
       <div className="">
         <Image src={avatar} className="h-12 w-12 rounded-full object-contain" alt="Image" />
       </div>

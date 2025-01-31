@@ -6,7 +6,7 @@ import Image from "next/image";
 
 const Sidebar = () => {
   return (
-    <div className="h-screen bg-card w-72 border-r-2 flex flex-col py-3">
+    <div className="h-screen bg-card w-80 border-r-2 flex flex-col py-3">
       <div className="flex items-center space-x-4 mb-5 pb-3 border-b-2 px-7 ">
         <Image
           src={logo}

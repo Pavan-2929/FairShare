@@ -5,6 +5,8 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import Sidebar from "@/components/Sidebar";
 import Navbar from "@/components/Navbar";
+import PersonalBudget from "./(Transaction)/PersonalBudget";
+import ShowTransactions from "./(Transaction)/ShowTransactions";
 
 export default async function Home() {
   const session = await auth.api.getSession({
@@ -18,9 +20,9 @@ export default async function Home() {
       <Sidebar />
       <div className="flex flex-col w-full">
         <Navbar />
-        <div className="flex-1 p-5">
-          Hii from main
-          <p>{session.user.email}</p>
+        <div className="flex-1 p-5 pe-16 space-y-10">
+          <PersonalBudget />
+          <ShowTransactions />
         </div>
       </div>
     </div>
