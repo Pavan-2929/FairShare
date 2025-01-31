@@ -20,7 +20,7 @@ export default async function Home() {
       <Sidebar />
       <div className="flex flex-col w-full">
         <Navbar />
-        <div className="flex-1 p-5 pe-16 space-y-10">
+        <div className="flex-1 p-5 pt-10 pe-16 space-y-10">
           <PersonalBudget />
           <ShowTransactions />
         </div>

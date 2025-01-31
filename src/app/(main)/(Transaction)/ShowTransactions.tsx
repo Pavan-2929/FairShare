@@ -1,4 +1,4 @@
-import { getUser } from "@/app/getSessionUser";
+import { getUser } from "@/app/getUser";
 import prisma from "@/lib/prisma";
 import React from "react";
 import {
@@ -9,14 +9,17 @@ import {
   TableHead,
   TableCell,
 } from "@/components/ui/table";
+import { FileText, Calendar, InfoIcon } from "lucide-react";
+import TransactionActions from "./TransactionActions";
+import { cn } from "@/lib/utils";
 import {
-  ArrowUpCircle,
-  ArrowDownCircle,
-  FileText,
-  Calendar,
-  Wallet,
-  MoreHorizontal,
-} from "lucide-react";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const ShowTransactions = async () => {
   const user = await getUser();
@@ -25,7 +28,6 @@ const ShowTransactions = async () => {
     return <p className="text-red-500">User not found</p>;
   }
 
-  // Fetch transactions for the logged-in user
   const transactions = await prisma.transaction.findMany({
     where: { userId: user.id },
     orderBy: { TransactionDate: "desc" },
@@ -55,14 +57,32 @@ const ShowTransactions = async () => {
               <TableRow key={txn.id}>
                 <TableCell>{txn.category}</TableCell>
                 <TableCell
-                  className={`${
-                    txn.type === "income" ? "text-primary" : "text-destructive"
-                  }`}
+                  className={cn(
+                    txn.type === "income" ? "text-primary" : "text-destructive",
+                    "font-semibold"
+                  )}
                 >
-                  {txn.type === "income" ? "+" : "-"} ${txn.amount.toNumber()}
+                  {txn.type === "income" ? "+" : "-"} ${txn.amount}
                 </TableCell>
                 <TableCell>{txn.type}</TableCell>
-                <TableCell>{txn.note || "—"}</TableCell>
+                <TableCell>
+                  <Dialog>
+                    <DialogTrigger>
+                      {" "}
+                      {txn.note ? (
+                        <InfoIcon className="text-muted-foreground size-5" />
+                      ) : (
+                        "—"
+                      )}
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Notes...</DialogTitle>
+                        <DialogDescription>{txn.note}</DialogDescription>
+                      </DialogHeader>
+                    </DialogContent>
+                  </Dialog>
+                </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-1">
                     <Calendar className="text-muted-foreground" size={16} />
@@ -70,7 +90,7 @@ const ShowTransactions = async () => {
                   </div>
                 </TableCell>
                 <TableCell className="flex justify-end items-center">
-                  <MoreHorizontal className="size-5 text-muted-foreground" />
+                  <TransactionActions Transaction={txn} />
                 </TableCell>
               </TableRow>
             ))}

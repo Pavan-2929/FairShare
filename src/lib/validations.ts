@@ -16,4 +16,4 @@ export const transactionSchema = z.object({
   TransactionDate: z.date(),
 });
 
-export type TransactionType = z.infer<typeof transactionSchema>;
+export type TransactionValues = z.infer<typeof transactionSchema>;

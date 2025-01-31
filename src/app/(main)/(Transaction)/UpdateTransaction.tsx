@@ -18,8 +18,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { CalendarIcon, Plus } from "lucide-react";
-import { useState } from "react";
+import { CalendarIcon, Edit } from "lucide-react";
+import { useState, useEffect } from "react";
 import {
   Form,
   FormControl,
@@ -29,7 +29,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
-import { transactionSchema, TransactionValues } from "@/lib/validations";
+import { transactionSchema } from "@/lib/validations";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
@@ -38,39 +38,44 @@ import {
 } from "@/components/ui/popover";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
-import { addTransactionAction } from "./actions";
+import { updateTransactionAction } from "./actions";
 import LoadingButton from "@/components/controls/LoadingButton";
+import { TransactionType } from "@/lib/types";
 
-const AddTransaction = () => {
-  const [transactionType, setTransactionType] = useState<"expense" | "income">(
-    "expense"
-  );
-  const [category, setCategory] = useState<string>("");
+const UpdateTransaction = ({
+  transactionData,
+}: {
+  transactionData: TransactionType;
+}) => {
+  const [transactionCategory, setTransactionCategory] = useState<
+    "expense" | "income"
+  >(transactionData.type);
+  const [category, setCategory] = useState<string>(transactionData.category);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const form = useForm<TransactionValues>({
+  const form = useForm<TransactionType>({
     resolver: zodResolver(transactionSchema),
     defaultValues: {
-      amount: 0,
-      note: "",
-      type: "expense",
-      category: "",
-      TransactionDate: new Date(),
+      amount: transactionData.amount,
+      note: transactionData?.note || "",
+      type: transactionData.type,
+      category: transactionData.category,
+      TransactionDate: transactionData.TransactionDate,
     },
   });
 
-  const onSubmit = async (values: TransactionValues) => {
+  const onSubmit = async (values: TransactionType) => {
     setLoading(true);
     setError(null);
 
     try {
-      await addTransactionAction(values);
+      await updateTransactionAction(values, transactionData.id);
       form.reset();
       setIsOpen(false);
     } catch (err) {
-      setError("Failed to add transaction. Please try again.");
+      setError("Failed to update transaction. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -84,14 +89,14 @@ const AddTransaction = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="ml-6 gap-2">
-          <Plus />
-          Add Transaction
+        <Button variant="ghost">
+          <Edit className="mr-3" />
+          Update
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add new Transaction</DialogTitle>
+          <DialogTitle>Update Transaction</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
@@ -124,6 +129,7 @@ const AddTransaction = () => {
                       placeholder="Notes..."
                       className="resize-none"
                       {...field}
+                      value={field.value ?? ""}
                     />
                   </FormControl>
                   <FormMessage />
@@ -139,7 +145,7 @@ const AddTransaction = () => {
                   <Select
                     onValueChange={(val) => {
                       field.onChange(val);
-                      setTransactionType((val as "expense") || "income");
+                      setTransactionCategory(val as "expense" | "income");
                     }}
                     defaultValue={field.value}
                   >
@@ -177,7 +183,7 @@ const AddTransaction = () => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {categories[transactionType]?.map((category) => (
+                        {categories[transactionCategory]?.map((category) => (
                           <SelectItem key={category} value={category}>
                             {category.charAt(0).toUpperCase() +
                               category.slice(1)}
@@ -248,7 +254,7 @@ const AddTransaction = () => {
             />
             <div className="pt-5">
               <LoadingButton loading={loading} type="submit" className="w-full">
-                Add Transaction
+                Update Transaction
               </LoadingButton>
             </div>
           </form>
@@ -258,4 +264,4 @@ const AddTransaction = () => {
   );
 };
 
-export default AddTransaction;
+export default UpdateTransaction;

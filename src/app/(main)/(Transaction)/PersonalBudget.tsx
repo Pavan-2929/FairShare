@@ -19,7 +19,7 @@ const PersonalBudget = () => {
         <button aria-label="Download Report">
           <Download className="size-5 text-muted-foreground hover:text-primary transition" />
         </button>
-        <AddTransaction />
+        <AddTransaction/>
       </div>
     </div>
   );
