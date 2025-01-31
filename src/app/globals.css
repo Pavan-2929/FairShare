@@ -68,7 +68,7 @@ body {
     --input: 240 5.9% 90%;
     --ring: 142.1 76.2% 36.3%;
 
-    --radius: 0.75rem;
+    --radius: 1rem;
   }
 
   .dark {
