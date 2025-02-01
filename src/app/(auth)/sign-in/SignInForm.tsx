@@ -17,12 +17,14 @@ import { Mail } from "lucide-react";
 import LoadingButton from "@/components/controls/LoadingButton";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import { useToast } from "@/hooks/use-toast";
 
 const SignInForm = () => {
   const [error, setError] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
 
   const router = useRouter();
+  const { toast } = useToast();
 
   const form = useForm<SignInValues>({
     resolver: zodResolver(signinSchema),
@@ -46,6 +48,10 @@ const SignInForm = () => {
           setLoading(true);
         },
         onSuccess: () => {
+          toast({
+            title: "OTP send",
+            description: "A OTP has been sent to your email address.",
+          });
           form.reset();
           router.push(`/verify-otp?email=${encodedEmail}`);
           setLoading(false);

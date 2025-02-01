@@ -6,8 +6,9 @@ import AddTransaction from "./AddTransaction";
 import ShareTransaction from "./ShareTransaction";
 import prisma from "@/lib/prisma";
 import { getUser } from "@/utils/getUser";
+import ShowTransactions from "./ShowTransactions";
 
-const PersonalBudget = async () => {
+const Home = async () => {
   const user = await getUser();
 
   const transactions = await prisma.transaction.findMany({
@@ -16,15 +17,20 @@ const PersonalBudget = async () => {
   });
 
   return (
-    <div className="flex items-center justify-between">
-      <h1 className="font-bold text-2xl">Keep track of your budget</h1>
+    <div className="space-y-10">
+      <div className="flex items-center justify-between">
+        <h1 className="font-bold text-2xl">Keep track of your budget</h1>
 
-      <div className="flex gap-5">
-        <ShareTransaction transactions={transactions} />
-        <AddTransaction />
+        <div className="flex gap-5">
+          {transactions.length > 0 && (
+            <ShareTransaction transactions={transactions} />
+          )}
+          <AddTransaction />
+        </div>
       </div>
+      <ShowTransactions />
     </div>
   );
 };
 
-export default PersonalBudget;
+export default Home;

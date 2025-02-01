@@ -35,9 +35,17 @@ const ShowTransactions = async () => {
   return (
     <div className="mx-auto">
       {transactions.length === 0 ? (
-        <div className="text-gray-500 flex flex-col items-center gap-3 mt-10">
-          <FileText className="w-16 h-16 text-gray-400" />
-          <p>No transactions found</p>
+        <div className="text-muted-foreground flex flex-col items-center gap-4 mt-24">
+          <FileText className="w-16 h-16 text-muted-foreground" />
+          <p className="font-semibold text-xl text-muted-foreground">
+            Looks like you haven't added any transactions yet.
+          </p>
+          <p className="text-center text-gray-500">
+            To get started, you can add your first transaction and start
+            tracking your income and expenses.
+            <br />
+            It only takes a few moments!
+          </p>
         </div>
       ) : (
         <Table className="border rounded-xl  shadow-md">

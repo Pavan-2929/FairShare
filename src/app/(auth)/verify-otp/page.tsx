@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Divider from "@/components/Divider";
 import VerifyOTPForm from "./VeirfyOTPForm";
+import ResendOTP from "./ResendOTP";
 
 const VerifyOtp = () => {
   return (
@@ -53,11 +54,7 @@ const VerifyOtp = () => {
         <div className="w-full max-w-md space-y-6">
           <VerifyOTPForm />
           <Divider />
-          <div className="space-y-4">
-            <p className="text-muted-foreground text-center">
-              Didn't receive the OTP? <Link href="/resend-otp">Resend it</Link>
-            </p>
-          </div>
+          <ResendOTP />
         </div>
       </div>
     </div>

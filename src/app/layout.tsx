@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/toaster";
 
 const nunito = Nunito({
   variable: "--font-inter",
@@ -19,8 +20,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${nunito.variable}`}>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${nunito.variable}`}>
+        {children}
+        <Toaster />
+      </body>
     </html>
   );
 }

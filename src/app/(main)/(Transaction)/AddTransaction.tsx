@@ -105,7 +105,7 @@ const AddTransaction = () => {
               name="amount"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Amount</FormLabel>
+                  <FormLabel>Amount (₹)</FormLabel>
                   <FormControl>
                     <Input placeholder="Amount" {...field} />
                   </FormControl>
@@ -212,7 +212,7 @@ const AddTransaction = () => {
                 <FormItem className="flex flex-col">
                   <FormLabel>Transaction Date</FormLabel>
                   <Popover>
-                    <PopoverTrigger asChild>
+                    <PopoverTrigger asChild className="bg-accent">
                       <FormControl>
                         <Button
                           variant={"outline"}

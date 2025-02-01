@@ -15,14 +15,14 @@ import {
 import { FormInput } from "@/components/controls/FormInput";
 import { Mail } from "lucide-react";
 import LoadingButton from "@/components/controls/LoadingButton";
-import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import { useToast } from "@/hooks/use-toast";
 
 const MagicLink = () => {
   const [error, setError] = useState<string>();
   const [loading, setLoading] = useState<boolean>(false);
 
-  const router = useRouter();
+  const { toast } = useToast();
 
   const form = useForm<SignInValues>({
     resolver: zodResolver(signinSchema),
@@ -46,10 +46,21 @@ const MagicLink = () => {
         onSuccess: () => {
           form.reset();
           setLoading(false);
+          toast({
+            title: "Magic Link Sent",
+            description: "Check your email for the magic link to sign in.",
+          });
         },
         onError: (ctx) => {
           setError(ctx.error.message);
           setLoading(false);
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description:
+              ctx.error.message ||
+              "Something went wrong | Try different method",
+          });
         },
       }
     );

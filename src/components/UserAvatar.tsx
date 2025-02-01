@@ -13,8 +13,8 @@ const UserAvatar = ({ className, size, avatarUrl }: UserAvatarProps) => {
   return (
     <Image
       src={avatarUrl || avatarImage}
-      width={size || 42}
-      height={size || 42}
+      width={size || 48}
+      height={size || 48}
       alt="User avatar"
       className={cn("h-fit rounded-full object-cover", className)}
     />
