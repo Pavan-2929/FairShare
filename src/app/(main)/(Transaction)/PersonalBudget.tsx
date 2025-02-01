@@ -3,23 +3,25 @@ import { Download, Mail, Plus } from "lucide-react";
 import React from "react";
 import { FaWhatsapp } from "react-icons/fa";
 import AddTransaction from "./AddTransaction";
+import ShareTransaction from "./ShareTransaction";
+import prisma from "@/lib/prisma";
+import { getUser } from "@/app/getUser";
 
-const PersonalBudget = () => {
+const PersonalBudget = async () => {
+  const user = await getUser();
+
+  const transactions = await prisma.transaction.findMany({
+    where: { userId: user.id },
+    orderBy: { TransactionDate: "desc" },
+  });
+
   return (
     <div className="flex items-center justify-between">
       <h1 className="font-bold text-2xl">Keep track of your budget</h1>
 
       <div className="flex gap-5">
-        <button aria-label="Share on WhatsApp">
-          <FaWhatsapp className="size-5 text-muted-foreground hover:text-primary transition" />
-        </button>
-        <button aria-label="Send Email">
-          <Mail className="size-5 text-muted-foreground hover:text-primary transition" />
-        </button>
-        <button aria-label="Download Report">
-          <Download className="size-5 text-muted-foreground hover:text-primary transition" />
-        </button>
-        <AddTransaction/>
+        <ShareTransaction transaction={transactions} />
+        <AddTransaction />
       </div>
     </div>
   );

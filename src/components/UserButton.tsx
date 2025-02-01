@@ -16,16 +16,19 @@ import { LogOutIcon, UserIcon } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 import useSession from "@/app/useSession";
 import { redirect } from "next/navigation";
+import { Skeleton } from "./ui/skeleton";
 
 interface UserButtonProps {
   className?: string;
 }
 
 const UserButton = ({ className }: UserButtonProps) => {
-  const user = useSession();
+  const { user, isPending } = useSession();
 
-  if (!user) {
-    return null;
+  console.log(isPending);
+
+  if (!user || isPending) {
+    return <Skeleton className="w-12 h-12 rounded-full" />;
   }
 
   const handleLogout = async () => {

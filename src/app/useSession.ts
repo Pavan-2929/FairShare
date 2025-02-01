@@ -1,12 +1,26 @@
 import { authClient } from "@/lib/auth-client";
 
-const useSession = () => {
+interface SessionData {
+  user: {
+    id: string;
+    email: string;
+    emailVerified: boolean;
+    name: string;
+    createdAt: Date;
+    updatedAt: Date;
+    image?: string | null;
+  } | null;
+  isPending: boolean;
+}
+
+const useSession = (): SessionData => {
+
   const { data: session, isPending, error } = authClient.useSession();
-  const user = session?.user;
 
-  if (!user) return null;
-
-  return user as NonNullable<typeof user>;
+  return {
+    user: session?.user ?? null,
+    isPending: isPending,
+  };
 };
 
 export default useSession;

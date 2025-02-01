@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,33 +8,31 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Edit, MoreHorizontal, Trash2Icon } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
 import DeleteTransaction from "./DeleteTransaction";
 import { TransactionType } from "@/lib/types";
 import UpdateTransaction from "./UpdateTransaction";
-const TransactionActions = ({
-  Transaction,
-}: {
-  Transaction: TransactionType;
-}) => {
+
+interface TransactionActionsProps {
+  transaction: TransactionType;
+}
+
+const TransactionActions = ({ transaction }: TransactionActionsProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <MoreHorizontal className="size-5 cursor-pointer text-muted-foreground" />
       </DropdownMenuTrigger>
-
       <DropdownMenuContent>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <DeleteTransaction TransactionId={Transaction.id} />
+          <DeleteTransaction TransactionId={transaction.id} />
         </DropdownMenuItem>
 
         <DropdownMenuSeparator />
 
         <DropdownMenuItem asChild>
-          <UpdateTransaction
-            transactionData={Transaction}
-          />
+          <UpdateTransaction transactionData={transaction} />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

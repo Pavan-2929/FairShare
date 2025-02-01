@@ -90,7 +90,7 @@ const ShowTransactions = async () => {
                   </div>
                 </TableCell>
                 <TableCell className="flex justify-end items-center">
-                  <TransactionActions Transaction={txn} />
+                  <TransactionActions transaction={txn} />
                 </TableCell>
               </TableRow>
             ))}
