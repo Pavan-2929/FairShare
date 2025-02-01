@@ -1,4 +1,4 @@
-import { getUser } from "@/app/getUser";
+import { getUser } from "@/utils/getUser";
 import prisma from "@/lib/prisma";
 import React from "react";
 import {
@@ -32,7 +32,6 @@ const ShowTransactions = async () => {
     where: { userId: user.id },
     orderBy: { TransactionDate: "desc" },
   });
-
   return (
     <div className="mx-auto">
       {transactions.length === 0 ? (

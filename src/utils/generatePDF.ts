@@ -1,6 +1,8 @@
 import { TransactionType } from "@/lib/types";
 import jsPDF from "jspdf";
 const generatePDF = (transactions: TransactionType[], name: string) => {
+  console.log(transactions);
+
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
@@ -158,7 +160,7 @@ const generatePDF = (transactions: TransactionType[], name: string) => {
     { align: "center" }
   );
 
-  doc.save(`FairShare-Report-${name}-${Date.now()}.pdf`);
+  return doc.output("blob");
 };
 
 export default generatePDF;

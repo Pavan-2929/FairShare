@@ -14,7 +14,7 @@ import UserAvatar from "./UserAvatar";
 import Link from "next/link";
 import { LogOutIcon, UserIcon } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
-import useSession from "@/app/useSession";
+import useSession from "@/utils/useSession";
 import { redirect } from "next/navigation";
 import { Skeleton } from "./ui/skeleton";
 

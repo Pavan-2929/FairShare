@@ -5,7 +5,7 @@ import { FaWhatsapp } from "react-icons/fa";
 import AddTransaction from "./AddTransaction";
 import ShareTransaction from "./ShareTransaction";
 import prisma from "@/lib/prisma";
-import { getUser } from "@/app/getUser";
+import { getUser } from "@/utils/getUser";
 
 const PersonalBudget = async () => {
   const user = await getUser();
@@ -20,7 +20,7 @@ const PersonalBudget = async () => {
       <h1 className="font-bold text-2xl">Keep track of your budget</h1>
 
       <div className="flex gap-5">
-        <ShareTransaction transaction={transactions} />
+        <ShareTransaction transactions={transactions} />
         <AddTransaction />
       </div>
     </div>

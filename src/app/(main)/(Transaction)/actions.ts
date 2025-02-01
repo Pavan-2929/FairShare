@@ -1,9 +1,10 @@
 "use server";
 
-import { getUser } from "@/app/getUser";
+import { getUser } from "@/utils/getUser";
 import prisma from "@/lib/prisma";
 import { TransactionType } from "@/lib/types";
 import { TransactionValues } from "@/lib/validations";
+import TransactionMailer from "../../../../emails/TransactionsMailer";
 
 export const addTransactionAction = async (credentials: TransactionValues) => {
   try {
@@ -63,7 +64,7 @@ export const updateTransactionAction = async (
     if (!existingTransaction) {
       throw new Error("Transaction not found.");
     }
-console.log(user.id);
+    console.log(user.id);
 
     if (existingTransaction.userId !== user.id) {
       throw new Error("Unauthorized access to this transaction.");
@@ -79,6 +80,24 @@ console.log(user.id);
         TransactionDate,
       },
     });
+  } catch (error) {
+    console.error(
+      "Failed to update transaction:",
+      error instanceof Error ? error.message : error
+    );
+    throw new Error("Something went wrong while updating the transaction.");
+  }
+};
+
+export const sendTransaction = async (
+  name: string,
+  email: string,
+  pdfBase64: string
+) => {
+  try {
+    const pdfBuffer = Buffer.from(pdfBase64, "base64");
+
+    await TransactionMailer({ name, email, pdf: pdfBuffer });
   } catch (error) {
     console.error(
       "Failed to update transaction:",
