@@ -6,14 +6,13 @@ import AddTransaction from "./AddTransaction";
 import ShareTransaction from "./ShareTransaction";
 import prisma from "@/lib/prisma";
 import { getUser } from "@/utils/getUser";
-import ShowTransactions from "./ShowTransactions";
+import Transactions from "./Transactions";
 
 const Home = async () => {
   const user = await getUser();
 
   const transactions = await prisma.transaction.findMany({
     where: { userId: user.id },
-    orderBy: { TransactionDate: "desc" },
   });
 
   return (
@@ -28,7 +27,7 @@ const Home = async () => {
           <AddTransaction />
         </div>
       </div>
-      <ShowTransactions />
+      <Transactions />
     </div>
   );
 };

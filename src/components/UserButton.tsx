@@ -17,6 +17,7 @@ import { authClient } from "@/lib/auth-client";
 import useSession from "@/utils/useSession";
 import { redirect } from "next/navigation";
 import { Skeleton } from "./ui/skeleton";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface UserButtonProps {
   className?: string;
@@ -24,8 +25,7 @@ interface UserButtonProps {
 
 const UserButton = ({ className }: UserButtonProps) => {
   const { user, isPending } = useSession();
-
-  console.log(isPending);
+  const queryClient = useQueryClient();
 
   if (!user || isPending) {
     return <Skeleton className="w-12 h-12 rounded-full" />;
@@ -39,6 +39,7 @@ const UserButton = ({ className }: UserButtonProps) => {
         },
       },
     });
+    queryClient.clear();
   };
 
   return (

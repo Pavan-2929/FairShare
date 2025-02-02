@@ -15,8 +15,6 @@ interface ShareTransactionProps {
 const ShareTransaction = ({ transactions }: ShareTransactionProps) => {
   const { user } = useSession();
 
-  console.log(transactions);
-
   if (!user) return null;
 
   const handleDownload = () => {

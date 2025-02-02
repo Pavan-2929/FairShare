@@ -1,7 +1,6 @@
 import { TransactionType } from "@/lib/types";
 import jsPDF from "jspdf";
 const generatePDF = (transactions: TransactionType[], name: string) => {
-  console.log(transactions);
 
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();

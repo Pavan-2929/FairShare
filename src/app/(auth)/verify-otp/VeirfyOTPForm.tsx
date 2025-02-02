@@ -17,7 +17,6 @@ const VerifyOTPForm = () => {
   const [error, setError] = useState<string>("");
 
   const email = atob(params.get("email") || "");
-  console.log(email);
 
   const handleVerifyOTP = async (e: any) => {
     e.preventDefault();

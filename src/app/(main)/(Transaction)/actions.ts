@@ -43,8 +43,6 @@ export const updateTransactionAction = async (
   transactionData: TransactionType,
   transactionId: string
 ) => {
-  console.log(transactionData);
-  console.log(transactionId);
 
   const { amount, note, type, category, TransactionDate } = transactionData;
 
@@ -59,12 +57,9 @@ export const updateTransactionAction = async (
       where: { id: transactionId },
     });
 
-    console.log(existingTransaction);
-
     if (!existingTransaction) {
       throw new Error("Transaction not found.");
     }
-    console.log(user.id);
 
     if (existingTransaction.userId !== user.id) {
       throw new Error("Unauthorized access to this transaction.");
