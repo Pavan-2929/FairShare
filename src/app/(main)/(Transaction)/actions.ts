@@ -12,7 +12,7 @@ export const addTransactionAction = async (credentials: TransactionValues) => {
 
     const user = await getUser();
 
-    await prisma.transaction.create({
+    const newTransaction = await prisma.transaction.create({
       data: {
         userId: user.id,
         amount,
@@ -21,7 +21,16 @@ export const addTransactionAction = async (credentials: TransactionValues) => {
         category,
         TransactionDate,
       },
+      select: {
+        amount: true,
+        type: true,
+        category: true,
+        note: true,
+        TransactionDate: true,
+      },
     });
+
+    return newTransaction;
   } catch (error) {
     console.error("Failed to add transaction:", error);
     throw new Error("Something went wrong while adding the transaction.");
@@ -43,7 +52,6 @@ export const updateTransactionAction = async (
   transactionData: TransactionType,
   transactionId: string
 ) => {
-
   const { amount, note, type, category, TransactionDate } = transactionData;
 
   if (!amount || !type || !category || !TransactionDate) {

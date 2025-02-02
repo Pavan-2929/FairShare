@@ -41,12 +41,15 @@ import { cn } from "@/lib/utils";
 import { updateTransactionAction } from "./actions";
 import LoadingButton from "@/components/controls/LoadingButton";
 import { TransactionType } from "@/lib/types";
+import { useQueryClient } from "@tanstack/react-query";
 
 const UpdateTransaction = ({
   transactionData,
 }: {
   transactionData: TransactionType;
 }) => {
+  const queryClinet = useQueryClient();
+
   const [transactionCategory, setTransactionCategory] = useState<
     "expense" | "income"
   >(transactionData.type);
@@ -62,7 +65,7 @@ const UpdateTransaction = ({
       note: transactionData?.note || "",
       type: transactionData.type,
       category: transactionData.category,
-      TransactionDate: transactionData.TransactionDate,
+      TransactionDate: new Date(transactionData.TransactionDate),
     },
   });
 
@@ -74,6 +77,29 @@ const UpdateTransaction = ({
       await updateTransactionAction(values, transactionData.id);
       form.reset();
       setIsOpen(false);
+
+      queryClinet.invalidateQueries({
+        queryKey: ["transactions"],
+      });
+
+      queryClinet.setQueryData(
+        ["transactions"],
+        (oldData: {
+          transactions: TransactionType[];
+          totalTransactions: number;
+        }) => {
+          if (!oldData) return;
+
+          return {
+            transactions: oldData.transactions.map((txn: TransactionType) => {
+              if (txn.id === transactionData.id) {
+                return { ...txn, ...values };
+              }
+            }),
+            totalTransactions: oldData.totalTransactions,
+          };
+        }
+      );
     } catch (err) {
       setError("Failed to update transaction. Please try again.");
     } finally {

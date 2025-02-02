@@ -1,3 +1,5 @@
+import { TransactionValues } from "./validations";
+
 export type TransactionType = {
   type: "expense" | "income";
   id: string;
@@ -7,4 +9,9 @@ export type TransactionType = {
   category: string;
   note: string | null;
   TransactionDate: Date;
+};
+
+export type TransactionsData = {
+  transactions: TransactionValues[];
+  totalTransactions: number;
 };

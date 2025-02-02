@@ -24,6 +24,7 @@ import { TransactionType } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import kyInstance from "@/lib/ky";
 import { Button } from "@/components/ui/button";
+import TransactionLoader from "@/components/skeletonLoaders/TransactionLoader";
 
 const Transactions = () => {
   const [page, setPage] = useState(1);
@@ -38,7 +39,7 @@ const Transactions = () => {
   });
 
   if (isLoading) {
-    return <Loader2 className="animate-spin mt-10 size-5" />;
+    return <TransactionLoader />;
   }
 
   if (isError) {

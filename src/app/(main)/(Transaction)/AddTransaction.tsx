@@ -40,8 +40,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
 import { addTransactionAction } from "./actions";
 import LoadingButton from "@/components/controls/LoadingButton";
+import { useQueryClient } from "@tanstack/react-query";
+import { TransactionsData } from "@/lib/types";
 
 const AddTransaction = () => {
+  const queryClinet = useQueryClient();
+
   const [transactionType, setTransactionType] = useState<"expense" | "income">(
     "expense"
   );
@@ -66,9 +70,25 @@ const AddTransaction = () => {
     setError(null);
 
     try {
-      await addTransactionAction(values);
+      const newTransaction = await addTransactionAction(values);
       form.reset();
       setIsOpen(false);
+
+      queryClinet.invalidateQueries({
+        queryKey: ["transactions"],
+      });
+
+      queryClinet.setQueryData(
+        ["transactions"],
+        (oldData: TransactionsData) => {
+          if (!oldData) return;
+
+          return {
+            transactions: [newTransaction, ...oldData.transactions],
+            totalTransactions: oldData.totalTransactions + 1,
+          };
+        }
+      );
     } catch (err) {
       setError("Failed to add transaction. Please try again.");
     } finally {

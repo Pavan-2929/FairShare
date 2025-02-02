@@ -12,8 +12,12 @@ import { Trash2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { deleteTransactionAction } from "./actions";
 import LoadingButton from "@/components/controls/LoadingButton";
+import { useQueryClient } from "@tanstack/react-query";
+import { TransactionsData, TransactionType } from "@/lib/types";
 
 const DeleteTransaction = ({ TransactionId }: { TransactionId: string }) => {
+  const queryClinet = useQueryClient();
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
@@ -24,6 +28,28 @@ const DeleteTransaction = ({ TransactionId }: { TransactionId: string }) => {
 
     try {
       await deleteTransactionAction(TransactionId);
+
+      queryClinet.invalidateQueries({
+        queryKey: ["transactions"],
+      });
+
+      queryClinet.setQueryData(
+        ["transactions"],
+        (oldData: {
+          transactions: TransactionType[];
+          totalTransactions: number;
+        }) => {
+          if (!oldData) return;
+
+          return {
+            transactions: oldData.transactions.filter(
+              (transaction) => transaction.id !== TransactionId
+            ),
+            totalTransactions: oldData.totalTransactions - 1,
+          };
+        }
+      );
+
       setOpen(false);
     } catch (err) {
       setError("Failed to add transaction. Please try again.");
