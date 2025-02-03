@@ -42,7 +42,7 @@ const UserOtherDetails: React.FC = () => {
   const form = useForm<UserOtherDetailsValues>({
     resolver: zodResolver(userOtherDetailsSchema),
     defaultValues: {
-      age: user.age || 18,
+      age: user.age || 0,
       gender: (user.gender as "male" | "female" | "other") || undefined,
       city: user.city || "",
     },

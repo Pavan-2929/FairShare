@@ -8,6 +8,7 @@ import { FormInput } from "@/components/controls/FormInput";
 import { Mail } from "lucide-react";
 import UserOtherDetails from "./UserOtherDetails";
 import UserImage from "./UserImage";
+import UserData from "./UserData";
 
 const ProfilePage = async () => {
   const user = await getUser();
@@ -30,8 +31,9 @@ const ProfilePage = async () => {
           <div></div>
         </div>
       </div>
-      <div className="w-">
+      <div className="space-y-7">
         <UserOtherDetails />
+        <UserData />
       </div>
     </div>
   );

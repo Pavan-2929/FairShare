@@ -28,6 +28,7 @@ const Home = async () => {
         </div>
       </div>
       <Transactions />
+  
     </div>
   );
 };

@@ -13,7 +13,7 @@ export default async function HomePage() {
   if (!session || !session.user) redirect("/sign-in");
 
   return (
-    <div className="flex-1 p-5 space-y-10">
+    <div className="flex-1 space-y-10">
       <Home />
     </div>
   );

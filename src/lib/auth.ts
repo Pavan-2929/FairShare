@@ -7,6 +7,9 @@ import MagicLinkMailer from "../../emails/MagicLinkMailer";
 
 export const auth = betterAuth({
   user: {
+    deleteUser: {
+      enabled: true,
+    },
     additionalFields: {
       phoneNumber: {
         type: "string",
