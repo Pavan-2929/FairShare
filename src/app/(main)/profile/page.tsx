@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { FormInput } from "@/components/controls/FormInput";
 import { Mail } from "lucide-react";
 import UserOtherDetails from "./UserOtherDetails";
+import UserImage from "./UserImage";
 
 const ProfilePage = async () => {
   const user = await getUser();
@@ -14,7 +15,7 @@ const ProfilePage = async () => {
   return (
     <div className="flex items-start justify-between gap-7">
       <div className="bg-card flex-1 w-[680px] p-5 rounded-md shadow-sm space-y-5">
-        <UserAvatar avatarUrl={user.image} size={120} className="mx-auto" />
+        <UserImage />
         <div className="pl-5">
           <Label>Email</Label>
           <FormInput

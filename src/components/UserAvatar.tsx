@@ -9,14 +9,18 @@ interface UserAvatarProps {
   avatarUrl: string | null | undefined;
 }
 
-const UserAvatar = ({ className, size, avatarUrl }: UserAvatarProps) => {
+const UserAvatar = ({ className, size = 48, avatarUrl }: UserAvatarProps) => {
   return (
     <Image
       src={avatarUrl || avatarImage}
-      width={size || 48}
-      height={size || 48}
+      width={size}
+      height={size}
       alt="User avatar"
-      className={cn("h-fit rounded-full object-cover", className)}
+      className={cn("rounded-full object-cover border border-primary", className)}
+      style={{
+        width: `${size}px`,
+        height: `${size}px`,
+      }}
     />
   );
 };
