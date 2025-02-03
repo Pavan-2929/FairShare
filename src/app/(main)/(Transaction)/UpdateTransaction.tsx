@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { CalendarIcon, Edit } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import {
   Form,
   FormControl,
@@ -42,6 +42,11 @@ import { updateTransactionAction } from "./actions";
 import LoadingButton from "@/components/controls/LoadingButton";
 import { TransactionType } from "@/lib/types";
 import { useQueryClient } from "@tanstack/react-query";
+
+type oldDataType = {
+  transactions: TransactionType[];
+  totalTransactions: number;
+};
 
 const UpdateTransaction = ({
   transactionData,
@@ -82,24 +87,18 @@ const UpdateTransaction = ({
         queryKey: ["transactions"],
       });
 
-      queryClinet.setQueryData(
-        ["transactions"],
-        (oldData: {
-          transactions: TransactionType[];
-          totalTransactions: number;
-        }) => {
-          if (!oldData) return;
+      queryClinet.setQueryData(["transactions"], (oldData: oldDataType) => {
+        if (!oldData) return;
 
-          return {
-            transactions: oldData.transactions.map((txn: TransactionType) => {
-              if (txn.id === transactionData.id) {
-                return { ...txn, ...values };
-              }
-            }),
-            totalTransactions: oldData.totalTransactions,
-          };
-        }
-      );
+        return {
+          transactions: oldData.transactions.map((txn: TransactionType) => {
+            if (txn.id === transactionData.id) {
+              return { ...txn, ...values };
+            }
+          }),
+          totalTransactions: oldData.totalTransactions,
+        };
+      });
     } catch (err) {
       setError("Failed to update transaction. Please try again.");
     } finally {
@@ -107,10 +106,13 @@ const UpdateTransaction = ({
     }
   };
 
-  const categories = {
-    expense: ["food", "electronics", "travel", "other"],
-    income: ["salary", "freelance", "investment", "other"],
-  };
+  const categories = useMemo(
+    () => ({
+      expense: ["food", "electronics", "travel", "other"],
+      income: ["salary", "freelance", "investment", "other"],
+    }),
+    []
+  );
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>

@@ -6,6 +6,30 @@ import OTPMailer from "../../emails/OTPMailer";
 import MagicLinkMailer from "../../emails/MagicLinkMailer";
 
 export const auth = betterAuth({
+  user: {
+    additionalFields: {
+      phoneNumber: {
+        type: "string",
+        required: false,
+        defaultValue: "",
+      },
+      age: {
+        type: "number",
+        required: false,
+        defaultValue: 0,
+      },
+      gender: {
+        type: "string",
+        required: false,
+        defaultValue: "",
+      },
+      city: {
+        type: "string",
+        required: false,
+        defaultValue: "",
+      },
+    },
+  },
   plugins: [
     emailOTP({
       async sendVerificationOTP({ email, otp, type }) {
@@ -35,7 +59,6 @@ export const auth = betterAuth({
       },
     }),
   ],
-
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,

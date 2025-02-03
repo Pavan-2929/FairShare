@@ -41,8 +41,11 @@ import { cn } from "@/lib/utils";
 import { addTransactionAction } from "./actions";
 import LoadingButton from "@/components/controls/LoadingButton";
 import { useQueryClient } from "@tanstack/react-query";
-import { TransactionsData } from "@/lib/types";
 
+type oldDataType = {
+  transactions: TransactionValues[];
+  totalTransactions: number;
+};
 const AddTransaction = () => {
   const queryClinet = useQueryClient();
 
@@ -78,17 +81,14 @@ const AddTransaction = () => {
         queryKey: ["transactions"],
       });
 
-      queryClinet.setQueryData(
-        ["transactions"],
-        (oldData: TransactionsData) => {
-          if (!oldData) return;
+      queryClinet.setQueryData(["transactions"], (oldData: oldDataType) => {
+        if (!oldData) return;
 
-          return {
-            transactions: [newTransaction, ...oldData.transactions],
-            totalTransactions: oldData.totalTransactions + 1,
-          };
-        }
-      );
+        return {
+          transactions: [newTransaction, ...oldData.transactions],
+          totalTransactions: oldData.totalTransactions + 1,
+        };
+      });
     } catch (err) {
       setError("Failed to add transaction. Please try again.");
     } finally {

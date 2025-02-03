@@ -9,12 +9,15 @@ interface SessionData {
     createdAt: Date;
     updatedAt: Date;
     image?: string | null;
+    phoneNumber?: string | null;
+    age?: number | null;
+    gender?: "male" | "female" | "other" | null;
+    city?: string | null;
   } | null;
   isPending: boolean;
 }
 
 const useSession = (): SessionData => {
-
   const { data: session, isPending, error } = authClient.useSession();
 
   return {

@@ -13,7 +13,12 @@ import { Button } from "@/components/ui/button";
 import { deleteTransactionAction } from "./actions";
 import LoadingButton from "@/components/controls/LoadingButton";
 import { useQueryClient } from "@tanstack/react-query";
-import { TransactionsData, TransactionType } from "@/lib/types";
+import { TransactionType } from "@/lib/types";
+
+type oldDataType = {
+  transactions: TransactionType[];
+  totalTransactions: number;
+};
 
 const DeleteTransaction = ({ TransactionId }: { TransactionId: string }) => {
   const queryClinet = useQueryClient();
@@ -33,22 +38,16 @@ const DeleteTransaction = ({ TransactionId }: { TransactionId: string }) => {
         queryKey: ["transactions"],
       });
 
-      queryClinet.setQueryData(
-        ["transactions"],
-        (oldData: {
-          transactions: TransactionType[];
-          totalTransactions: number;
-        }) => {
-          if (!oldData) return;
+      queryClinet.setQueryData(["transactions"], (oldData: oldDataType) => {
+        if (!oldData) return;
 
-          return {
-            transactions: oldData.transactions.filter(
-              (transaction) => transaction.id !== TransactionId
-            ),
-            totalTransactions: oldData.totalTransactions - 1,
-          };
-        }
-      );
+        return {
+          transactions: oldData.transactions.filter(
+            (transaction) => transaction.id !== TransactionId
+          ),
+          totalTransactions: oldData.totalTransactions - 1,
+        };
+      });
 
       setOpen(false);
     } catch (err) {
