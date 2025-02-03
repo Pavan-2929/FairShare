@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Home, User, Settings, LogOut } from "lucide-react";
+import { Home, User, Settings, LogOut, LucideLayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/logo.png";
 import Image from "next/image";
@@ -56,6 +56,20 @@ const Sidebar = () => {
             >
               <User className="w-5 h-5" />
               <span>Profile</span>
+            </Button>
+          </li>
+          <li>
+            <Button
+              variant="ghost"
+              className={`w-full justify-start flex items-center space-x-2 px-4 py-2 rounded-md transition-all duration-300 ${
+                isActive("/dashboard")
+                  ? "bg-muted text-primary"
+                  : "text-muted-foreground hover:bg-muted"
+              }`}
+              onClick={() => router.push("/dashboard")}
+            >
+              <LucideLayoutDashboard className="w-5 h-5" />
+              <span>Dashboard</span>
             </Button>
           </li>
           <li>

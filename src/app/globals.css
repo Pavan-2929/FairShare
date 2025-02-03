@@ -40,6 +40,9 @@ body {
 
 @layer base {
   :root {
+
+    --color-category: #4caf50;
+
     --background: 224, 5%, 95%;
     --foreground: 240 10% 3.9%;
 

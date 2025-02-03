@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import kyInstance from "@/lib/ky";
 import { TransactionType } from "@/lib/types";
 import useSession from "@/utils/useSession";
