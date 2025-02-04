@@ -120,7 +120,8 @@ const Category = () => {
                 <Bar
                   dataKey="total"
                   fill="hsl(var(--primary) / 0.8)"
-                  radius={8}
+                  radius={6}
+                  barSize={72}
                 />
               </BarChart>
             </ChartContainer>
@@ -149,7 +150,8 @@ const Category = () => {
                 <Bar
                   dataKey="total"
                   fill="hsl(var(--destructive) / 0.8)"
-                  radius={8}
+                  radius={6}
+                  barSize={72}
                 />
               </BarChart>
             </ChartContainer>

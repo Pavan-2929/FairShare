@@ -37,7 +37,7 @@ const UserData = () => {
     ) || 0;
 
   return (
-    <div className="p-5 bg-card rounded-md space-y-7">
+    <div className="p-5 bg-card rounded-md space-y-7 border border-border">
       {isLoading && <p>Loading transactions...</p>}
       {isError && <p className="text-red-500">Failed to load transactions.</p>}
 

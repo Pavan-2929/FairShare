@@ -6,7 +6,7 @@ import ThemeToggler from "./ThemeToggler";
 
 const Navbar = () => {
   return (
-    <div className="border-b-2 shadow-sm bg-card py-2 flex justify-end items-center pe-16">
+    <div className="border-b shadow-sm bg-card py-2 flex justify-end items-center pe-16">
       {/* <div> */}
       <ThemeToggler />
       <UserButton />

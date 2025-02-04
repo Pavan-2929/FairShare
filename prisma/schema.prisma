@@ -23,8 +23,55 @@ model User {
   sessions    Session[]
   accounts    Account[]
   Transaction Transaction[]
+  Invoice     Invoice[]
 
   @@map("users")
+}
+
+model Invoice {
+  id            String        @id @default(uuid())
+  draftName     String
+  user          User          @relation(fields: [userId], references: [id])
+  userId        String
+  totalAmount   Float
+  issueDate     DateTime      @default(now())
+  dueDate       DateTime
+  clientName    String
+  clientEmail   String
+  clientNumber  String?
+  status        InvoiceStatus
+  paymentMethod PaymentMethod
+  notes         String
+  products       Product[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@map("invoices")
+}
+
+model Product {
+  id         Int      @id @default(autoincrement())
+  name       String
+  quantity   Int
+  unitPrice  Float
+  totalPrice Float
+  invoiceId  String
+  Invoice    Invoice? @relation(fields: [invoiceId], references: [id])
+}
+
+enum InvoiceStatus {
+  pending
+  paid
+  overdue
+  cancelled
+}
+
+enum PaymentMethod {
+  cash
+  creditCard
+  bankTransfer
+  upi
+  other
 }
 
 model Transaction {

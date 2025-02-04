@@ -15,7 +15,7 @@ const ProfilePage = async () => {
 
   return (
     <div className="flex items-start justify-between gap-7">
-      <div className="bg-card flex-1 w-[680px] p-5 rounded-md shadow-sm space-y-5">
+      <div className="border border-border bg-card flex-1 w-[680px] p-5 rounded-md shadow-sm space-y-5">
         <UserImage />
         <div className="pl-5">
           <Label>Email</Label>
@@ -28,7 +28,6 @@ const ProfilePage = async () => {
         </div>
         <div>
           <UserDetails />
-          <div></div>
         </div>
       </div>
       <div className="space-y-7">

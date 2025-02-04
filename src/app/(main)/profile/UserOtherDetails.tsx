@@ -74,7 +74,7 @@ const UserOtherDetails: React.FC = () => {
   };
 
   return (
-    <div className="p-5 bg-card rounded-md">
+    <div className="p-5 bg-card rounded-md border border-border">
       <h1 className="text-xl font-semibold mb-4">Other Details</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">

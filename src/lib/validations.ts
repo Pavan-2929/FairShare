@@ -44,3 +44,30 @@ export const userOtherDetailsSchema = z.object({
 });
 
 export type UserOtherDetailsValues = z.infer<typeof userOtherDetailsSchema>;
+
+const productSchema = z.object({
+  name: z.string().min(1, "Product name is required"),
+  quantity: z.number().min(1, "Quantity must be at least 1"),
+  unitPrice: z.number().min(0.01, "Unit price must be greater than 0"),
+  totalPrice: z.number().min(0, "Total price must be at least 0"),
+});
+
+export const invoiceSchema = z.object({
+  draftName: z.string().min(1, "required"),
+  totalAmount: z.coerce.number().min(1, "Total amount is required"),
+  issueDate: z.date(),
+  dueDate: z.date(),
+  clientName: z.string().min(1, "Client name is required"),
+  clientEmail: z.string().email("Invalid email"),
+  clientNumber: z
+    .string()
+    .min(10, "It should have 10 digits")
+    .max(10, "It should have 10 digits")
+    .optional(),
+  status: z.enum(["pending", "paid", "overdue", "cancelled"]),
+  paymentMethod: z.enum(["cash", "creditCard", "bankTransfer", "upi", "other"]),
+  products: z.array(productSchema).min(1, "At least one product is required"),
+  notes: requiredString,
+});
+
+export type InvoiceValues = z.infer<typeof invoiceSchema>;
