@@ -62,8 +62,7 @@ export const invoiceSchema = z.object({
   clientNumber: z
     .string()
     .min(10, "It should have 10 digits")
-    .max(10, "It should have 10 digits")
-    .optional(),
+    .max(10, "It should have 10 digits"),
   status: z.enum(["pending", "paid", "overdue", "cancelled"]),
   paymentMethod: z.enum(["cash", "creditCard", "bankTransfer", "upi", "other"]),
   products: z.array(productSchema).min(1, "At least one product is required"),

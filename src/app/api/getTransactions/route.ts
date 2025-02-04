@@ -1,5 +1,4 @@
 import prisma from "@/lib/prisma";
-import { TransactionType } from "@/lib/types";
 import { getUser } from "@/utils/getUser";
 import { NextRequest } from "next/server";
 
@@ -19,7 +18,7 @@ export async function GET(request: NextRequest) {
     const [transactions, totalTransactions] = await Promise.all([
       prisma.transaction.findMany({
         where: { userId: user.id },
-        orderBy: { createdAt: "desc" },
+        orderBy: { createdAt : "desc" },
         skip,
         take: limit,
       }),

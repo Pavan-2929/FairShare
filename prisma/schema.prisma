@@ -38,7 +38,7 @@ model Invoice {
   dueDate       DateTime
   clientName    String
   clientEmail   String
-  clientNumber  String?
+  clientNumber  String
   status        InvoiceStatus
   paymentMethod PaymentMethod
   notes         String
