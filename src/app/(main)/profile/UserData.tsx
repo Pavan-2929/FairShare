@@ -53,13 +53,13 @@ const UserData = () => {
             <div className="border p-4 text-center rounded-md space-y-1">
               <p className="font-medium text-[15px] font-serif">Income</p>
               <p className="text-green-600 font-semibold">
-                ${totalIncome.toFixed(2)}
+                ₹{totalIncome.toFixed(2)}
               </p>
             </div>
             <div className="border p-4 text-center rounded-md space-y-1">
               <p className="font-medium text-[15px] font-serif">Expense</p>
               <p className="text-destructive font-semibold">
-                ${totalExpense.toFixed(2)}
+                ₹{totalExpense.toFixed(2)}
               </p>
             </div>
           </div>

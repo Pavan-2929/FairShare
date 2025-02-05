@@ -95,10 +95,10 @@ export const updateTransactionAction = async (
 export const sendTransaction = async (
   name: string,
   email: string,
-  pdfBase64: string
+  base64Pdf: string
 ) => {
   try {
-    const pdfBuffer = Buffer.from(pdfBase64, "base64");
+    const pdfBuffer = Buffer.from(base64Pdf, "base64");
 
     await TransactionMailer({ name, email, pdf: pdfBuffer });
   } catch (error) {

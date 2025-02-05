@@ -26,15 +26,6 @@ const ShareTransaction = ({ transactions }: ShareTransactionProps) => {
     link.click();
   };
 
-  const handleWhatsApp = () => {
-    const pdfBlob = generatePDF(transactions, user.name);
-    const url = URL.createObjectURL(pdfBlob);
-    window.open(
-      `https://wa.me/?text=Download your transaction report here: ${url}`,
-      "_blank"
-    );
-  };
-
   const handleEmail = async () => {
     const pdfBlob = generatePDF(transactions, user.name);
     const pdfBuffer = Buffer.from(await pdfBlob.arrayBuffer());
@@ -52,9 +43,6 @@ const ShareTransaction = ({ transactions }: ShareTransactionProps) => {
 
   return (
     <div className="flex gap-6">
-      <button onClick={handleWhatsApp} aria-label="Share on WhatsApp">
-        <FaWhatsapp className="size-[22px] text-muted-foreground hover:text-primary transition" />
-      </button>
       <button onClick={handleEmail} aria-label="Send Email">
         <Mail className="size-[22px] text-muted-foreground hover:text-primary transition" />
       </button>

@@ -80,15 +80,15 @@ const page = () => {
       dueDate: new Date(new Date().setDate(new Date().getDate() + 30)),
       status: "pending",
       paymentMethod: "cash",
-      totalAmount: 12,
       products: [
         {
           name: "pavan",
           quantity: 1,
-          unitPrice: 12,
-          totalPrice: 12,
+          unitPrice: 0,
+          totalPrice: 0,
         },
       ],
+      totalAmount: 0 as number,
     },
   });
 
@@ -112,13 +112,22 @@ const page = () => {
 
   const caluclateTotalAmount = () => {
     const products = watch("products");
-    return products.reduce((sum, acc) => sum + acc.totalPrice || 0, 0);
+    const total = products.reduce((sum, acc) => sum + acc.totalPrice || 0, 0);
+    setValue("totalAmount", total);
+    return total;
   };
+  console.log(caluclateTotalAmount());
 
   const onSubmit = async (data: InvoiceValues) => {
-    startTransition(async () => {
-      await CreateInvoiceAction(data);
-    });
+    console.log(data);
+
+    try {
+      startTransition(async () => {
+        await CreateInvoiceAction(data);
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

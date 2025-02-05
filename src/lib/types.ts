@@ -1,3 +1,30 @@
+// const user: {
+//     id: string;
+//     email: string;
+//     emailVerified: boolean;
+//     name: string;
+//     createdAt: Date;
+//     updatedAt: Date;
+//     image?: string | null;
+//     phoneNumber?: string | null;
+//     age?: number | null;
+//     gender?: "male" | "female" | "other" | null;
+//     city?
+
+export type UserType = {
+  id: string;
+  email: string;
+  emailVerified: boolean;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
+  image?: string | null;
+  phoneNumber?: string | null;
+  age?: number | null;
+  gender?: "male" | "female" | "other" | null;
+  city?: string | null;
+};
+
 export type TransactionType = {
   type: "expense" | "income";
   id: string;

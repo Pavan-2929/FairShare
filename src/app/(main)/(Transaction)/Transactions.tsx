@@ -97,7 +97,7 @@ const Transactions = () => {
                       "font-semibold"
                     )}
                   >
-                    {txn.type === "income" ? "+" : "-"} ${txn.amount}
+                    {txn.type === "income" ? "+" : "-"} ₹{txn.amount}
                   </TableCell>
                   <TableCell>{txn.type}</TableCell>
                   <TableCell>

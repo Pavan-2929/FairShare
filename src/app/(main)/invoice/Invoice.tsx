@@ -33,6 +33,8 @@ import {
   Phone,
   TimerIcon,
   User2Icon,
+  Wallet,
+  WholeWord,
 } from "lucide-react";
 import React from "react";
 import { FaFileInvoice, FaMoneyBill } from "react-icons/fa";
@@ -64,14 +66,16 @@ const Invoice = ({ invoiceData }: InvoiceProps) => {
         <CardTitle className="flex justify-between items-center">
           <div className="flex items-center gap-2">
             <FileTextIcon className="size-12 pt-1" />
-            <h1 className="text-xl font-bold pr-3">{invoiceData.draftName}</h1>
+            <h1 className="text-xl font-bold pr-3 w-[500px]">
+              {invoiceData.draftName}
+            </h1>
             <PaymentStatus invoiceData={invoiceData} />
           </div>
           <div className="flex items-center gap-4">
             <Badge variant="outline" className="text-muted-foreground">
               #{invoiceData.id}
             </Badge>
-            <InvoiceMore invoiceId={invoiceData.id} />
+            <InvoiceMore invoiceData={invoiceData} />
           </div>
         </CardTitle>
         <CardContent className="p-0">
@@ -158,8 +162,8 @@ const Invoice = ({ invoiceData }: InvoiceProps) => {
                     <TableCell className="h-20">{product.id}</TableCell>
                     <TableCell>{product.name}</TableCell>
                     <TableCell>{product.quantity}</TableCell>
-                    <TableCell>{product.unitPrice}</TableCell>
-                    <TableCell>{product.totalPrice}</TableCell>
+                    <TableCell>₹{product.unitPrice}</TableCell>
+                    <TableCell>₹{product.totalPrice}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -169,6 +173,10 @@ const Invoice = ({ invoiceData }: InvoiceProps) => {
               <div className="flex flex-col space-y-2">
                 <div className="flex gap-2 items-center text-[15px]">
                   <CoinsIcon className="size-4" />
+                  <p>Total Amount: ₹{invoiceData.totalAmount}</p>
+                </div>
+                <div className="flex gap-2 items-center text-[15px]">
+                  <Wallet className="size-4" />
                   <p>Payment Method: {invoiceData.paymentMethod}</p>
                 </div>
                 <div className="flex gap-2 items-center text-[15px]">
