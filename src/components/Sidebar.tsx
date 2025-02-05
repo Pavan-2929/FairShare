@@ -19,20 +19,29 @@ const Sidebar = () => {
   const pathname = usePathname();
   const router = useRouter();
 
-  const isActive = (path: string) => pathname === path;
+  const isActive = (path: string) => {
+    if (path === "/") {
+      return pathname === path;
+    }
+    else if (path !== "/") {
+      return pathname.startsWith(path);
+    }
+  };
 
   return (
-    <div className="sticky top-0 h-screen bg-card w-80 border-r flex flex-col py-3 ">
+    <div className="sticky top-0 hidden h-screen flex-col border-r bg-card py-3 md:flex lg:w-80">
       <Link
         href="/"
-        className="flex items-center space-x-4 mb-5 pb-3 border-b-2 cursor-pointer px-5"
+        className="mb-5 flex cursor-pointer items-center space-x-4 border-b-2 px-5 pb-3"
       >
         <Image
           src={logo}
           alt="Logo"
-          className="w-10 object-cover h-10 rounded-full"
+          className="h-10 w-10 rounded-full object-cover"
         />
-        <h1 className="text-2xl text-primary font-bold">FairShare</h1>
+        <h1 className="hidden text-2xl font-bold text-primary lg:inline-flex">
+          FairShare
+        </h1>
       </Link>
 
       <nav className="flex-1 px-5">
@@ -40,71 +49,71 @@ const Sidebar = () => {
           <li>
             <Button
               variant="ghost"
-              className={`w-full justify-start flex items-center space-x-2 px-4 py-2 rounded-md transition-all duration-300 ${
+              className={`flex w-full items-center justify-start space-x-2 rounded-md px-4 py-2 transition-all duration-300 ${
                 isActive("/")
                   ? "bg-muted text-primary"
                   : "text-muted-foreground hover:bg-muted"
               }`}
               onClick={() => router.push("/")}
             >
-              <Home className="w-5 h-5" />
-              <span>Home</span>
+              <Home className="h-5 w-5" />
+              <span className="hidden lg:inline-flex">Home</span>
             </Button>
           </li>
           <li>
             <Button
               variant="ghost"
-              className={`w-full justify-start flex items-center space-x-2 px-4 py-2 rounded-md transition-all duration-300 ${
+              className={`flex w-full items-center justify-start space-x-2 rounded-md px-4 py-2 transition-all duration-300 ${
                 isActive("/profile")
                   ? "bg-muted text-primary"
                   : "text-muted-foreground hover:bg-muted"
               }`}
               onClick={() => router.push("/profile")}
             >
-              <User className="w-5 h-5" />
-              <span>Profile</span>
+              <User className="h-5 w-5" />
+              <span className="hidden lg:inline-flex">Profile</span>
             </Button>
           </li>
           <li>
             <Button
               variant="ghost"
-              className={`w-full justify-start flex items-center space-x-2 px-4 py-2 rounded-md transition-all duration-300 ${
+              className={`flex w-full items-center justify-start space-x-2 rounded-md px-4 py-2 transition-all duration-300 ${
                 isActive("/dashboard")
                   ? "bg-muted text-primary"
                   : "text-muted-foreground hover:bg-muted"
               }`}
               onClick={() => router.push("/dashboard")}
             >
-              <LucideLayoutDashboard className="w-5 h-5" />
-              <span>Dashboard</span>
+              <LucideLayoutDashboard className="h-5 w-5" />
+              <span className="hidden lg:inline-flex">Dashboard</span>
             </Button>
           </li>
           <li>
             <Button
               variant="ghost"
-              className={`w-full justify-start flex items-center space-x-2 px-4 py-2 rounded-md transition-all duration-300 ${
+              className={`flex w-full items-center justify-start space-x-2 rounded-md px-4 py-2 transition-all duration-300 ${
                 isActive("/invoice")
                   ? "bg-muted text-primary"
                   : "text-muted-foreground hover:bg-muted"
               }`}
               onClick={() => router.push("/invoice")}
             >
-              <FaFileInvoice className="w-5 h-5" />
-              <span>Invoice</span>
+              <FaFileInvoice className="h-5 w-5" />
+              <span className="hidden lg:inline-flex">Invoice</span>
             </Button>
           </li>
           <li>
             <Button
               variant="ghost"
-              className={`w-full justify-start flex items-center space-x-2 px-4 py-2 rounded-md transition-all duration-300 ${
+              className={`flex w-full items-center justify-start space-x-2 rounded-md px-4 py-2 transition-all duration-300 ${
                 isActive("/settings")
                   ? "bg-muted text-primary"
                   : "text-muted-foreground hover:bg-muted"
               }`}
               onClick={() => router.push("/settings")}
             >
-              <Settings className="w-5 h-5" />
-              <span>Settings</span>
+              <Settings className="h-5 w-5" />
+              <span className="hidden lg:inline-flex">Settings</span>
             </Button>
           </li>
         </ul>
@@ -113,10 +122,10 @@ const Sidebar = () => {
       <div className="mt-auto">
         <Button
           variant="ghost"
-          className="w-full justify-start flex items-center space-x-2 px-4 py-2 rounded-md text-muted-foreground hover:bg-muted"
+          className="flex w-full items-center justify-start space-x-2 rounded-md px-4 py-2 text-muted-foreground hover:bg-muted"
         >
-          <LogOut className="w-5 h-5" />
-          <span>Logout</span>
+          <LogOut className="h-5 w-5" />
+          <span className="hidden lg:inline-flex">Logout</span>
         </Button>
       </div>
     </div>

@@ -62,7 +62,7 @@ const MagicLink = () => {
               "Something went wrong | Try different method",
           });
         },
-      }
+      },
     );
   };
 
@@ -89,7 +89,7 @@ const MagicLink = () => {
             </FormItem>
           )}
         />
-        <div className="pt-3 w-full">
+        <div className="w-full pt-3">
           <LoadingButton loading={loading} type="submit" className="w-full">
             Sign In with Magic Link
           </LoadingButton>

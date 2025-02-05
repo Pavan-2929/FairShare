@@ -5,12 +5,13 @@ import Link from "next/link";
 import Divider from "@/components/Divider";
 import VerifyOTPForm from "./VeirfyOTPForm";
 import ResendOTP from "./ResendOTP";
+import ArrowDownScroll from "@/components/controls/ArrowDownScroll";
 
 const VerifyOtp = () => {
   return (
-    <div className="flex">
-      <div className="relative flex w-[40vw] flex-col items-center justify-center min-h-screen px-12 py-8 overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(45deg,hsl(142.1_76.2%_36.3%),hsl(142.1_76.2%_26.3%),hsl(142.1_76.2%_46.3%),hsl(142.1_76.2%_36.3%))] bg-[length:400%_400%] animate-gradient" />
+    <div className="flex flex-col lg:flex-row">
+      <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden px-6 py-8 lg:w-[40vw] lg:px-12">
+        <div className="animate-gradient absolute inset-0 bg-[linear-gradient(45deg,hsl(142.1_76.2%_36.3%),hsl(142.1_76.2%_26.3%),hsl(142.1_76.2%_46.3%),hsl(142.1_76.2%_36.3%))] bg-[length:400%_400%]" />
         <div className="absolute inset-0 overflow-hidden">
           {[...Array(8)].map((_, i) => (
             <div
@@ -26,8 +27,8 @@ const VerifyOtp = () => {
             />
           ))}
         </div>
-        <div className="z-10 text-center text-white space-y-6">
-          <div className="absolute top-8 left-1/2 -translate-x-1/2">
+        <div className="z-10 space-y-6 text-center text-white">
+          <div className="absolute left-1/2 top-8 -translate-x-1/2">
             <Image
               src={AuthImage}
               height={125}
@@ -41,10 +42,16 @@ const VerifyOtp = () => {
             We've sent a one-time password (OTP) to your email. Please enter it
             below to complete the registration process.
           </p>
+          <div>
+            <ArrowDownScroll />
+          </div>
         </div>
       </div>
 
-      <div className="flex flex-1 space-y-12 bg-card items-center justify-center py-8 px-6 flex-col">
+      <div
+        id="auth-section"
+        className="flex flex-1 flex-col items-center justify-center space-y-12 bg-card px-6 py-8"
+      >
         <div className="space-y-2 text-center">
           <h1 className="text-3xl font-bold text-foreground">Enter Your OTP</h1>
           <p className="font-medium tracking-wider">

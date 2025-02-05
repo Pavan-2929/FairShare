@@ -60,9 +60,9 @@ const Transactions = () => {
   return (
     <>
       {transactions.length <= 0 ? (
-        <div className="text-muted-foreground flex flex-col items-center gap-4 mt-24">
-          <FileText className="w-16 h-16 text-muted-foreground" />
-          <p className="font-semibold text-xl text-muted-foreground">
+        <div className="mt-24 flex flex-col items-center gap-4 text-muted-foreground">
+          <FileText className="h-16 w-16 text-muted-foreground" />
+          <p className="text-xl font-semibold text-muted-foreground">
             Looks like you haven't added any transactions yet.
           </p>
           <p className="text-center text-gray-500">
@@ -74,7 +74,7 @@ const Transactions = () => {
         </div>
       ) : (
         <>
-          <Table className="border rounded-xl  shadow-md">
+          <Table className="rounded-xl border shadow-md">
             <TableHeader>
               <TableRow>
                 <TableHead>Category</TableHead>
@@ -94,18 +94,18 @@ const Transactions = () => {
                       txn.type === "income"
                         ? "text-primary"
                         : "text-destructive",
-                      "font-semibold"
+                      "min-w-[100px] font-semibold",
                     )}
                   >
                     {txn.type === "income" ? "+" : "-"} ₹{txn.amount}
                   </TableCell>
-                  <TableCell>{txn.type}</TableCell>
-                  <TableCell>
+                  <TableCell className="min-w-[100px]">{txn.type}</TableCell>
+                  <TableCell className="min-w-[100px]">
                     <Dialog>
-                      <DialogTrigger>
+                      <DialogTrigger disabled={!txn.note}>
                         {" "}
                         {txn.note ? (
-                          <InfoIcon className="text-muted-foreground size-5" />
+                          <InfoIcon className="size-5 text-muted-foreground" />
                         ) : (
                           "—"
                         )}
@@ -124,14 +124,14 @@ const Transactions = () => {
                       {new Date(txn.TransactionDate).toLocaleDateString()}
                     </div>
                   </TableCell>
-                  <TableCell className="flex justify-end items-center">
+                  <TableCell className="flex items-center justify-end">
                     <TransactionActions transaction={txn} />
                   </TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
-          <div className="flex items-center justify-center my-4 gap-2">
+          <div className="my-4 flex items-center justify-center gap-2">
             <Button
               disabled={page === 1}
               onClick={() => setPage((prev) => prev - 1)}

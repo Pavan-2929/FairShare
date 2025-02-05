@@ -54,7 +54,7 @@ const SocialAuth = () => {
   };
 
   return (
-    <div className="flex gap-4 w-full max-w-md">
+    <div className="flex lg:flex-row flex-col gap-4 w-full max-w-md">
       <LoadingButton
         loading={googleLoading}
         onClick={GoogleSignIn}

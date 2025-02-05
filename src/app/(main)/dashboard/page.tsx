@@ -19,9 +19,9 @@ const DashboardPage = async () => {
 
   if (!transaction)
     return (
-      <div className="text-muted-foreground flex flex-col items-center gap-4 mt-24">
-        <FileText className="w-16 h-16 text-muted-foreground" />
-        <p className="font-semibold text-xl text-muted-foreground">
+      <div className="mt-24 flex flex-col items-center gap-4 text-muted-foreground">
+        <FileText className="h-16 w-16 text-muted-foreground" />
+        <p className="text-xl font-semibold text-muted-foreground">
           Looks like you haven't added any transactions yet.
         </p>
         <p className="text-center text-gray-500">
@@ -34,10 +34,10 @@ const DashboardPage = async () => {
     );
   return (
     <div>
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col items-start justify-between sm:flex-row sm:items-center gap-4">
         <h1 className="text-2xl font-bold">Dashbaord</h1>
-        <div className="flex gap-2 items-center">
-          <div className="flex items-center gap-3 border py-2 px-4 text-sm font-semibold text-muted-foreground rounded-md">
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3 rounded-md border px-4 py-2 text-sm font-semibold text-muted-foreground">
             <Calendar className="text-muted-foreground" />
             <p>
               {format(user.createdAt, "dd-MMM-yyyy")} to{" "}

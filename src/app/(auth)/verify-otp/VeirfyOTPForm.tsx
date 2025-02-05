@@ -39,14 +39,14 @@ const VerifyOTPForm = () => {
           setLoading(false);
           console.error(ctx.error.message);
         },
-      }
+      },
     );
   };
 
   return (
     <form
       onSubmit={handleVerifyOTP}
-      className="space-y-4 flex flex-col items-center "
+      className="flex flex-col items-center space-y-4"
     >
       {error && (
         <p className="text-medium text-center text-destructive">{error}</p>

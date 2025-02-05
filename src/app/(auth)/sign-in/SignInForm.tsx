@@ -60,7 +60,7 @@ const SignInForm = () => {
           setError(ctx.error.message);
           setLoading(false);
         },
-      }
+      },
     );
   };
 
@@ -87,7 +87,7 @@ const SignInForm = () => {
             </FormItem>
           )}
         />
-        <div className="pt-3 w-full">
+        <div className="w-full pt-3">
           <LoadingButton loading={loading} type="submit" className="w-full">
             Sign In with OTP
           </LoadingButton>

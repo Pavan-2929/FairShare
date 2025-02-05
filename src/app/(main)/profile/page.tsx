@@ -14,10 +14,10 @@ const ProfilePage = async () => {
   const user = await getUser();
 
   return (
-    <div className="flex items-start justify-between gap-7">
-      <div className="border border-border bg-card flex-1 w-[680px] p-5 rounded-md shadow-sm space-y-5">
+    <div className="md:flex-r flex max-w-[100vw] flex-col justify-between gap-7 lg:flex-row lg:items-start">
+      <div className="flex-1 space-y-5 rounded-md border border-border bg-card shadow-sm lg:w-[680px] lg:p-5">
         <UserImage />
-        <div className="pl-5">
+        <div className="lg:pl-5 px-5">
           <Label>Email</Label>
           <FormInput
             icon={<Mail className="size-5 text-primary" />}

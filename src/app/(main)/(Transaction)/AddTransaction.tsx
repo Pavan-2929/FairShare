@@ -104,7 +104,7 @@ const AddTransaction = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="ml-6 gap-2">
+        <Button className="ml-6 gap-2 ">
           <Plus />
           Add Transaction
         </Button>

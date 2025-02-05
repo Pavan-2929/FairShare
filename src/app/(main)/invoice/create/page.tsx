@@ -131,7 +131,7 @@ const page = () => {
   };
 
   return (
-    <div className="p-5">
+    <div className="pb-12 pt-6 md:pt-0">
       <Card className="shadow-md">
         <CardHeader>
           <CardTitle>
@@ -144,7 +144,7 @@ const page = () => {
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
-              <div className="w-1/2 flex justify-between gap-8">
+              <div className="pt-8 md:py-0 md:w-1/2 md:pr-4">
                 <FormField
                   control={form.control}
                   name="draftName"
@@ -158,17 +158,6 @@ const page = () => {
                     </FormItem>
                   )}
                 />{" "}
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger className="pt-6">
-                      {" "}
-                      <Info className="size-5 text-muted-foreground" />
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Your Invoice ID will be generated automatically.</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
               </div>
 
               {/* Client Information */}
@@ -179,7 +168,7 @@ const page = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-2 gap-y-4 gap-x-8">
+                  <div className="grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-2">
                     <FormField
                       control={form.control}
                       name="clientName"
@@ -258,7 +247,7 @@ const page = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-2 gap-y-4 gap-x-8">
+                  <div className="grid grid-cols-1 gap-x-8 gap-y-4 md:grid-cols-2">
                     <FormField
                       control={form.control}
                       name="issueDate"
@@ -270,12 +259,12 @@ const page = () => {
                               <FormControl>
                                 <Button
                                   className={cn(
-                                    "pl-3 font-normal flex justify-start gap-4",
-                                    !field.value && "text-muted-foreground"
+                                    "flex justify-start gap-4 pl-3 font-normal",
+                                    !field.value && "text-muted-foreground",
                                   )}
                                   variant="outline"
                                 >
-                                  <CalendarIcon className="text-muted-foreground size-4" />
+                                  <CalendarIcon className="size-4 text-muted-foreground" />
                                   {field.value ? (
                                     format(field.value, "PPP")
                                   ) : (
@@ -316,8 +305,8 @@ const page = () => {
                                 <Button
                                   variant="outline"
                                   className={cn(
-                                    "font-normal flex justify-start gap-4",
-                                    !field.value && "text-muted-foreground"
+                                    "flex justify-start gap-4 font-normal",
+                                    !field.value && "text-muted-foreground",
                                   )}
                                 >
                                   <CalendarIcon className="size-5 text-muted-foreground" />
@@ -418,66 +407,79 @@ const page = () => {
                 <CardContent>
                   <Table>
                     <TableHeader>
-                      <TableRow>
-                        <TableHead>Product Name</TableHead>
+                      <TableRow className="text-sm">
+                        <TableHead className="text-[13px]">
+                          <span className="hidden md:inline-flex">Product</span>{" "}
+                          Name
+                        </TableHead>
                         <TableHead>Quantity</TableHead>
-                        <TableHead>Unit Price</TableHead>
-                        <TableHead>Total Price</TableHead>
+                        <TableHead>
+                          <span className="hidden md:inline-flex">Unit</span>{" "}
+                          Price
+                        </TableHead>
+                        <TableHead>
+                          Total
+                          <span className="hidden md:inline-flex">Price</span>
+                        </TableHead>
                         <TableHead>Actions</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {fields.map((product, index) => (
                         <TableRow key={product.id}>
-                          <TableCell className="h-20">
+                          <TableCell>
                             <Input
+                              className="w-32"
                               required
                               placeholder="Product Name"
                               {...register(`products.${index}.name`)}
                             />
                           </TableCell>
-                          <TableCell>
+                          <TableCell className="h-20">
                             <Input
                               required
+                              className="w-24"
                               type="number"
                               {...register(`products.${index}.quantity`, {
                                 valueAsNumber: true,
                               })}
                               onChange={(e) => {
                                 register(`products.${index}.quantity`).onChange(
-                                  e
+                                  e,
                                 );
                                 calculateTotalPriceOfProduct(index);
                               }}
                             />
                           </TableCell>
-                          <TableCell>
+                          <TableCell className="h-20">
                             <Input
                               required
+                              className="w-24"
                               type="number"
                               {...register(`products.${index}.unitPrice`, {
                                 valueAsNumber: true,
                               })}
                               onChange={(e) => {
                                 register(
-                                  `products.${index}.unitPrice`
+                                  `products.${index}.unitPrice`,
                                 ).onChange(e);
                                 calculateTotalPriceOfProduct(index);
                               }}
                             />
                           </TableCell>
-                          <TableCell>
+                          <TableCell className="h-20">
                             <Input
                               type="number"
+                              className="w-24"
                               readOnly
                               {...register(`products.${index}.totalPrice`, {
                                 valueAsNumber: true,
                               })}
                             />
                           </TableCell>
-                          <TableCell>
+                          <TableCell className="h-20">
                             <Trash2
-                              className="text-destructive size-5 cursor-pointer"
+                              className="size-5 cursor-pointer text-destructive"
                               onClick={() => remove(index)}
                             />
                           </TableCell>
@@ -485,7 +487,7 @@ const page = () => {
                       ))}
                     </TableBody>
                   </Table>
-                  <div className="pt-8 flex justify-between px-4">
+                  <div className="flex flex-col justify-between gap-4 px-4 pt-8 md:flex-row">
                     <Button
                       type="button"
                       variant="secondary"
@@ -524,6 +526,7 @@ const page = () => {
                         <FormControl>
                           <Textarea
                             {...field}
+                            className="h-32 resize-y"
                             placeholder="Addition Notes..."
                           />
                         </FormControl>

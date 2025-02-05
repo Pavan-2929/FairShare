@@ -26,39 +26,39 @@ const UserData = () => {
     data?.transactions.reduce(
       (sum, transaction) =>
         transaction.type === "income" ? sum + transaction.amount : sum,
-      0
+      0,
     ) || 0;
 
   const totalExpense =
     data?.transactions.reduce(
       (sum, transaction) =>
         transaction.type === "expense" ? sum + transaction.amount : sum,
-      0
+      0,
     ) || 0;
 
   return (
-    <div className="p-5 bg-card rounded-md space-y-7 border border-border">
+    <div className="space-y-7 rounded-md border border-border bg-card p-5">
       {isLoading && <p>Loading transactions...</p>}
       {isError && <p className="text-red-500">Failed to load transactions.</p>}
 
       {data && (
         <>
-          <div className="flex justify-between gap-2">
-            <div className="border p-4 text-center rounded-md space-y-1">
-              <p className="font-medium text-[15px] font-serif">Transactions</p>
-              <p className="text-muted-foreground font-semibold">
+          <div className="flex flex-wrap justify-between gap-2">
+            <div className="space-y-1 rounded-md border p-4 text-center">
+              <p className="font-serif text-[15px] font-medium">Transactions</p>
+              <p className="font-semibold text-muted-foreground">
                 {data.totalTransactions}
               </p>
             </div>
-            <div className="border p-4 text-center rounded-md space-y-1">
-              <p className="font-medium text-[15px] font-serif">Income</p>
-              <p className="text-green-600 font-semibold">
+            <div className="space-y-1 rounded-md border p-4 text-center">
+              <p className="font-serif text-[15px] font-medium">Income</p>
+              <p className="font-semibold text-green-600">
                 ₹{totalIncome.toFixed(2)}
               </p>
             </div>
-            <div className="border p-4 text-center rounded-md space-y-1">
-              <p className="font-medium text-[15px] font-serif">Expense</p>
-              <p className="text-destructive font-semibold">
+            <div className="space-y-1 rounded-md border p-4 text-center">
+              <p className="font-serif text-[15px] font-medium">Expense</p>
+              <p className="font-semibold text-destructive">
                 ₹{totalExpense.toFixed(2)}
               </p>
             </div>
@@ -66,8 +66,10 @@ const UserData = () => {
         </>
       )}
 
-      <div className="flex justify-between items-center">
-        <h1 className="text-xl font-semibold mb-4">Delete an account?</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text font-semibold md:mb-4 md:text-xl">
+          Delete an account?
+        </h1>
         <DeleteAccount />
       </div>
     </div>

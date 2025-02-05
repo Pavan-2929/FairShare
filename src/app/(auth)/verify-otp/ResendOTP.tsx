@@ -44,16 +44,16 @@ const ResendOTP = () => {
           });
           setLoading(false);
         },
-      }
+      },
     );
   };
 
   return (
     <div
-      className="space-y-4 cursor-pointer hover:underline"
+      className="cursor-pointer space-y-4 hover:underline"
       onClick={onSubmit}
     >
-      <p className="text-muted-foreground text-center">
+      <p className="text-center text-muted-foreground">
         {loading ? (
           <span className="flex justify-center">
             <Loader2 className="animate-spin" />

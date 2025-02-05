@@ -21,9 +21,9 @@ const Invoices = async () => {
 
   if (!InvoicesData || !InvoicesData.length) {
     return (
-      <div className="text-muted-foreground flex flex-col items-center gap-4 mt-24">
-        <FileText className="w-16 h-16 text-muted-foreground" />
-        <p className="font-semibold text-xl text-muted-foreground">
+      <div className="mt-24 flex flex-col items-center gap-4 text-muted-foreground">
+        <FileText className="h-16 w-16 text-muted-foreground" />
+        <p className="text-xl font-semibold text-muted-foreground">
           Looks like you haven't added any transactions yet.
         </p>
         <p className="text-center text-gray-500">

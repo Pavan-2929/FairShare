@@ -48,17 +48,17 @@ const DeleteAccount = () => {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="destructive">
-          <Trash2Icon className="mr-3" />
-          Delete
+          <Trash2Icon className="mr-1 md:mr-3" />
+          <span className="hidden md:inline-flex">Delete</span>
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Delete Transaction?</DialogTitle>
+          <DialogTitle>Delete Account?</DialogTitle>
         </DialogHeader>
         <DialogDescription>
           This action cannot be undone. Are you sure you want to delete this
-          transaction?
+          Account?
         </DialogDescription>
         <DialogFooter>
           <Button onClick={() => setOpen(false)} variant="secondary">

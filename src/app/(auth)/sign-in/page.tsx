@@ -6,12 +6,13 @@ import Divider from "@/components/Divider";
 import SignInForm from "./SignInForm";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import MagicLink from "./MagicLink";
+import ArrowDownScroll from "@/components/controls/ArrowDownScroll";
 
 const SignIn = () => {
   return (
-    <div className="flex">
-      <div className="relative flex w-[40vw] flex-col items-center justify-center min-h-screen px-12 py-8 overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(45deg,hsl(142.1_76.2%_36.3%),hsl(142.1_76.2%_26.3%),hsl(142.1_76.2%_46.3%),hsl(142.1_76.2%_36.3%))] bg-[length:400%_400%] animate-gradient" />
+    <div className="flex flex-col lg:flex-row">
+      <div className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden px-6 py-8 lg:w-[40vw] lg:px-12">
+        <div className="animate-gradient absolute inset-0 bg-[linear-gradient(45deg,hsl(142.1_76.2%_36.3%),hsl(142.1_76.2%_26.3%),hsl(142.1_76.2%_46.3%),hsl(142.1_76.2%_36.3%))] bg-[length:400%_400%]" />
         <div className="absolute inset-0 overflow-hidden">
           {[...Array(8)].map((_, i) => (
             <div
@@ -27,8 +28,8 @@ const SignIn = () => {
             />
           ))}
         </div>
-        <div className="z-10 text-center text-white space-y-6">
-          <div className="absolute top-8 left-1/2 -translate-x-1/2">
+        <div className="z-10 space-y-6 text-center text-white">
+          <div className="absolute left-1/2 top-8 -translate-x-1/2">
             <Image
               src={AuthImage}
               height={125}
@@ -42,12 +43,18 @@ const SignIn = () => {
             Welcome to Fair-Share, the simplest way to track and share expenses
             effortlessly. Let's get you set up!
           </p>
+          <div>
+            <ArrowDownScroll />
+          </div>
         </div>
       </div>
 
-      <div className="flex flex-1 space-y-10 bg-card items-center justify-center py-8 px-6 flex-col">
+      <div
+        id="auth-section"
+        className="flex flex-col items-center justify-center space-y-10 bg-card px-6 py-8 lg:flex-1"
+      >
         <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-bold text-foreground">
+          <h1 className="text-2xl font-bold text-foreground lg:text-3xl">
             Hello, Great to have you here!
           </h1>
           <p className="font-semibold tracking-wider">
@@ -57,9 +64,13 @@ const SignIn = () => {
         <div className="w-full max-w-md space-y-5">
           <Tabs defaultValue="OTP" className="space-y-5">
             <TabsList>
-              <TabsTrigger value="OTP">Signin with OTP</TabsTrigger>
+              <TabsTrigger value="OTP">
+                <span className="hidden md:block">Signin with OTP</span>
+                <span className="block md:hidden">OTP</span>
+              </TabsTrigger>
               <TabsTrigger value="Magic-Link">
-                Signin with Magic Link
+                <span className="hidden md:block">Signin with Magic-Link</span>
+                <span className="block md:hidden">Magic-Link</span>
               </TabsTrigger>
             </TabsList>
             <TabsContent value="OTP">
