@@ -19,10 +19,13 @@ import { FormInput } from "@/components/controls/FormInput";
 import { redirect } from "next/navigation";
 import { updateUserDetails } from "./actions";
 import { authClient } from "@/lib/auth-client";
+import { useToast } from "@/hooks/use-toast";
 
 const UserDetails = () => {
   const { user } = useSession();
   if (!user) return redirect("/sign-in");
+
+  const { toast } = useToast();
 
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -44,9 +47,17 @@ const UserDetails = () => {
         name: newUser.name,
         image: newUser.image,
       });
-      alert("User details updated successfully!");
+      toast({
+        title: "Success",
+        description: "User details updated successfully!",
+      });
     } catch (err) {
       setError("Failed to update user details.");
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to update user details.",
+      });
     } finally {
       setLoading(false);
     }
@@ -56,7 +67,7 @@ const UserDetails = () => {
     <div className="p-5">
       {user ? (
         <>
-          <h1 className="text-xl font-semibold mb-4">Update User Details</h1>
+          <h1 className="mb-4 text-xl font-semibold">Update User Details</h1>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
               {error && (
@@ -102,7 +113,7 @@ const UserDetails = () => {
                 )}
               />
 
-              <div className="pt-3 w-full">
+              <div className="w-full pt-3">
                 <LoadingButton
                   loading={loading}
                   type="submit"

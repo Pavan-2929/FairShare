@@ -7,6 +7,8 @@ import TransactionsData from "./TransactionsData";
 import LineCharts from "./LineCharts";
 import Category from "./Category";
 import prisma from "@/lib/prisma";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardContent } from "@/components/ui/card";
 
 const DashboardPage = async () => {
   const user = await getUser();
@@ -34,7 +36,7 @@ const DashboardPage = async () => {
     );
   return (
     <div>
-      <div className="flex flex-col items-start justify-between sm:flex-row sm:items-center gap-4">
+      <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <h1 className="text-2xl font-bold">Dashbaord</h1>
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-3 rounded-md border px-4 py-2 text-sm font-semibold text-muted-foreground">

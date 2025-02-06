@@ -8,13 +8,14 @@ const InvoicePage = () => {
   return (
     <div className="space-y-10">
       <div className="flex items-center justify-between">
-        <h1 className="font-bold text-3xl">Invoices</h1>
+        <h1 className="text-3xl font-bold">Invoices</h1>
 
         <div className="flex gap-5">
           <Link href="/invoice/create">
             <Button>
-              <Plus className="mr-2 size-5 " />
-              Create Invoice
+              <Plus className="sm:mr-2 mr-1 size-5" />
+              Create
+              <span className="hidden sm:inline">Invoice</span>
             </Button>
           </Link>
         </div>

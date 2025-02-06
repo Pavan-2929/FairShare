@@ -50,7 +50,7 @@ const AddTransaction = () => {
   const queryClinet = useQueryClient();
 
   const [transactionType, setTransactionType] = useState<"expense" | "income">(
-    "expense"
+    "expense",
   );
   const [category, setCategory] = useState<string>("");
   const [loading, setLoading] = useState(false);
@@ -104,9 +104,10 @@ const AddTransaction = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="ml-6 gap-2 ">
+        <Button className="ml-6 gap-2">
           <Plus />
-          Add Transaction
+          <span className="hidden md:inline-flex">Add Transaction</span>
+          <span className="inline-flex md:hidden">Add</span>
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -177,7 +178,7 @@ const AddTransaction = () => {
                 </FormItem>
               )}
             />
-            <div className="flex justify-between gap-x-3 items-end">
+            <div className="flex items-end justify-between gap-x-3">
               <FormField
                 control={form.control}
                 name="category"
@@ -238,7 +239,7 @@ const AddTransaction = () => {
                           variant={"outline"}
                           className={cn(
                             "pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
+                            !field.value && "text-muted-foreground",
                           )}
                         >
                           {field.value ? (

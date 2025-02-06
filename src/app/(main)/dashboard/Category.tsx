@@ -21,6 +21,8 @@ import {
 } from "@/components/ui/chart";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Card } from "@/components/ui/card";
+import DashboardLoader from "@/components/skeletonLoaders/DashboardLoader";
 
 const Category = () => {
   const { user } = useSession();
@@ -37,16 +39,7 @@ const Category = () => {
   });
 
   if (isLoading) {
-    return (
-      <div className="flex flex-col md:flex-row justify-between gap-12 p-6 bg-background rounded-lg shadow-sm">
-        <div className="w-full md:w-1/2">
-          <Skeleton className="h-[400px] w-full" />
-        </div>
-        <div className="w-full md:w-1/2">
-          <Skeleton className="h-[400px] w-full" />
-        </div>
-      </div>
-    );
+    return <DashboardLoader />;
   }
 
   if (isError) {
@@ -66,29 +59,88 @@ const Category = () => {
 
   const expenseCategories = ["food", "electronics", "travel", "other"];
   const incomeCategories = ["salary", "freelance", "investment", "other"];
+  const totalCategory = [
+    "food",
+    "electronics",
+    "travel",
+    "salary",
+    "investment",
+    "freelance",
+  ];
+  // const calculateTotal = (
+  //   categories: string[],
+  //   transactions: TransactionType[],
+  // ) => {
+  //   const totals: { category: string; total: number }[] = [];
+
+  //   categories.forEach((category) => {
+  //     let total = 0;
+
+  //     transactions.forEach((transaction) => {
+  //       if (transaction.category === category) {
+  //         total += transaction.amount;
+  //       }
+  //     });
+  //     totals.push({ category, total });
+  //   });
+
+  //   return totals;
+  // };
 
   const calculateTotal = (
-    categories: string[],
-    transactions: TransactionType[]
+    categires: string[],
+    transactions: TransactionType[],
+    exchangeType: string,
   ) => {
-    const totals: { category: string; total: number }[] = [];
+    const categoryWiseTotal: {
+      category: string;
+      total: number;
+    }[] = [];
 
-    categories.forEach((category) => {
-      let total = 0;
+    categires.forEach((category) => {
+      if (totalCategory.includes(category)) {
+        let total = 0;
 
-      transactions.forEach((transaction) => {
-        if (transaction.category === category) {
-          total += transaction.amount;
-        }
-      });
-      totals.push({ category, total });
+        transactions.forEach((transaction) => {
+          if (transaction.category === category) {
+            total += transaction.amount;
+          }
+        });
+
+        categoryWiseTotal.push({ category, total });
+        return;
+      } else {
+        let total = 0;
+        transactions.forEach((transaction) => {
+          if (
+            category === "other" &&
+            !totalCategory.includes(transaction.category) &&
+            transaction.type === exchangeType
+          ) {
+            total += transaction.amount;
+          }
+        });
+        console.log(category, total);
+        categoryWiseTotal.push({ category: "other", total });
+      }
     });
 
-    return totals;
+    return categoryWiseTotal;
   };
 
-  const incomeTotals = calculateTotal(incomeCategories, data.transactions);
-  const expenseTotals = calculateTotal(expenseCategories, data.transactions);
+  const incomeTotals = calculateTotal(
+    incomeCategories,
+    data.transactions,
+    "income",
+  );
+  const expenseTotals = calculateTotal(
+    expenseCategories,
+    data.transactions,
+    "expense",
+  );
+
+  console.log(incomeTotals);
+  console.log(expenseTotals);
 
   const chartConfig = {
     desktop: {
@@ -98,9 +150,9 @@ const Category = () => {
   } satisfies ChartConfig;
 
   return (
-    <div className="flex flex-col md:flex-row justify-between gap-20 py-24 bg-background rounded-lg shadow-sm">
+    <div className="flex flex-col justify-between gap-20 rounded-lg bg-background py-24 shadow-sm md:flex-row">
       <div className="w-full md:w-1/2">
-        <h1 className="text-lg font-semibold text-primary mb-4">
+        <h1 className="mb-4 text-lg font-semibold text-primary">
           Income Categories
         </h1>
         <div className="h-[400px]">
@@ -130,7 +182,7 @@ const Category = () => {
       </div>
 
       <div className="w-full md:w-1/2">
-        <h1 className="text-lg font-semibold text-destructive mb-4">
+        <h1 className="mb-4 text-lg font-semibold text-destructive">
           Expense Categories
         </h1>
         <div className="h-[400px]">

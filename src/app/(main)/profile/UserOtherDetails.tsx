@@ -23,7 +23,7 @@ import {
   SelectItem,
 } from "@/components/ui/select";
 import useSession from "@/utils/useSession";
-import { redirect, useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { updateUserOtherDetails } from "./actions";
 import LoadingButton from "@/components/controls/LoadingButton";
 import { useToast } from "@/hooks/use-toast";
@@ -32,12 +32,10 @@ import { authClient } from "@/lib/auth-client";
 const UserOtherDetails: React.FC = () => {
   const { user } = useSession();
   const { toast } = useToast();
-  const router = useRouter();
 
   if (!user) redirect("/sign-in");
 
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
 
   const form = useForm<UserOtherDetailsValues>({
     resolver: zodResolver(userOtherDetailsSchema),
@@ -50,7 +48,6 @@ const UserOtherDetails: React.FC = () => {
 
   const onSubmit = async (data: UserOtherDetailsValues) => {
     setLoading(true);
-    setError(null);
     try {
       const newData = await updateUserOtherDetails(data);
       authClient.updateUser({
@@ -62,23 +59,23 @@ const UserOtherDetails: React.FC = () => {
         description: "User details updated successfully!",
       });
     } catch (err) {
+      console.log(err);
       toast({
         variant: "destructive",
         title: "Error",
         description: "Failed to update user details.",
       });
-      setError("Failed to update user details.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="p-5 bg-card rounded-md border border-border">
-      <h1 className="text-xl font-semibold mb-4">Other Details</h1>
+    <div className="rounded-md border border-border bg-card p-5">
+      <h1 className="mb-4 text-xl font-semibold">Other Details</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
             {/* Age Field */}
             <FormField
               control={form.control}
@@ -90,6 +87,7 @@ const UserOtherDetails: React.FC = () => {
                     <Input
                       type="number"
                       placeholder="Enter your age"
+                      className="bg-background"
                       {...field}
                     />
                   </FormControl>
@@ -133,7 +131,7 @@ const UserOtherDetails: React.FC = () => {
               <FormItem>
                 <FormLabel>City</FormLabel>
                 <FormControl>
-                  <Input type="text" placeholder="Enter your city" {...field} />
+                  <Input type="text" className="bg-background" placeholder="Enter your city" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

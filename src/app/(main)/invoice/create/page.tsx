@@ -64,25 +64,28 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { CreateInvoiceAction } from "./actions";
 import LoadingButton from "@/components/controls/LoadingButton";
+import { useToast } from "@/hooks/use-toast";
 
 const page = () => {
   const [isPending, startTransition] = useTransition();
 
+  const { toast } = useToast();
+
   const form = useForm<InvoiceValues>({
     resolver: zodResolver(invoiceSchema),
     defaultValues: {
-      notes: "This is notes",
-      draftName: "pavan",
-      clientName: "pavan",
-      clientEmail: "pavan@gmail.com",
-      clientNumber: "1234567890",
+      notes: "",
+      draftName: "",
+      clientName: "",
+      clientEmail: "",
+      clientNumber: "",
       issueDate: new Date(),
       dueDate: new Date(new Date().setDate(new Date().getDate() + 30)),
       status: "pending",
       paymentMethod: "cash",
       products: [
         {
-          name: "pavan",
+          name: "",
           quantity: 1,
           unitPrice: 0,
           totalPrice: 0,
@@ -116,17 +119,23 @@ const page = () => {
     setValue("totalAmount", total);
     return total;
   };
-  console.log(caluclateTotalAmount());
 
   const onSubmit = async (data: InvoiceValues) => {
-    console.log(data);
-
     try {
       startTransition(async () => {
         await CreateInvoiceAction(data);
       });
+      toast({
+        title: "Success",
+        description: "Invoice created successfully!",
+      });
     } catch (error) {
       console.log(error);
+      toast({
+        variant: "destructive", 
+        title: "Error",
+        description: "Failed to create invoice. Please try again later.",
+      });
     }
   };
 
@@ -144,7 +153,7 @@ const page = () => {
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
-              <div className="pt-8 md:py-0 md:w-1/2 md:pr-4">
+              <div className="pt-8 md:w-1/2 md:py-0 md:pr-4">
                 <FormField
                   control={form.control}
                   name="draftName"
@@ -415,11 +424,14 @@ const page = () => {
                         <TableHead>Quantity</TableHead>
                         <TableHead>
                           <span className="hidden md:inline-flex">Unit</span>{" "}
-                          Price
+                          Price (₹)
                         </TableHead>
                         <TableHead>
                           Total
-                          <span className="hidden md:inline-flex">Price</span>
+                          <span className="inline-flex md:hidden">(₹)</span>
+                          <span className="hidden md:inline-flex">
+                            Price (₹)
+                          </span>
                         </TableHead>
                         <TableHead>Actions</TableHead>
                       </TableRow>
@@ -505,7 +517,7 @@ const page = () => {
                     </Button>
                     <div>
                       <Label>
-                        Total Amount: {caluclateTotalAmount().toFixed(2)}
+                        Total Amount: ₹{caluclateTotalAmount().toFixed(2)}
                       </Label>
                     </div>
                   </div>

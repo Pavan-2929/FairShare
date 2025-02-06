@@ -28,7 +28,7 @@ import TransactionLoader from "@/components/skeletonLoaders/TransactionLoader";
 
 const Transactions = () => {
   const [page, setPage] = useState(1);
-  const limit = 10;
+  const limit = 15;
 
   const { data, isError, isLoading } = useQuery({
     queryKey: ["transactions", page],
@@ -60,9 +60,9 @@ const Transactions = () => {
   return (
     <>
       {transactions.length <= 0 ? (
-        <div className="mt-24 flex flex-col items-center gap-4 text-muted-foreground">
-          <FileText className="h-16 w-16 text-muted-foreground" />
-          <p className="text-xl font-semibold text-muted-foreground">
+        <div className="flex flex-col items-center gap-4 pt-24 text-muted-foreground">
+          <FileText className="size-10 text-muted-foreground md:size-16" />
+          <p className="text-center text-lg font-semibold text-muted-foreground md:text-xl">
             Looks like you haven't added any transactions yet.
           </p>
           <p className="text-center text-gray-500">
@@ -88,7 +88,7 @@ const Transactions = () => {
             <TableBody>
               {transactions.map((txn) => (
                 <TableRow key={txn.id}>
-                  <TableCell>{txn.category}</TableCell>
+                  <TableCell className="capitalize">{txn.category}</TableCell>
                   <TableCell
                     className={cn(
                       txn.type === "income"
@@ -99,7 +99,9 @@ const Transactions = () => {
                   >
                     {txn.type === "income" ? "+" : "-"} ₹{txn.amount}
                   </TableCell>
-                  <TableCell className="min-w-[100px]">{txn.type}</TableCell>
+                  <TableCell className="min-w-[100px] capitalize">
+                    {txn.type}
+                  </TableCell>
                   <TableCell className="min-w-[100px]">
                     <Dialog>
                       <DialogTrigger disabled={!txn.note}>
@@ -131,23 +133,25 @@ const Transactions = () => {
               ))}
             </TableBody>
           </Table>
-          <div className="my-4 flex items-center justify-center gap-2">
-            <Button
-              disabled={page === 1}
-              onClick={() => setPage((prev) => prev - 1)}
-            >
-              Previous
-            </Button>
-            <span className="text-muted-foreground">
-              Page {page} of {totalPages}
-            </span>
-            <Button
-              disabled={page === totalPages}
-              onClick={() => setPage((prev) => prev + 1)}
-            >
-              Next
-            </Button>
-          </div>
+          {transactions.length > 15 && (
+            <div className="my-4 flex items-center justify-center gap-2">
+              <Button
+                disabled={page === 1}
+                onClick={() => setPage((prev) => prev - 1)}
+              >
+                Previous
+              </Button>
+              <span className="text-muted-foreground">
+                Page {page} of {totalPages}
+              </span>
+              <Button
+                disabled={page === totalPages}
+                onClick={() => setPage((prev) => prev + 1)}
+              >
+                Next
+              </Button>
+            </div>
+          )}
         </>
       )}
     </>

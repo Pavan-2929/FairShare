@@ -21,7 +21,7 @@ const PaymentStatus = ({ invoiceData }: PaymentStatusProps) => {
   >(invoiceData.status);
 
   const handleChange = async (
-    value: "pending" | "paid" | "overdue" | "cancelled"
+    value: "pending" | "paid" | "overdue" | "cancelled",
   ) => {
     setStatus(value);
     await UpdateInvoice({ status: value, invoiceId: invoiceData.id });

@@ -36,21 +36,21 @@ const TransactionsData = () => {
   const totalIncome =
     data.transactions.reduce(
       (sum, acc) => (acc.type === "income" ? sum + acc.amount : sum),
-      0
+      0,
     ) || 0;
 
   const totalIncomeEntries = data.transactions.filter(
-    (transaction) => transaction.type === "income"
+    (transaction) => transaction.type === "income",
   ).length;
 
   const totalExpense =
     data.transactions.reduce(
       (sum, acc) => (acc.type === "expense" ? sum + acc.amount : sum),
-      0
+      0,
     ) || 0;
 
   const totalExpenseEntries = data.transactions.filter(
-    (transaction) => transaction.type === "expense"
+    (transaction) => transaction.type === "expense",
   ).length;
 
   const netSaving = totalIncome - totalExpense;
@@ -59,17 +59,17 @@ const TransactionsData = () => {
 
   return (
     <div className="flex flex-wrap gap-5 pt-7">
-      <div className="border border-accent-foreground/10 rounded-xl p-6 w-full min-w-[300px] flex-1 shadow-sm hover:shadow-md transition-shadow">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="p-3 border border-accent-foreground/10 rounded-lg">
-            <FiDollarSign className="w-6 h-6 text-muted-foreground" />
+      <div className="w-full min-w-[260px] flex-1 rounded-xl border border-accent-foreground/10 p-6 shadow-sm transition-shadow hover:shadow-md">
+        <div className="mb-6 flex items-center gap-3">
+          <div className="rounded-lg border border-accent-foreground/10 p-3">
+            <FiDollarSign className="h-6 w-6 text-muted-foreground" />
           </div>
           <div>
-            <p className="font-semibold text-accent-foreground/90 text-sm">
+            <p className="text-sm font-semibold text-accent-foreground/90">
               Total Transactions
             </p>
             <h1 className="text-[26px] font-bold text-foreground">
-              <CountUp end={totalAmount} duration={2} />
+              <CountUp end={data.totalTransactions} duration={2} />
             </h1>
           </div>
         </div>
@@ -78,13 +78,13 @@ const TransactionsData = () => {
         </p>
       </div>
 
-      <div className="border rounded-xl p-6 flex-1 min-w-[250px] hover:shadow-md transition-shadow">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="p-3 border border-accent-foreground/10  rounded-lg">
-            <FiArrowUpCircle className="w-6 h-6 text-muted-foreground" />
+      <div className="min-w-[260px] flex-1 rounded-xl border p-6 transition-shadow hover:shadow-md">
+        <div className="mb-6 flex items-center gap-3">
+          <div className="rounded-lg border border-accent-foreground/10 p-3">
+            <FiArrowUpCircle className="h-6 w-6 text-muted-foreground" />
           </div>
           <div>
-            <p className="font-semibold text-accent-foreground/90 text-sm">
+            <p className="text-sm font-semibold text-accent-foreground/90">
               Total Income
             </p>
             <h1 className="text-[26px] font-bold text-foreground">
@@ -93,21 +93,21 @@ const TransactionsData = () => {
             </h1>
           </div>
         </div>
-        <div className="flex justify-between items-center">
-          <span className="px-2 py-1 text-accent-foreground rounded-full text-sm">
+        <div className="flex items-center justify-between">
+          <span className="rounded-full px-2 py-1 text-sm text-accent-foreground">
             <CountUp end={totalIncomeEntries} duration={2} /> entries
           </span>
-          <FiActivity className="w-5 h-5 text-accent-foreground" />
+          <FiActivity className="h-5 w-5 text-accent-foreground" />
         </div>
       </div>
 
-      <div className="border border-accent-foreground/10 rounded-xl p-6 flex-1 min-w-[250px] hover:shadow-md transition-shadow">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="p-3 border border-accent-foreground/10 rounded-lg">
-            <FiArrowDownCircle className="w-6 h-6 text-muted-foreground" />
+      <div className="min-w-[260px] flex-1 rounded-xl border border-accent-foreground/10 p-6 transition-shadow hover:shadow-md">
+        <div className="mb-6 flex items-center gap-3">
+          <div className="rounded-lg border border-accent-foreground/10 p-3">
+            <FiArrowDownCircle className="h-6 w-6 text-muted-foreground" />
           </div>
           <div>
-            <p className="font-semibold text-accent-foreground/90 text-sm">
+            <p className="text-sm font-semibold text-accent-foreground/90">
               Total Expense
             </p>
             <h1 className="text-[26px] font-bold text-foreground">
@@ -116,21 +116,21 @@ const TransactionsData = () => {
             </h1>
           </div>
         </div>
-        <div className="flex justify-between items-center">
-          <span className="px-2 py-1 text-accent-foreground rounded-full text-sm">
+        <div className="flex items-center justify-between">
+          <span className="rounded-full px-2 py-1 text-sm text-accent-foreground">
             <CountUp end={totalExpenseEntries} duration={2} /> entries
           </span>
-          <FiActivity className="w-5 h-5 text-accent-foreground" />
+          <FiActivity className="h-5 w-5 text-accent-foreground" />
         </div>
       </div>
 
-      <div className="border border-accent-foreground/10 rounded-xl p-6 flex-1 min-w-[250px] hover:shadow-md transition-shadow">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="p-3 border border-accent-foreground/10 rounded-lg">
-            <FiActivity className="w-6 h-6 text-muted-foreground" />
+      <div className="min-w-[260px] flex-1 rounded-xl border border-accent-foreground/10 p-6 transition-shadow hover:shadow-md">
+        <div className="mb-6 flex items-center gap-3">
+          <div className="rounded-lg border border-accent-foreground/10 p-3">
+            <FiActivity className="h-6 w-6 text-muted-foreground" />
           </div>
           <div>
-            <p className="font-semibold text-accent-foreground/90 text-sm">
+            <p className="text-sm font-semibold text-accent-foreground/90">
               Net Savings
             </p>
             <h1 className="text-[26px] font-bold text-foreground">
@@ -139,8 +139,8 @@ const TransactionsData = () => {
             </h1>
           </div>
         </div>
-        <div className="flex justify-between items-center">
-          <span className="px-2 py-1 text-accent-foreground rounded-full text-sm">
+        <div className="flex items-center justify-between">
+          <span className="rounded-full px-2 py-1 text-sm text-accent-foreground">
             from <CountUp end={totalEntries} duration={2} /> entries
           </span>
           <span className="text-sm text-accent-foreground">

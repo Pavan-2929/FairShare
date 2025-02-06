@@ -1,28 +1,19 @@
-import React, { Suspense } from "react";
+import React from "react";
 import AddTransaction from "./AddTransaction";
-import ShareTransaction from "./ShareTransaction";
-import prisma from "@/lib/prisma";
-import { getUser } from "@/utils/getUser";
 import Transactions from "./Transactions";
 
 const Home = async () => {
-  const user = await getUser();
-
-  const transactions = await prisma.transaction.findMany({
-    where: { userId: user.id },
-  });
-
   return (
     <div className="space-y-10">
-      <div className="flex flex-col items-start justify-start gap-5 md:flex-row md:items-center md:justify-between">
-        <h1 className="text-xl font-bold md:text-2xl">
+      <div className="flex items-center justify-between gap-5 md:flex-row">
+        <h1 className="hidden text-xl font-bold md:inline-flex md:text-2xl">
           Keep track of your budget
+        </h1>
+        <h1 className="inline-flex text-xl font-bold md:hidden md:text-2xl">
+          Transactions
         </h1>
 
         <div className="flex w-full justify-between gap-5 md:w-fit">
-          {transactions.length > 0 && (
-            <ShareTransaction transactions={transactions} />
-          )}
           <div className="ml-auto flex">
             <AddTransaction />
           </div>

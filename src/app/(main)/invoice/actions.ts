@@ -29,7 +29,7 @@ export const UpdateInvoice = async ({
   }
 };
 
-export const DeleteInvoice = async (invoiceId: string) => {
+export const DeleteInvoiceAction = async (invoiceId: string) => {
   try {
     console.log(invoiceId);
 

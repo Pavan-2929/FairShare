@@ -18,6 +18,7 @@ import useSession from "@/utils/useSession";
 import { redirect } from "next/navigation";
 import { Skeleton } from "./ui/skeleton";
 import { useQueryClient } from "@tanstack/react-query";
+import { useToast } from "@/hooks/use-toast";
 
 interface UserButtonProps {
   className?: string;
@@ -26,16 +27,28 @@ interface UserButtonProps {
 const UserButton = ({ className }: UserButtonProps) => {
   const { user, isPending } = useSession();
   const queryClient = useQueryClient();
+  const { toast } = useToast();
 
   if (!user || isPending) {
-    return <Skeleton className="w-12 h-12 rounded-full" />;
+    return <Skeleton className="h-12 w-12 rounded-full" />;
   }
 
   const handleLogout = async () => {
     await authClient.signOut({
       fetchOptions: {
         onSuccess: () => {
+          toast({
+            title: "Logged Out",
+            description: "You have been logged out successfully",
+          });
           redirect("/sign-in");
+        },
+        onError: () => {
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: "Something went wrong",
+          });
         },
       },
     });

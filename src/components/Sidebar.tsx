@@ -22,8 +22,7 @@ const Sidebar = () => {
   const isActive = (path: string) => {
     if (path === "/") {
       return pathname === path;
-    }
-    else if (path !== "/") {
+    } else if (path !== "/") {
       return pathname.startsWith(path);
     }
   };
@@ -64,6 +63,20 @@ const Sidebar = () => {
             <Button
               variant="ghost"
               className={`flex w-full items-center justify-start space-x-2 rounded-md px-4 py-2 transition-all duration-300 ${
+                isActive("/invoice")
+                  ? "bg-muted text-primary"
+                  : "text-muted-foreground hover:bg-muted"
+              }`}
+              onClick={() => router.push("/invoice")}
+            >
+              <FaFileInvoice className="h-5 w-5" />
+              <span className="hidden lg:inline-flex">Invoice</span>
+            </Button>
+          </li>
+          <li>
+            <Button
+              variant="ghost"
+              className={`flex w-full items-center justify-start space-x-2 rounded-md px-4 py-2 transition-all duration-300 ${
                 isActive("/profile")
                   ? "bg-muted text-primary"
                   : "text-muted-foreground hover:bg-muted"
@@ -86,20 +99,6 @@ const Sidebar = () => {
             >
               <LucideLayoutDashboard className="h-5 w-5" />
               <span className="hidden lg:inline-flex">Dashboard</span>
-            </Button>
-          </li>
-          <li>
-            <Button
-              variant="ghost"
-              className={`flex w-full items-center justify-start space-x-2 rounded-md px-4 py-2 transition-all duration-300 ${
-                isActive("/invoice")
-                  ? "bg-muted text-primary"
-                  : "text-muted-foreground hover:bg-muted"
-              }`}
-              onClick={() => router.push("/invoice")}
-            >
-              <FaFileInvoice className="h-5 w-5" />
-              <span className="hidden lg:inline-flex">Invoice</span>
             </Button>
           </li>
           <li>

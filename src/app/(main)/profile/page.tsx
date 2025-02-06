@@ -1,5 +1,3 @@
-import { Input } from "@/components/ui/input";
-import UserAvatar from "@/components/UserAvatar";
 import { getUser } from "@/utils/getUser";
 import React from "react";
 import UserDetails from "./UserDetails";
@@ -17,7 +15,7 @@ const ProfilePage = async () => {
     <div className="md:flex-r flex max-w-[100vw] flex-col justify-between gap-7 lg:flex-row lg:items-start">
       <div className="flex-1 space-y-5 rounded-md border border-border bg-card shadow-sm lg:w-[680px] lg:p-5">
         <UserImage />
-        <div className="lg:pl-5 px-5">
+        <div className="px-5 lg:pl-5">
           <Label>Email</Label>
           <FormInput
             icon={<Mail className="size-5 text-primary" />}

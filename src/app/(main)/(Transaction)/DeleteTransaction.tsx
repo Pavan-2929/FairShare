@@ -14,6 +14,7 @@ import { deleteTransactionAction } from "./actions";
 import LoadingButton from "@/components/controls/LoadingButton";
 import { useQueryClient } from "@tanstack/react-query";
 import { TransactionType } from "@/lib/types";
+import { useToast } from "@/hooks/use-toast";
 
 type oldDataType = {
   transactions: TransactionType[];
@@ -24,12 +25,12 @@ const DeleteTransaction = ({ TransactionId }: { TransactionId: string }) => {
   const queryClinet = useQueryClient();
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
+
+  const { toast } = useToast();
 
   const onSubmit = async () => {
     setLoading(true);
-    setError(null);
 
     try {
       await deleteTransactionAction(TransactionId);
@@ -43,15 +44,24 @@ const DeleteTransaction = ({ TransactionId }: { TransactionId: string }) => {
 
         return {
           transactions: oldData.transactions.filter(
-            (transaction) => transaction.id !== TransactionId
+            (transaction) => transaction.id !== TransactionId,
           ),
           totalTransactions: oldData.totalTransactions - 1,
         };
       });
+      toast({
+        title: "Success",
+        description: "The selected transaction has been deleted.",
+      });
 
       setOpen(false);
     } catch (err) {
-      setError("Failed to add transaction. Please try again.");
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to delete transaction. Please try again.",
+      });
+      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -59,7 +69,7 @@ const DeleteTransaction = ({ TransactionId }: { TransactionId: string }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost">
+        <Button variant="ghost" className="w-full p-4 flex justify-start">
           <Trash2Icon className="mr-3" />
           Delete
         </Button>

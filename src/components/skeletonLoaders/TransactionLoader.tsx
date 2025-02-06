@@ -10,7 +10,7 @@ import {
 import { Skeleton } from "../ui/skeleton";
 const TransactionLoader = () => {
   return (
-    <Table className="border rounded-xl shadow-md">
+    <Table className="rounded-xl border shadow-md overflow-x-auto">
       <TableHeader>
         <TableRow>
           <TableHead>Category</TableHead>
@@ -39,7 +39,7 @@ const TransactionLoader = () => {
             <TableCell>
               <Skeleton className="h-4 w-24" />
             </TableCell>
-            <TableCell className="flex justify-end items-center">
+            <TableCell className="flex items-center justify-end">
               <Skeleton className="h-4 w-24" />
             </TableCell>
           </TableRow>

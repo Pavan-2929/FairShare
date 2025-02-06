@@ -1,11 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -29,7 +23,7 @@ import {
   CoinsIcon,
   FileTextIcon,
 } from "lucide-react";
-import InvoiceMore from "./create/InvoiceMore";
+import InvoiceMore from "./InvoiceMore";
 import PaymentStatus from "./PaymentStatus";
 
 interface InvoiceProps {
@@ -54,7 +48,7 @@ const Invoice = ({ invoiceData }: InvoiceProps) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex flex-col items-start justify-between sm:flex-row sm:items-center">
+        <CardTitle className="flex flex-col flex-wrap items-start justify-between gap-6 sm:flex-row sm:items-center">
           <div className="hidden items-center gap-2 sm:flex">
             <FileTextIcon className="size-12 pt-1" />
             <h1 className="min-w-fit pr-3 text-xl font-bold">
@@ -62,7 +56,7 @@ const Invoice = ({ invoiceData }: InvoiceProps) => {
             </h1>
             <PaymentStatus invoiceData={invoiceData} />
           </div>
-          <div className="hidden items-center gap-4 sm:flex">
+          <div className="hidden items-center gap-2 sm:flex md:gap-4">
             <Badge variant="outline" className="text-muted-foreground">
               #{invoiceData.id}
             </Badge>
@@ -70,7 +64,7 @@ const Invoice = ({ invoiceData }: InvoiceProps) => {
           </div>
 
           {/* Mobile */}
-          <div className="flex w-full flex-col items-center justify-between sm:hidden">
+          <div className="flex w-full flex-col items-start justify-start sm:hidden">
             <div className="flex w-full items-center justify-between pb-4">
               <div className="flex gap-2">
                 <FileTextIcon className="size-6 pt-1" />
@@ -80,7 +74,7 @@ const Invoice = ({ invoiceData }: InvoiceProps) => {
               </div>
               <InvoiceMore invoiceData={invoiceData} />
             </div>
-            <div className="flex flex-col items-center gap-4 pb-4 sm:hidden">
+            <div className="pb-4 sm:hidden">
               <Badge
                 variant="outline"
                 className="text-xs text-muted-foreground"
@@ -88,13 +82,15 @@ const Invoice = ({ invoiceData }: InvoiceProps) => {
                 #{invoiceData.id}
               </Badge>
             </div>
-            <PaymentStatus invoiceData={invoiceData} />
+            <div className="w-fit min-w-44">
+              <PaymentStatus invoiceData={invoiceData} />
+            </div>
           </div>
         </CardTitle>
-        <CardContent className="p-0">
+        <CardContent className="p-0 sm:p-0">
           <div>
             <Separator className="my-4" />
-            <div className="grid grid-cols-1 flex-wrap items-center gap-4 gap-x-20 pb-6 md:grid-cols-3">
+            <div className="grid grid-cols-1 flex-wrap items-center gap-4 pb-6 md:grid-cols-3 md:gap-x-20">
               <div className="flex flex-col space-y-2">
                 <div className="flex items-center gap-2">
                   <User2Icon className="size-4 text-muted-foreground" />
@@ -162,18 +158,26 @@ const Invoice = ({ invoiceData }: InvoiceProps) => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>ID</TableHead>
-                  <TableHead>Product Name</TableHead>
-                  <TableHead>Quantity</TableHead>
-                  <TableHead>Unit Price</TableHead>
-                  <TableHead>Total Price</TableHead>
+                  <TableHead className="text-sm md:text-base">ID</TableHead>
+                  <TableHead className="min-w-40 text-sm md:text-base">
+                    Product Name
+                  </TableHead>
+                  <TableHead className="min-w-28 text-sm md:text-base">
+                    Quantity
+                  </TableHead>
+                  <TableHead className="min-w-28 text-sm md:text-base">
+                    Unit Price
+                  </TableHead>
+                  <TableHead className="min-w-28 text-sm md:text-base">
+                    Total Price
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {invoiceData.products.map((product) => (
                   <TableRow key={product.id}>
                     <TableCell className="h-20">{product.id}</TableCell>
-                    <TableCell>{product.name}</TableCell>
+                    <TableCell className="w-24">{product.name}</TableCell>
                     <TableCell>{product.quantity}</TableCell>
                     <TableCell>₹{product.unitPrice}</TableCell>
                     <TableCell>₹{product.totalPrice}</TableCell>
