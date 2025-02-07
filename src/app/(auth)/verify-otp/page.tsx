@@ -1,7 +1,6 @@
 import React from "react";
 import AuthImage from "@/assets/auth.png";
 import Image from "next/image";
-import Link from "next/link";
 import Divider from "@/components/Divider";
 import VerifyOTPForm from "./VeirfyOTPForm";
 import ResendOTP from "./ResendOTP";
@@ -39,8 +38,8 @@ const VerifyOtp = () => {
           </div>
           <p className="text-4xl font-bold text-white/95">OTP Verification</p>
           <p className="font-medium leading-7 tracking-wide text-white/85">
-            We've sent a one-time password (OTP) to your email. Please enter it
-            below to complete the registration process.
+            We&apos;ve sent a one-time password (OTP) to your email. Please
+            enter it below to complete the registration process.
           </p>
           <div>
             <ArrowDownScroll />

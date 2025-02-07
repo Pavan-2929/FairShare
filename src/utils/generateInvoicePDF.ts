@@ -1,7 +1,6 @@
 import { InvoiceType, UserType } from "@/lib/types";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import "@/lib/NotoSans-VariableFont_wdth,wght-normal.js";
 const generateInvoicePDF = (invoiceData: InvoiceType, user: UserType) => {
   const doc = new jsPDF();
   const pageWidth = doc.internal.pageSize.getWidth();
@@ -81,17 +80,17 @@ const generateInvoicePDF = (invoiceData: InvoiceType, user: UserType) => {
     doc.text(
       invoiceData.clientName || "N/A",
       pageWidth / 2 + padding,
-      startY + 18
+      startY + 18,
     );
     doc.text(
       invoiceData.clientEmail || "N/A",
       pageWidth / 2 + padding,
-      startY + 26
+      startY + 26,
     );
     doc.text(
       `Phone: ${invoiceData.clientNumber || "N/A"}`,
       pageWidth / 2 + padding,
-      startY + 34
+      startY + 34,
     );
 
     doc.setDrawColor(...primaryColor);
@@ -111,7 +110,7 @@ const generateInvoicePDF = (invoiceData: InvoiceType, user: UserType) => {
               textColor: 255,
               halign: "center",
             },
-          })
+          }),
         ),
       ],
       body: invoiceData.products.map((item) => [
@@ -140,7 +139,7 @@ const generateInvoicePDF = (invoiceData: InvoiceType, user: UserType) => {
       alternateRowStyles: { fillColor: [245, 245, 245] },
       tableLineWidth: 0.1,
     });
-    return (doc as any).lastAutoTable.finalY + 15;
+    return Number(doc.previousAutoTable?.finalY) + 15 || startY;
   };
 
   // Totals Section
@@ -180,7 +179,7 @@ const generateInvoicePDF = (invoiceData: InvoiceType, user: UserType) => {
     doc.setFont("normal").setTextColor(0).setFontSize(10);
     const splitNotes = doc.splitTextToSize(
       invoiceData.notes,
-      pageWidth - padding * 2
+      pageWidth - padding * 2,
     );
     doc.text(splitNotes, padding, startY + 8);
 
@@ -197,13 +196,13 @@ const generateInvoicePDF = (invoiceData: InvoiceType, user: UserType) => {
       "Terms & Conditions: Payment due within 30 days. Late payments subject to 1.5% monthly interest.",
       pageWidth / 2,
       startY + 8,
-      { align: "center" }
+      { align: "center" },
     );
     doc.text(
       "Fairshare - Budget Management Solutions • www.fairshare.com • support@fairshare.com",
       pageWidth / 2,
       startY + 16,
-      { align: "center" }
+      { align: "center" },
     );
   };
 

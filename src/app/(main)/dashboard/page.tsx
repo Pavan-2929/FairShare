@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { getUser } from "@/utils/getUser";
 import { Calendar, FileText } from "lucide-react";
 import React from "react";
@@ -7,24 +6,23 @@ import TransactionsData from "./TransactionsData";
 import LineCharts from "./LineCharts";
 import Category from "./Category";
 import prisma from "@/lib/prisma";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Card, CardContent } from "@/components/ui/card";
+import ShareTransaction from "../(Transaction)/ShareTransaction";
 
 const DashboardPage = async () => {
   const user = await getUser();
 
   if (!user) return null;
 
-  const transaction = await prisma.transaction.findFirst({
+  const transactions = await prisma.transaction.findMany({
     where: { userId: user.id },
   });
 
-  if (!transaction)
+  if (!transactions)
     return (
       <div className="mt-24 flex flex-col items-center gap-4 text-muted-foreground">
         <FileText className="h-16 w-16 text-muted-foreground" />
         <p className="text-xl font-semibold text-muted-foreground">
-          Looks like you haven't added any transactions yet.
+          Looks like you haven&apos;t added any transactions yet.
         </p>
         <p className="text-center text-gray-500">
           To get started, you can add your first transaction and start tracking
@@ -36,17 +34,27 @@ const DashboardPage = async () => {
     );
   return (
     <div>
-      <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+      <div className="flex flex-row items-center justify-between gap-4">
         <h1 className="text-2xl font-bold">Dashbaord</h1>
-        <div className="flex items-center gap-2">
-          <div className="flex items-center gap-3 rounded-md border px-4 py-2 text-sm font-semibold text-muted-foreground">
-            <Calendar className="text-muted-foreground" />
-            <p>
-              {format(user.createdAt, "dd-MMM-yyyy")} to{" "}
-              {format(new Date(), "dd-MMM-yyyy")}
-            </p>
+        <div className="flex flex-wrap items-center justify-start gap-4 sm:justify-center sm:gap-6">
+          <ShareTransaction transactions={transactions} />
+          <div className="flex items-center gap-2">
+            <div className="hidden items-center gap-3 rounded-md border px-4 py-2 text-sm font-semibold text-muted-foreground sm:flex">
+              <Calendar className="text-muted-foreground" />
+              <p>
+                {format(user.createdAt, "dd-MMM-yyyy")} to{" "}
+                {format(new Date(), "dd-MMM-yyyy")}
+              </p>
+            </div>
           </div>
         </div>
+      </div>
+      <div className="mt-4 flex items-center gap-3 rounded-md border px-4 py-2 text-sm font-semibold text-muted-foreground sm:hidden">
+        <Calendar className="size-4 text-muted-foreground sm:size-5" />
+        <p>
+          {format(user.createdAt, "dd-MMM-yyyy")} to{" "}
+          {format(new Date(), "dd-MMM-yyyy")}
+        </p>
       </div>
       <TransactionsData />
       <LineCharts />

@@ -6,10 +6,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Download, Loader2, Mail, MoreVertical, Trash2 } from "lucide-react";
+import { Download, Loader2, Mail, MoreVertical } from "lucide-react";
 import React, { useTransition } from "react";
 import { sendInvoice } from "./actions";
-import { redirect, useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import generateInvoicePDF from "@/utils/generateInvoicePDF";
 import { InvoiceType } from "@/lib/types";
 import useSession from "@/utils/useSession";
@@ -18,8 +18,6 @@ import DeleteInvoice from "./DeleteInvoice";
 
 const InvoiceMore = ({ invoiceData }: { invoiceData: InvoiceType }) => {
   const [isPending, startTransition] = useTransition();
-
-  const router = useRouter();
 
   const { user } = useSession();
   const { toast } = useToast();

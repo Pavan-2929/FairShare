@@ -2,7 +2,6 @@ import prisma from "@/lib/prisma";
 import { getUser } from "@/utils/getUser";
 import { FileText } from "lucide-react";
 import React from "react";
-import { InvoiceType } from "@/lib/types";
 import Invoice from "./Invoice";
 
 const Invoices = async () => {
@@ -24,7 +23,7 @@ const Invoices = async () => {
       <div className="pt-24 flex flex-col items-center gap-4 text-muted-foreground">
         <FileText className="h-16 w-16 text-muted-foreground" />
         <p className="text-xl font-semibold text-muted-foreground">
-          Looks like you haven't added any transactions yet.
+          Looks like you haven&apos;t added any transactions yet.
         </p>
         <p className="text-center text-gray-500">
           To get started, you can add your first transaction and start tracking

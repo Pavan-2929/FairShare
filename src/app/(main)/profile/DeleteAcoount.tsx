@@ -16,14 +16,12 @@ import { useToast } from "@/hooks/use-toast";
 
 const DeleteAccount = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
 
   const { toast } = useToast();
 
   const onSubmit = async () => {
     setLoading(true);
-    setError(null);
     await authClient.deleteUser({
       callbackURL: "/sign-in",
     });
@@ -34,12 +32,12 @@ const DeleteAccount = () => {
     try {
       setOpen(false);
     } catch (err) {
+      console.error(err);
       toast({
         variant: "destructive",
         title: "Error",
         description: "Failed to delete account. Please try again",
       });
-      setError("Failed to add transaction. Please try again.");
     } finally {
       setLoading(false);
     }

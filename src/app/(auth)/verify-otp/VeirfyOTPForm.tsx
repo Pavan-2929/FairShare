@@ -18,7 +18,7 @@ const VerifyOTPForm = () => {
 
   const email = atob(params.get("email") || "");
 
-  const handleVerifyOTP = async (e: any) => {
+  const handleVerifyOTP = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await authClient.signIn.emailOtp(
       {

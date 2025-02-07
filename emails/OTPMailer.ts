@@ -19,17 +19,20 @@ const OTPMailer = async ({ name, email, OTP }: OTPMailerProps) => {
     });
 
     let htmlMessage = `
-      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; padding: 20px; background: #f8f8f8;">
-        <div style="max-width: 500px; margin: auto; background: #ffffff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); text-align: center;">
-          <h2 style="color: #007BFF;">Welcome to FairShare, ${name}!</h2>
-          <p style="font-size: 16px; color: #555;">Thank you for signing up. To complete your registration, please use the OTP below:</p>
+      <div style="font-family: 'Arial', sans-serif; background-color: #f9f9f9; padding: 40px 0; text-align: center;">
+        <div style="max-width: 450px; margin: auto; background: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);">
+          <h2 style="color: #333; margin-bottom: 8px;">🔐 Your OTP Code</h2>
+          <p style="color: #555; font-size: 16px;">Hello <strong>${name}</strong>, use the OTP below to verify your identity.</p>
           
-          <p style="font-size: 2em; font-weight: bold; color: #444;">${OTP}</p>
+          <p style="display: inline-block; background: #4CAF50; color: #ffffff; padding: 8px 16px; font-size: 18px; font-weight: bold; border-radius: 8px; letter-spacing: 2px; margin: 20px 0;">${OTP}</p>
           
-          <p style="font-size: 16px; color: #555;">If you did not sign up for this account, please ignore this email.</p>
+          <p style="color: #777; font-size: 14px;">This OTP is valid for a short time. Please do not share it with anyone.</p>
+          <p style="color: #777; font-size: 14px;">If you didn’t request this, you can safely ignore this email.</p>
 
-          <div style="margin-top: 30px; font-size: 12px; color: #888;">
-            Best regards,<br/>The FairShare Team
+          <div style="margin-top: 25px; font-size: 12px; color: #999; border-top: 1px solid #ddd; padding-top: 12px;">
+            Need help? <a href="mailto:support@fairshare.com" style="color: #4CAF50; text-decoration: none;">Contact Support</a>
+            <br/><br/>
+            <strong>FairShare Team</strong>
           </div>
         </div>
       </div>

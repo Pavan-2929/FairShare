@@ -18,9 +18,7 @@ import CountUp from "react-countup";
 const TransactionsData = () => {
   const { user } = useSession();
 
-  if (!user) return redirect("/sign-in");
-
-  const { data, isError, isLoading } = useQuery({
+  const { data } = useQuery({
     queryKey: ["transactions"],
     queryFn: async () =>
       kyInstance.get(`/api/getTransactions`).json<{
@@ -28,6 +26,7 @@ const TransactionsData = () => {
         totalTransactions: number;
       }>(),
   });
+  if (!user) return redirect("/sign-in");
 
   if (!data || !data.transactions || !data.totalTransactions) {
     return null;
@@ -55,7 +54,6 @@ const TransactionsData = () => {
 
   const netSaving = totalIncome - totalExpense;
   const totalEntries = totalExpenseEntries + totalIncomeEntries;
-  const totalAmount = totalExpense + totalIncome;
 
   return (
     <div className="flex flex-wrap gap-5 pt-7">

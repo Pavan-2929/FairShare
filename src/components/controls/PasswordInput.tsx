@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
-import { Eye, EyeOff, User2Icon } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
 
 interface PasswordInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {

@@ -19,9 +19,7 @@ import {
 
 const LineCharts = () => {
   const { user } = useSession();
-
-  if (!user) return redirect("/sign-in");
-
+  
   const { data, isError, isLoading } = useQuery({
     queryKey: ["transactions"],
     queryFn: async () =>
@@ -30,7 +28,9 @@ const LineCharts = () => {
         totalTransactions: number;
       }>(),
   });
-
+  
+  if (!user) return redirect("/sign-in");
+  
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error loading data</div>;
 

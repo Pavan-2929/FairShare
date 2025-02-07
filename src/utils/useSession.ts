@@ -18,8 +18,7 @@ interface SessionData {
 }
 
 const useSession = (): SessionData => {
-  const { data: session, isPending, error } = authClient.useSession();
-
+  const { data: session, isPending } = authClient.useSession();
   return {
     user: session?.user ?? null,
     isPending: isPending,

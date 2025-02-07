@@ -66,7 +66,7 @@ import { CreateInvoiceAction } from "./actions";
 import LoadingButton from "@/components/controls/LoadingButton";
 import { useToast } from "@/hooks/use-toast";
 
-const page = () => {
+const CreateTransactionPage = () => {
   const [isPending, startTransition] = useTransition();
 
   const { toast } = useToast();
@@ -562,4 +562,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default CreateTransactionPage;

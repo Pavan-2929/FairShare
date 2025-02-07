@@ -100,6 +100,7 @@ const UpdateTransaction = ({
         };
       });
     } catch (err) {
+      console.error(err);
       setError("Failed to update transaction. Please try again.");
     } finally {
       setLoading(false);
@@ -111,7 +112,7 @@ const UpdateTransaction = ({
       expense: ["food", "electronics", "travel", "other"],
       income: ["salary", "freelance", "investment", "other"],
     }),
-    []
+    [],
   );
 
   return (
@@ -191,7 +192,7 @@ const UpdateTransaction = ({
                 </FormItem>
               )}
             />
-            <div className="flex justify-between gap-x-3 items-end">
+            <div className="flex items-end justify-between gap-x-3">
               <FormField
                 control={form.control}
                 name="category"
@@ -252,7 +253,7 @@ const UpdateTransaction = ({
                           variant={"outline"}
                           className={cn(
                             "pl-3 text-left font-normal",
-                            !field.value && "text-muted-foreground"
+                            !field.value && "text-muted-foreground",
                           )}
                         >
                           {field.value ? (

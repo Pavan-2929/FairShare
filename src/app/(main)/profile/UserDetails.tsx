@@ -23,7 +23,6 @@ import { useToast } from "@/hooks/use-toast";
 
 const UserDetails = () => {
   const { user } = useSession();
-  if (!user) return redirect("/sign-in");
 
   const { toast } = useToast();
 
@@ -33,10 +32,11 @@ const UserDetails = () => {
   const form = useForm<UpdateUserValues>({
     resolver: zodResolver(updateUserSchema),
     defaultValues: {
-      name: user.name || "",
-      phoneNumber: user.phoneNumber || "",
+      name: user?.name || "",
+      phoneNumber: user?.phoneNumber || "",
     },
   });
+  if (!user) return redirect("/sign-in");
 
   const onSubmit = async (data: UpdateUserValues) => {
     setLoading(true);
@@ -52,6 +52,7 @@ const UserDetails = () => {
         description: "User details updated successfully!",
       });
     } catch (err) {
+      console.error(err);
       setError("Failed to update user details.");
       toast({
         variant: "destructive",

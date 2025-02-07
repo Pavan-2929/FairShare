@@ -90,6 +90,7 @@ const AddTransaction = () => {
         };
       });
     } catch (err) {
+      console.error(err);
       setError("Failed to add transaction. Please try again.");
     } finally {
       setLoading(false);

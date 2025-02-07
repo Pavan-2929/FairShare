@@ -1,15 +1,16 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 import { Github, Globe } from "lucide-react";
 import { useState } from "react";
 import LoadingButton from "./controls/LoadingButton";
+import { useToast } from "@/hooks/use-toast";
 
 const SocialAuth = () => {
-  const [error, setError] = useState<string>();
   const [googleLoading, setGoogleLoading] = useState<boolean>(false);
   const [githubLoading, setGithubLoading] = useState<boolean>(false);
+
+  const { toast } = useToast();
 
   const GithubSignIn = async () => {
     setGithubLoading(true);
@@ -23,12 +24,20 @@ const SocialAuth = () => {
         },
         onSuccess: () => {
           setGithubLoading(false);
+          toast({
+            title: "Login Successful",
+            description: "You have successfully logged in with GitHub.",
+          });
         },
         onError: (ctx) => {
-          setError(ctx.error.message);
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: ctx.error.message || "Something went wrong",
+          });
           setGithubLoading(false);
         },
-      }
+      },
     );
   };
 
@@ -44,22 +53,30 @@ const SocialAuth = () => {
         },
         onSuccess: () => {
           setGoogleLoading(false);
+          toast({
+            title: "Login Successful",
+            description: "You have successfully logged in with Google.",
+          });
         },
         onError: (ctx) => {
-          setError(ctx.error.message);
           setGoogleLoading(false);
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: ctx.error.message || "Something went wrong",
+          });
         },
-      }
+      },
     );
   };
 
   return (
-    <div className="flex lg:flex-row flex-col gap-4 w-full max-w-md">
+    <div className="flex w-full max-w-md flex-col gap-4 lg:flex-row">
       <LoadingButton
         loading={googleLoading}
         onClick={GoogleSignIn}
         variant="outline"
-        className="flex items-center justify-center gap-3 w-full "
+        className="flex w-full items-center justify-center gap-3"
       >
         <Globe className="h-5 w-5 text-red-500" />
         <span>Continue with Google</span>
@@ -68,7 +85,7 @@ const SocialAuth = () => {
         loading={githubLoading}
         onClick={GithubSignIn}
         variant="outline"
-        className="flex items-center justify-center gap-3 w-full "
+        className="flex w-full items-center justify-center gap-3"
       >
         <Github className="h-5 w-5 text-black" />
         <span>Continue with GitHub</span>

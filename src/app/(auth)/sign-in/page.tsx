@@ -41,7 +41,7 @@ const SignIn = () => {
           <p className="text-4xl font-bold text-white/95">Glad to see you!</p>
           <p className="font-medium leading-7 tracking-wide text-white/85">
             Welcome to Fair-Share, the simplest way to track and share expenses
-            effortlessly. Let's get you set up!
+            effortlessly. Let&apos;s get you set up!
           </p>
           <div>
             <ArrowDownScroll />

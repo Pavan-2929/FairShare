@@ -19,15 +19,11 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Card } from "@/components/ui/card";
 import DashboardLoader from "@/components/skeletonLoaders/DashboardLoader";
 
 const Category = () => {
   const { user } = useSession();
-
-  if (!user) return redirect("/sign-in");
 
   const { data, isError, isLoading } = useQuery({
     queryKey: ["transactions"],
@@ -36,7 +32,11 @@ const Category = () => {
         transactions: TransactionType[];
         totalTransactions: number;
       }>(),
+    enabled: !!user,
   });
+  
+  if (!user) return redirect("/sign-in");
+
 
   if (isLoading) {
     return <DashboardLoader />;

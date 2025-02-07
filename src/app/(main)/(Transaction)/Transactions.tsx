@@ -9,7 +9,7 @@ import {
   TableHead,
   TableCell,
 } from "@/components/ui/table";
-import { FileText, Calendar, InfoIcon, Loader2 } from "lucide-react";
+import { FileText, Calendar, InfoIcon } from "lucide-react";
 import TransactionActions from "./TransactionActions";
 import { cn } from "@/lib/utils";
 import {
@@ -57,13 +57,15 @@ const Transactions = () => {
   const { transactions, totalTransactions } = data;
   const totalPages = Math.ceil(totalTransactions / limit);
 
+  console.log(totalTransactions);
+
   return (
     <>
       {transactions.length <= 0 ? (
         <div className="flex flex-col items-center gap-4 pt-24 text-muted-foreground">
           <FileText className="size-10 text-muted-foreground md:size-16" />
           <p className="text-center text-lg font-semibold text-muted-foreground md:text-xl">
-            Looks like you haven't added any transactions yet.
+            Looks like you haven&apos;t added any transactions yet.
           </p>
           <p className="text-center text-gray-500">
             To get started, you can add your first transaction and start
@@ -133,7 +135,7 @@ const Transactions = () => {
               ))}
             </TableBody>
           </Table>
-          {transactions.length > 15 && (
+          {totalPages > 1 && (
             <div className="my-4 flex items-center justify-center gap-2">
               <Button
                 disabled={page === 1}

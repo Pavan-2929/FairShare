@@ -47,7 +47,7 @@ export const auth = betterAuth({
       },
     }),
     magicLink({
-      async sendMagicLink({ email, token, url }) {
+      async sendMagicLink({ email, url }) {
         try {
           const name = email.split("@")[0];
 
