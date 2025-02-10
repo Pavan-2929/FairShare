@@ -17,7 +17,7 @@ model User {
   age           Int?
   city          String?
   gender        String?
-  wallet        Float @default(0.0)
+  wallet        Float   @default(0.0)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -26,8 +26,29 @@ model User {
   accounts    Account[]
   Transaction Transaction[]
   Invoice     Invoice[]
+  Goal        Goal[]
 
   @@map("users")
+}
+
+model Transaction {
+  id              String          @id @default(uuid())
+  user            User            @relation(fields: [userId], references: [id])
+  userId          String
+  amount          Float
+  type            TransactionType
+  category        String
+  note            String?
+  TransactionDate DateTime
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  @@map("transactions")
+}
+
+enum TransactionType {
+  income
+  expense
 }
 
 model Invoice {
@@ -76,24 +97,55 @@ enum PaymentMethod {
   other
 }
 
-model Transaction {
-  id              String          @id @default(uuid())
-  user            User            @relation(fields: [userId], references: [id])
+// Goals Schemas
+model Goal {
+  id              String            @id @default(uuid())
   userId          String
-  amount          Float
-  type            TransactionType
-  category        String
+  user            User              @relation(fields: [userId], references: [id])
+  title           String
   note            String?
-  TransactionDate DateTime
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
+  targetAmount    Float
+  currentAmount   Float             @default(0.0)
+  completionDate  DateTime?
+  status          GoalStatus        @default(active)
+  category        String
+  priority        PriorityLevel     @default(medium)
+  image           String?
+  reminder        Reminder
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  GoalTransaction GoalTransaction[]
 
-  @@map("transactions")
+  @@map("goals")
 }
 
-enum TransactionType {
-  income
-  expense
+enum Reminder {
+  daily
+  every_3_days
+  weekly
+  biweekly
+  monthly
+}
+
+model GoalTransaction {
+  id        String   @id @default(uuid())
+  goalId    String
+  goal      Goal     @relation(fields: [goalId], references: [id])
+  amount    Float
+  createdAt DateTime @default(now())
+  note      String?
+}
+
+enum GoalStatus {
+  active
+  completed
+  canceled
+}
+
+enum PriorityLevel {
+  low
+  medium
+  high
 }
 
 model Session {

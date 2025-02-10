@@ -1,3 +1,4 @@
+import Category from "@/app/(main)/dashboard/Category";
 import { z } from "zod";
 
 const requiredString = z.string().trim().min(1, "required");
@@ -25,7 +26,7 @@ export const updateUserSchema = z.object({
     .max(20, "Username must not exceed 20 characters.")
     .regex(
       /^(?!.*[_.]{2})[a-zA-Z][a-zA-Z0-9._\s]{2,19}$/,
-      "Invalid username. Start with a letter and use only letters, numbers, underscores, dots, or spaces without consecutive dots, underscores, or spaces."
+      "Invalid username. Start with a letter and use only letters, numbers, underscores, dots, or spaces without consecutive dots, underscores, or spaces.",
     ),
 
   phoneNumber: z
@@ -70,3 +71,19 @@ export const invoiceSchema = z.object({
 });
 
 export type InvoiceValues = z.infer<typeof invoiceSchema>;
+
+export const goalSchema = z.object({
+  title: requiredString,
+  note: z.string().trim().optional(),
+  image: z.string().trim().optional(),
+  targetAmount: z
+    .number()
+    .min(1, "Min value should be 1")
+    .max(500000, "Max value should be 1000"),
+  completionDate: z.date().optional(),
+  category: requiredString,
+  priority: z.enum(["low", "medium", "high"]),
+  reminder: z.enum(["daily", "every_3_days", "weekly", "biweekly", "monthly"]),
+});
+
+export type GoalValues = z.infer<typeof goalSchema>;

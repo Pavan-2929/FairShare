@@ -44,6 +44,8 @@ const UserImage = () => {
           name: user.name,
         });
       }
+    } catch (error) {
+      console.error(error);
     } finally {
       setIsUploading(false);
     }
@@ -59,7 +61,7 @@ const UserImage = () => {
         className="hidden"
         disabled={isUploading}
       />
-      <div className="relative group mx-auto w-fit">
+      <div className="group relative mx-auto w-fit">
         <button
           type="button"
           onClick={() => fileInputRef.current?.click()}
@@ -73,21 +75,21 @@ const UserImage = () => {
               alt="Avatar"
               width={150}
               height={150}
-              className={`rounded-full object-cover border-2 w-32 h-32 border-primary shadow-lg transition-opacity duration-300 ${
+              className={`h-32 w-32 rounded-full border-2 border-primary object-cover shadow-lg transition-opacity duration-300 ${
                 isUploading ? "opacity-50" : "opacity-100"
               }`}
             />
 
-            <div className="absolute inset-0 flex flex-col items-center justify-center rounded-full bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <Camera className="text-white w-6 h-6 mb-1 transform group-hover:scale-110 transition-transform" />
-              <span className="text-xs font-medium text-white text-center px-2">
+            <div className="absolute inset-0 flex flex-col items-center justify-center rounded-full bg-black/30 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              <Camera className="mb-1 h-6 w-6 transform text-white transition-transform group-hover:scale-110" />
+              <span className="px-2 text-center text-xs font-medium text-white">
                 Change Photo
               </span>
             </div>
 
             {isUploading && (
               <div className="absolute inset-0 flex items-center justify-center rounded-full border border-muted-foreground bg-black/40 backdrop-blur-sm">
-                <Loader2 className="animate-spin size-12 text-primary" />
+                <Loader2 className="size-12 animate-spin text-primary" />
               </div>
             )}
           </div>
