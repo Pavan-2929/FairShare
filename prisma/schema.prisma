@@ -8,8 +8,8 @@ datasource db {
 }
 
 model User {
-  id            String   @id @default(uuid())
-  email         String?  @unique
+  id            String  @id @default(uuid())
+  email         String? @unique
   name          String
   emailVerified Boolean
   image         String?
@@ -17,8 +17,10 @@ model User {
   age           Int?
   city          String?
   gender        String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  wallet        Float @default(0.0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   sessions    Session[]
   accounts    Account[]
@@ -42,7 +44,7 @@ model Invoice {
   status        InvoiceStatus
   paymentMethod PaymentMethod
   notes         String
-  products       Product[]
+  products      Product[]
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 

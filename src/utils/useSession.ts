@@ -13,6 +13,7 @@ interface SessionData {
     age?: number | null;
     gender?: "male" | "female" | "other" | null;
     city?: string | null;
+    wallet?: number;
   } | null;
   isPending: boolean;
 }

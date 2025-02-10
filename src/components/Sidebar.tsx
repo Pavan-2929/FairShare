@@ -4,9 +4,9 @@ import React from "react";
 import {
   Home,
   User,
-  Settings,
   LogOut,
   LucideLayoutDashboard,
+  CreditCard,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/logo.png";
@@ -14,10 +14,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { FaFileInvoice } from "react-icons/fa";
+import useSession from "@/utils/useSession";
 
 const Sidebar = () => {
   const pathname = usePathname();
   const router = useRouter();
+
+  const { user, isPending } = useSession();
 
   const isActive = (path: string) => {
     if (path === "/") {
@@ -105,14 +108,19 @@ const Sidebar = () => {
             <Button
               variant="ghost"
               className={`flex w-full items-center justify-start space-x-2 rounded-md px-4 py-2 transition-all duration-300 ${
-                isActive("/settings")
+                isActive("/wallet")
                   ? "bg-muted text-primary"
                   : "text-muted-foreground hover:bg-muted"
               }`}
-              onClick={() => router.push("/settings")}
+              onClick={() => router.push("/wallet")}
             >
-              <Settings className="h-5 w-5" />
-              <span className="hidden lg:inline-flex">Settings</span>
+              <CreditCard className="h-5 w-5" />
+              <span className="hidden lg:inline-flex">
+                Wallet{" "}
+                <span className="pl-1">
+                  {isPending ? "" : `(₹${user?.wallet})`}
+                </span>
+              </span>
             </Button>
           </li>
         </ul>

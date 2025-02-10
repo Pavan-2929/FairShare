@@ -35,6 +35,8 @@ const UserOtherDetails: React.FC = () => {
 
   if (!user) redirect("/sign-in");
 
+  console.log(user);
+
   const [loading, setLoading] = useState<boolean>(false);
 
   const form = useForm<UserOtherDetailsValues>({
@@ -131,7 +133,12 @@ const UserOtherDetails: React.FC = () => {
               <FormItem>
                 <FormLabel>City</FormLabel>
                 <FormControl>
-                  <Input type="text" className="bg-background" placeholder="Enter your city" {...field} />
+                  <Input
+                    type="text"
+                    className="bg-background"
+                    placeholder="Enter your city"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

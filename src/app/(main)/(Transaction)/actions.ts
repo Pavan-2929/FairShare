@@ -5,6 +5,7 @@ import prisma from "@/lib/prisma";
 import { TransactionType } from "@/lib/types";
 import { TransactionValues } from "@/lib/validations";
 import TransactionMailer from "../../../../emails/TransactionsMailer";
+import { authClient } from "@/lib/auth-client";
 
 export const addTransactionAction = async (credentials: TransactionValues) => {
   try {
@@ -30,6 +31,8 @@ export const addTransactionAction = async (credentials: TransactionValues) => {
       },
     });
 
+    
+
     return newTransaction;
   } catch (error) {
     console.error("Failed to add transaction:", error);
@@ -50,7 +53,7 @@ export const deleteTransactionAction = async (transactionId: string) => {
 
 export const updateTransactionAction = async (
   transactionData: TransactionType,
-  transactionId: string
+  transactionId: string,
 ) => {
   const { amount, note, type, category, TransactionDate } = transactionData;
 
@@ -86,7 +89,7 @@ export const updateTransactionAction = async (
   } catch (error) {
     console.error(
       "Failed to update transaction:",
-      error instanceof Error ? error.message : error
+      error instanceof Error ? error.message : error,
     );
     throw new Error("Something went wrong while updating the transaction.");
   }
@@ -95,7 +98,7 @@ export const updateTransactionAction = async (
 export const sendTransaction = async (
   name: string,
   email: string,
-  base64Pdf: string
+  base64Pdf: string,
 ) => {
   try {
     const pdfBuffer = Buffer.from(base64Pdf, "base64");
@@ -104,7 +107,7 @@ export const sendTransaction = async (
   } catch (error) {
     console.error(
       "Failed to update transaction:",
-      error instanceof Error ? error.message : error
+      error instanceof Error ? error.message : error,
     );
     throw new Error("Something went wrong while updating the transaction.");
   }

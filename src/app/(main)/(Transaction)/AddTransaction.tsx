@@ -41,6 +41,8 @@ import { cn } from "@/lib/utils";
 import { addTransactionAction } from "./actions";
 import LoadingButton from "@/components/controls/LoadingButton";
 import { useQueryClient } from "@tanstack/react-query";
+import { updateUserWallet } from "../profile/actions";
+import { authClient } from "@/lib/auth-client";
 
 type oldDataType = {
   transactions: TransactionValues[];
@@ -74,6 +76,13 @@ const AddTransaction = () => {
 
     try {
       const newTransaction = await addTransactionAction(values);
+      const userData = await updateUserWallet(values);
+
+      authClient.updateUser({
+        name: userData.name,
+        image: userData.image,
+      });
+      
       form.reset();
       setIsOpen(false);
 

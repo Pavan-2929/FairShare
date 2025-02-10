@@ -28,7 +28,7 @@ export default async function RootLayout({
           <div className="flex w-full flex-col">
             <Navbar />
             <Menubar />
-            <div className="flex-1 space-y-10 p-5 md:p-7 md:pe-7 lg:pe-16 mb-16">
+            <div className="mb-16 flex-1 space-y-10 p-5 md:p-7 md:pe-7 lg:pe-16">
               {children}
             </div>
           </div>

@@ -31,6 +31,9 @@ export const auth = betterAuth({
         required: false,
         defaultValue: "",
       },
+      wallet: {
+        type: "number",
+      },
     },
   },
   plugins: [

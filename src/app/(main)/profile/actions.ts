@@ -1,7 +1,11 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { UpdateUserValues, UserOtherDetailsValues } from "@/lib/validations";
+import {
+  TransactionValues,
+  UpdateUserValues,
+  UserOtherDetailsValues,
+} from "@/lib/validations";
 import { getUser } from "@/utils/getUser";
 
 export async function updateUserDetails(values: UpdateUserValues) {
@@ -39,6 +43,35 @@ export async function updateUserOtherDetails(values: UserOtherDetailsValues) {
       age,
       gender,
       city,
+    },
+  });
+
+  return newUser;
+}
+
+export async function updateUserWallet(values: TransactionValues) {
+  const { amount, type } = values;
+
+  const user = await getUser();
+
+  if (!user) {
+    throw new Error("Unauthorized");
+  }
+
+  let walletMoney = user.wallet;
+
+  if (type === "expense") {
+    walletMoney -= amount;
+  } else {
+    walletMoney += amount;
+  }
+
+  const newUser = await prisma.user.update({
+    where: {
+      id: user.id,
+    },
+    data: {
+      wallet: walletMoney,
     },
   });
 
