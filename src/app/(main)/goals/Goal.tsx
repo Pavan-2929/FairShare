@@ -25,7 +25,7 @@ import {
 
 import React from "react";
 import { Progress } from "@/components/ui/progress";
-import { formatDistanceToNow } from "date-fns";
+import { formatDistanceStrict, formatDistanceToNow } from "date-fns";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -46,7 +46,7 @@ const Goal = ({ goalData }: GoalProps) => {
     <Card className="relative">
       {goalData.image && (
         <div
-          className="absolute inset-0 opacity-20 blur-[2px] hover:opacity-35"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20 blur-[2px] hover:opacity-35"
           style={{ backgroundImage: `url(${goalData.image})` }}
         />
       )}
@@ -77,7 +77,7 @@ const Goal = ({ goalData }: GoalProps) => {
             {goalData.note || "No additional notes."}
           </p>
         </CardDescription>
-        <CardContent className="space-y-3 sm:p-0 p-0">
+        <CardContent className="space-y-3 p-0 sm:p-0">
           {/* Progress Section */}
           <div className="flex flex-col gap-1 pb-5">
             <div className="flex items-center justify-between">
@@ -110,7 +110,8 @@ const Goal = ({ goalData }: GoalProps) => {
 
           <div className="flex items-center justify-between">
             <p className="text-[13px] text-muted-foreground">
-              {formatDistanceToNow(new Date(goalData.createdAt))}
+              {formatDistanceStrict(new Date(goalData.createdAt), new Date())}{" "}
+              ago
             </p>
             <Button
               variant="outline"

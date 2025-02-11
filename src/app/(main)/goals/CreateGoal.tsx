@@ -70,14 +70,14 @@ const CreateGoal = () => {
   const form = useForm<GoalValues>({
     resolver: zodResolver(goalSchema),
     defaultValues: {
-      title: "pavan",
-      note: "this is note",
+      title: "",
+      note: "",
       category: "travel",
       image: "",
       priority: "medium",
       reminder: "biweekly",
       completionDate: new Date(new Date().setDate(new Date().getDate() + 4)),
-      targetAmount: 25 as number,
+      targetAmount: 0 as number,
     },
   });
 
@@ -148,6 +148,7 @@ const CreateGoal = () => {
                         <FormControl>
                           <FormInput
                             {...field}
+                            placeholder="Title"
                             icon={<Text className="size-4 text-primary" />}
                           />
                         </FormControl>

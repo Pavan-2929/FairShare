@@ -21,7 +21,9 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { GoalTransactionType, GoalType } from "@/lib/types";
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
+import { useWindowSize } from "react-use";
+import Confetti from "react-confetti";
 
 interface CreateGoalTransactionProps {
   goalId: string;
@@ -30,11 +32,14 @@ interface CreateGoalTransactionProps {
 const CreateGoalTransaction = ({ goalId }: CreateGoalTransactionProps) => {
   const [error, setError] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [amount, setAmount] = useState<number>(1000);
+  const [amount, setAmount] = useState<number>(100);
+  const [showConfetti, setShowConfetti] = useState(false);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
+  const { width, height } = useWindowSize();
 
   const queryClient = useQueryClient();
+  let result;
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -84,41 +89,67 @@ const CreateGoalTransaction = ({ goalId }: CreateGoalTransactionProps) => {
               : [newGoalTransaction];
           },
         );
+
+        if (updatedGoal.status === "completed") {
+          setShowConfetti(true);
+          setTimeout(() => setShowConfetti(false), 5000);
+        }
+
         router.refresh();
+        setAmount(100);
         setIsOpen(false);
-      } catch (error) {
+      } catch (error: unknown) {
         console.error(error);
-        setError("Failed to create the goal. Please check your input.");
+        if (error instanceof Error) {
+          setError(error.message);
+        } else {
+          setError("Failed to create the goal.");
+        }
       }
     });
   };
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button>
-          <Plus className="size-4" />
-          Add To Goal
-        </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Select amount to add into your goal</DialogTitle>
-        </DialogHeader>
-        <form onSubmit={handleSubmit}>
-          <FormInput
-            icon={<CreditCardIcon className="size-4 text-primary" />}
-            type="number"
-            value={amount === 0 ? "" : amount}
-            placeholder="Enter amount"
-            onChange={(e) => setAmount(Number(e.target.value))}
-          />
-          <DialogFooter className="flex gap-3 pt-7">
-            <Button variant="outline">Cancel</Button>
-            <LoadingButton loading={isPending}>Add</LoadingButton>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
+    <>
+      {showConfetti && (
+        <div className="pointer-events-none fixed inset-0">
+          <Confetti
+            width={width}
+            height={height}
+            recycle={false}
+            numberOfPieces={200}
+            gravity={0.3}
+          />{" "}
+        </div>
+      )}{" "}
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogTrigger asChild>
+          <Button>
+            <Plus className="size-4" />
+            Add
+            <span className="hidden sm:inline-flex">To Goal</span>
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Select amount to add into your goal</DialogTitle>
+          </DialogHeader>
+          {error && <p className="mb-3 text-red-500">{error}</p>}{" "}
+          <form onSubmit={handleSubmit}>
+            <FormInput
+              icon={<CreditCardIcon className="size-4 text-primary" />}
+              type="number"
+              value={amount === 0 ? "" : amount}
+              placeholder="Enter amount"
+              onChange={(e) => setAmount(Number(e.target.value))}
+            />
+            <DialogFooter className="flex gap-3 pt-7">
+              <Button variant="outline">Cancel</Button>
+              <LoadingButton loading={isPending}>Add</LoadingButton>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 

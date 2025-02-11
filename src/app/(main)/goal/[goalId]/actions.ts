@@ -42,6 +42,24 @@ export const updateGoalCurrentValue = async ({
   amount,
   goalId,
 }: AddGoalTransactionProps) => {
+  const goal = await prisma.goal.findFirst({
+    where: {
+      id: goalId,
+    },
+  });
+
+  if (!goal) {
+    throw new Error("Goal not found.");
+  }
+
+  const totalCurrentAmount = amount + goal.currentAmount;
+
+  if (totalCurrentAmount > goal.targetAmount) {
+    throw new Error("Amount exceeds target amount.");
+  }
+
+  const targetAchieved = totalCurrentAmount === goal.targetAmount;
+
   const updatedGoal = await prisma.goal.update({
     where: {
       id: goalId,
@@ -50,6 +68,7 @@ export const updateGoalCurrentValue = async ({
       currentAmount: {
         increment: amount,
       },
+      status: targetAchieved ? "completed" : "active",
     },
   });
 

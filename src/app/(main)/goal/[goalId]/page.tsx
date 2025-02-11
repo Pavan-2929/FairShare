@@ -112,19 +112,24 @@ const GoalPage = async ({ params }: GoalPageProps) => {
               </div>
             </div>
           </div>
-          <div className="flex pt-5 text-sm font-normal">
-            <h2 className="font-semibold">Note:- </h2>
-            <span>{goalData.note}</span>
-          </div>
+          {goalData.note && (
+            <div className="flex pt-5 text-sm font-normal">
+              <h2 className="font-semibold">Note:- </h2>
+              <span>{goalData.note}</span>
+            </div>
+          )}
         </div>
       </CardDescription>
-      <Separator className="px-3 sm:px-6" />
+      <Separator />
       <CardContent>
         <div className="grid gap-11 md:grid-cols-2">
           <div>
-            <div className="flex items-center justify-between">
-              <div className="text-2xl font-bold">
-                <h1>Your Goal's Transactions</h1>
+            <div className="flex items-center justify-between pt-7 sm:pt-0">
+              <div className="text-lg font-bold md:text-2xl">
+                <h1>
+                  <span className="hidden sm:inline-flex">Your Goal's </span>
+                  Transactions
+                </h1>
               </div>
               <CreateGoalTransaction goalId={goalData.id} />
             </div>

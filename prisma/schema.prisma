@@ -33,7 +33,7 @@ model User {
 
 model Transaction {
   id              String          @id @default(uuid())
-  user            User            @relation(fields: [userId], references: [id])
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId          String
   amount          Float
   type            TransactionType
@@ -54,7 +54,7 @@ enum TransactionType {
 model Invoice {
   id            String        @id @default(uuid())
   draftName     String
-  user          User          @relation(fields: [userId], references: [id])
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        String
   totalAmount   Float
   issueDate     DateTime      @default(now())
@@ -79,7 +79,7 @@ model Product {
   unitPrice  Float
   totalPrice Float
   invoiceId  String
-  Invoice    Invoice? @relation(fields: [invoiceId], references: [id])
+  Invoice    Invoice? @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
 }
 
 enum InvoiceStatus {
@@ -101,7 +101,7 @@ enum PaymentMethod {
 model Goal {
   id              String            @id @default(uuid())
   userId          String
-  user            User              @relation(fields: [userId], references: [id])
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   title           String
   note            String?
   targetAmount    Float
@@ -130,7 +130,7 @@ enum Reminder {
 model GoalTransaction {
   id        String   @id @default(uuid())
   goalId    String
-  goal      Goal     @relation(fields: [goalId], references: [id])
+  goal      Goal     @relation(fields: [goalId], references: [id], onDelete: Cascade)
   amount    Float
   createdAt DateTime @default(now())
 }
