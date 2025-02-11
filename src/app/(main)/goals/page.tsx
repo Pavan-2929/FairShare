@@ -12,7 +12,10 @@ const WalletPage = async () => {
     <div className="flex flex-col gap-7">
       <div className="flex items-center justify-between">
         <div className="text-2xl font-bold">
-          <h1>Keep Track on your Goals</h1>
+          <h1>
+            <span className="hidden md:inline-flex">Keep Track on your</span>{" "}
+            Goals
+          </h1>
         </div>
         <div className="flex items-center gap-2">
           <Button variant="outline">₹{user.wallet}</Button>

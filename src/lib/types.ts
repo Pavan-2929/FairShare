@@ -70,12 +70,19 @@ export type GoalType = {
   note: string | null;
   targetAmount: number;
   currentAmount: number;
-  completionDate: Date | null;
+  completionDate: Date;
   status: "active" | "completed" | "cancelled";
   category: string;
   priority: "low" | "medium" | "high";
-  image: string | null;
+  image: string;
   reminder: "daily" | "every_3_days" | "weekly" | "biweekly" | "monthly";
   createdAt: Date;
   updatedAt: Date;
+};
+
+export type GoalTransactionType = {
+  id: string;
+  goalId: string;
+  amount: number;
+  createdAt: Date;
 };

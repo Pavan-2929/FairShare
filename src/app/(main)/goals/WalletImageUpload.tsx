@@ -1,6 +1,11 @@
 "use client";
 
-import { FormField, FormItem, FormLabel } from "@/components/ui/form";
+import {
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import useSession from "@/utils/useSession";
 import Image from "next/image";
 import { redirect } from "next/navigation";
@@ -105,6 +110,7 @@ const WalletImageUpload = ({ control, name }: WalletImageUploadProps) => {
                 </div>
               </button>
             </div>
+            <FormMessage />
           </FormItem>
         )}
       />

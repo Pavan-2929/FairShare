@@ -29,6 +29,7 @@ import {
   CreditCardIcon,
   Heading,
   Heading1Icon,
+  Plus,
   PlusCircle,
   Text,
 } from "lucide-react";
@@ -115,8 +116,9 @@ const CreateGoal = () => {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button>
-          <PlusCircle />
-          Add Goals
+          <Plus />
+          Add
+          <span className="hidden sm:inline-flex">Goals</span>
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -175,7 +177,7 @@ const CreateGoal = () => {
                     name="targetAmount"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Goal's Amount</FormLabel>
+                        <FormLabel>Goal's Amount (₹)</FormLabel>
                         <FormControl>
                           <FormInput
                             type="number"

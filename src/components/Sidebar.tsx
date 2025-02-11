@@ -108,11 +108,11 @@ const Sidebar = () => {
             <Button
               variant="ghost"
               className={`flex w-full items-center justify-start space-x-2 rounded-md px-4 py-2 transition-all duration-300 ${
-                isActive("/wallet")
+                isActive("/goals")
                   ? "bg-muted text-primary"
                   : "text-muted-foreground hover:bg-muted"
               }`}
-              onClick={() => router.push("/wallet")}
+              onClick={() => router.push("/goals")}
             >
               <CreditCard className="h-5 w-5" />
               <span className="hidden lg:inline-flex">

@@ -27,6 +27,7 @@ import React from "react";
 import { Progress } from "@/components/ui/progress";
 import { formatDistanceToNow } from "date-fns";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface GoalProps {
   goalData: GoalType;
@@ -76,13 +77,13 @@ const Goal = ({ goalData }: GoalProps) => {
             {goalData.note || "No additional notes."}
           </p>
         </CardDescription>
-        <CardContent className="sm:p-0 space-y-3">
+        <CardContent className="space-y-3 sm:p-0 p-0">
           {/* Progress Section */}
           <div className="flex flex-col gap-1 pb-5">
             <div className="flex items-center justify-between">
               <span>Progress</span>
               <span>
-                {goalData.currentAmount} / {goalData.targetAmount}
+                ₹ {goalData.currentAmount} / {goalData.targetAmount}
               </span>
             </div>
             <Progress value={progressValue} className="h-2" />
@@ -111,9 +112,14 @@ const Goal = ({ goalData }: GoalProps) => {
             <p className="text-[13px] text-muted-foreground">
               {formatDistanceToNow(new Date(goalData.createdAt))}
             </p>
-            <Button variant="outline" className="z-50 bg-transparent/35 hover:bg-transparent">
-            <span>Explore</span>
-            <ArrowRight className="ml-2 size-4"/>
+            <Button
+              variant="outline"
+              className="z-50 bg-transparent/35 hover:bg-transparent"
+            >
+              <Link href={`/goal/${goalData.id}`} className="flex items-center">
+                <span>Explore</span>
+                <ArrowRight className="ml-2 size-4" />
+              </Link>
             </Button>
           </div>
         </CardContent>
