@@ -139,7 +139,7 @@ model GoalTransaction {
 enum GoalStatus {
   active
   completed
-  canceled
+  cancelled
 }
 
 enum PriorityLevel {

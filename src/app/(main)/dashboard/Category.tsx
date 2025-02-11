@@ -67,25 +67,6 @@ const Category = () => {
     "investment",
     "freelance",
   ];
-  // const calculateTotal = (
-  //   categories: string[],
-  //   transactions: TransactionType[],
-  // ) => {
-  //   const totals: { category: string; total: number }[] = [];
-
-  //   categories.forEach((category) => {
-  //     let total = 0;
-
-  //     transactions.forEach((transaction) => {
-  //       if (transaction.category === category) {
-  //         total += transaction.amount;
-  //       }
-  //     });
-  //     totals.push({ category, total });
-  //   });
-
-  //   return totals;
-  // };
 
   const calculateTotal = (
     categires: string[],

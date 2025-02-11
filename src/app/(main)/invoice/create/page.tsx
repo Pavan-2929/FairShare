@@ -132,7 +132,7 @@ const CreateTransactionPage = () => {
     } catch (error) {
       console.log(error);
       toast({
-        variant: "destructive", 
+        variant: "destructive",
         title: "Error",
         description: "Failed to create invoice. Please try again later.",
       });
@@ -150,7 +150,7 @@ const CreateTransactionPage = () => {
             Fill the below details to create new invoice
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent >
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
               <div className="pt-8 md:w-1/2 md:py-0 md:pr-4">

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useTransition } from "react";
 import {
   Dialog,
   DialogContent,
@@ -52,11 +52,19 @@ import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import createGoalAction from "./actions";
 import { Input } from "@/components/ui/input";
+import LoadingButton from "@/components/controls/LoadingButton";
+import { useRouter } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
+import { GoalType } from "@/lib/types";
 
 const CreateGoal = () => {
   const [step, setStep] = useState(1);
   const [error, setError] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [isPending, startTransition] = useTransition();
+
+  const router = useRouter();
+  const queryClient = useQueryClient();
 
   const form = useForm<GoalValues>({
     resolver: zodResolver(goalSchema),
@@ -72,15 +80,24 @@ const CreateGoal = () => {
     },
   });
 
-  const handleSubmit = async (values: GoalValues) => {
-    try {
-      console.log("Submitting values:", values);
-      await createGoalAction(values);
-      setIsOpen(false);
-    } catch (error) {
-      console.error("Error submitting goal:", error);
-      setError("Failed to create the goal. Please check your input.");
-    }
+  const handleSubmit = (values: GoalValues) => {
+    startTransition(async () => {
+      try {
+        const newGoal = await createGoalAction(values);
+
+        queryClient.invalidateQueries({
+          queryKey: ["goals"],
+        });
+
+        queryClient.setQueryData(["goals"], (oldData: GoalType[]) => {
+          return oldData ? [newGoal, ...oldData] : [newGoal];
+        });
+        setIsOpen(false);
+      } catch (error) {
+        console.error(error);
+        setError("Failed to create the goal. Please check your input.");
+      }
+    });
   };
 
   const categories = [
@@ -329,7 +346,9 @@ const CreateGoal = () => {
                     >
                       Back
                     </Button>
-                    <Button type="submit">Submit</Button>
+                    <LoadingButton loading={isPending} type="submit">
+                      Submit
+                    </LoadingButton>
                   </div>
                 ) : (
                   <Button type="button" onClick={() => setStep(2)}>

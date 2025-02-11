@@ -21,7 +21,7 @@ export default async function createGoalAction(values: GoalValues) {
 
     const user = await getUser();
 
-    await prisma.goal.create({
+    const newGoal = await prisma.goal.create({
       data: {
         userId: user.id,
         title,
@@ -34,6 +34,8 @@ export default async function createGoalAction(values: GoalValues) {
         reminder,
       },
     });
+
+    return newGoal;
   } catch (error) {
     console.error("Failed to create goals", error);
     throw new Error("Something went wrong while creating the goals status.");

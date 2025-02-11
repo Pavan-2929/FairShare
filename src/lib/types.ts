@@ -62,3 +62,20 @@ export type ProductType = {
   totalPrice: number;
   invoiceId: string;
 };
+
+export type GoalType = {
+  id: string;
+  userId: string;
+  title: string;
+  note: string | null;
+  targetAmount: number;
+  currentAmount: number;
+  completionDate: Date | null;
+  status: "active" | "completed" | "cancelled";
+  category: string;
+  priority: "low" | "medium" | "high";
+  image: string | null;
+  reminder: "daily" | "every_3_days" | "weekly" | "biweekly" | "monthly";
+  createdAt: Date;
+  updatedAt: Date;
+};
