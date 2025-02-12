@@ -48,32 +48,3 @@ export async function updateUserOtherDetails(values: UserOtherDetailsValues) {
 
   return newUser;
 }
-
-export async function updateUserWallet(values: TransactionValues) {
-  const { amount, type } = values;
-
-  const user = await getUser();
-
-  if (!user) {
-    throw new Error("Unauthorized");
-  }
-
-  let walletMoney = user.wallet;
-
-  if (type === "expense") {
-    walletMoney -= amount;
-  } else {
-    walletMoney += amount;
-  }
-
-  const newUser = await prisma.user.update({
-    where: {
-      id: user.id,
-    },
-    data: {
-      wallet: walletMoney,
-    },
-  });
-
-  return newUser;
-}

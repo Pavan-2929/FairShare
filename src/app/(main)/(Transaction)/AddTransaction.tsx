@@ -38,10 +38,9 @@ import {
 } from "@/components/ui/popover";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
-import { addTransactionAction } from "./actions";
+import { addTransactionHandler } from "./actions";
 import LoadingButton from "@/components/controls/LoadingButton";
 import { useQueryClient } from "@tanstack/react-query";
-import { updateUserWallet } from "../profile/actions";
 import { authClient } from "@/lib/auth-client";
 
 type oldDataType = {
@@ -75,14 +74,13 @@ const AddTransaction = () => {
     setError(null);
 
     try {
-      const newTransaction = await addTransactionAction(values);
-      const userData = await updateUserWallet(values);
+      const { newTransaction, newUser } = await addTransactionHandler(values);
 
       authClient.updateUser({
-        name: userData.name,
-        image: userData.image,
+        name: newUser.name,
+        image: newUser.image,
       });
-      
+
       form.reset();
       setIsOpen(false);
 
@@ -98,9 +96,13 @@ const AddTransaction = () => {
           totalTransactions: oldData.totalTransactions + 1,
         };
       });
-    } catch (err) {
+    } catch (err: unknown) {
       console.error(err);
-      setError("Failed to add transaction. Please try again.");
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Failed to create the Transaction.");
+      }
     } finally {
       setLoading(false);
     }

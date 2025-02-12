@@ -13,11 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { CreditCardIcon, Plus } from "lucide-react";
 import React, { useState, useTransition } from "react";
-import {
-  addGoalTransaction,
-  updateGoalCurrentValue,
-  updateUserWalletFromGoalsTransaction,
-} from "./actions";
+import { handleGoalTransaction } from "./actions";
 import { useQueryClient } from "@tanstack/react-query";
 import { GoalTransactionType, GoalType } from "@/lib/types";
 import { authClient } from "@/lib/auth-client";
@@ -47,12 +43,11 @@ const CreateGoalTransaction = ({ goalId }: CreateGoalTransactionProps) => {
     if (!amount) return;
     startTransition(async () => {
       try {
-        const [updatedGoal, updatedUser, newGoalTransaction] =
-          await Promise.all([
-            updateGoalCurrentValue({ amount, goalId }),
-            updateUserWalletFromGoalsTransaction(amount),
-            addGoalTransaction({ amount, goalId }),
-          ]);
+        const { updatedGoal, updatedUser, newGoalTransaction } =
+          await handleGoalTransaction({
+            amount,
+            goalId,
+          });
 
         queryClient.invalidateQueries({
           queryKey: ["goals"],
@@ -94,7 +89,7 @@ const CreateGoalTransaction = ({ goalId }: CreateGoalTransactionProps) => {
           setShowConfetti(true);
           setTimeout(() => {
             setShowConfetti(false);
-            router.refresh(); 
+            router.refresh();
           }, 5000);
         } else {
           router.refresh();

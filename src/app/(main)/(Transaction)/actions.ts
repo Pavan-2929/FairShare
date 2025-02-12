@@ -7,12 +7,35 @@ import { TransactionValues } from "@/lib/validations";
 import TransactionMailer from "../../../../emails/TransactionsMailer";
 import { authClient } from "@/lib/auth-client";
 
-export const addTransactionAction = async (credentials: TransactionValues) => {
-  try {
+export const addTransactionHandler = async (credentials: TransactionValues) => {
+  return await prisma.$transaction(async () => {
     const { amount, note, type, category, TransactionDate } = credentials;
 
     const user = await getUser();
 
+    // update user wallet
+    let walletMoney = user.wallet;
+
+    if (type === "expense") {
+      walletMoney -= amount;
+    } else {
+      walletMoney += amount;
+    }
+
+    if (walletMoney < 0) {
+      throw new Error("Insufficient funds in wallet.");
+    }
+
+    const newUser = await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        wallet: walletMoney,
+      },
+    });
+
+    // Create new Transaction
     const newTransaction = await prisma.transaction.create({
       data: {
         userId: user.id,
@@ -31,13 +54,8 @@ export const addTransactionAction = async (credentials: TransactionValues) => {
       },
     });
 
-    
-
-    return newTransaction;
-  } catch (error) {
-    console.error("Failed to add transaction:", error);
-    throw new Error("Something went wrong while adding the transaction.");
-  }
+    return { newTransaction, newUser };
+  });
 };
 
 export const deleteTransactionAction = async (transactionId: string) => {
