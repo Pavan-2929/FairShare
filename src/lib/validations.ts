@@ -83,7 +83,6 @@ export const goalSchema = z.object({
   completionDate: z.date(),
   category: requiredString,
   priority: z.enum(["low", "medium", "high"]),
-  reminder: z.enum(["daily", "every_3_days", "weekly", "biweekly", "monthly"]),
 });
 
 export type GoalValues = z.infer<typeof goalSchema>;

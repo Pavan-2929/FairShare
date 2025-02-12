@@ -22,6 +22,7 @@ import {
 import React from "react";
 import CreateGoalTransaction from "./CreateGoalTransaction";
 import GoalTransactions from "./GoalTransactions";
+import GoalTransactionMore from "./GoalTransactionMore";
 
 type Params = Promise<{ goalId: string }>;
 
@@ -64,7 +65,7 @@ const GoalPage = async ({ params }: GoalPageProps) => {
             <Badge className="px-3 py-1.5" variant="outline">
               {goalData.status}
             </Badge>
-            <MoreHorizontal className="size-5 text-muted-foreground" />
+            <GoalTransactionMore goalData={goalData} />
           </div>
         </CardTitle>
       </CardHeader>
@@ -103,10 +104,6 @@ const GoalPage = async ({ params }: GoalPageProps) => {
             </div>
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3">
-                <BellIcon className="size-5 text-base text-primary" />
-                <p>Reminder: {goalData.reminder}</p>
-              </div>
-              <div className="flex items-center gap-3">
                 <StarIcon className="size-5 text-base text-primary" />
                 <p>{goalData.category}</p>
               </div>
@@ -131,7 +128,13 @@ const GoalPage = async ({ params }: GoalPageProps) => {
                   Transactions
                 </h1>
               </div>
-              <CreateGoalTransaction goalId={goalData.id} />
+              {goalData.status === "completed" ? (
+                <Button variant="outline">Completed 🎉</Button>
+              ) : goalData.status === "cancelled" ? (
+                <></>
+              ) : (
+                <CreateGoalTransaction goalId={goalData.id} />
+              )}
             </div>
             <GoalTransactions goalId={goalData.id} />
           </div>

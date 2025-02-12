@@ -75,7 +75,6 @@ const CreateGoal = () => {
       category: "travel",
       image: "",
       priority: "medium",
-      reminder: "biweekly",
       completionDate: new Date(new Date().setDate(new Date().getDate() + 4)),
       targetAmount: 0 as number,
     },
@@ -110,7 +109,6 @@ const CreateGoal = () => {
     "other",
   ];
   const priorities = ["low", "medium", "high"];
-  const reminders = ["daily", "every_3_days", "weekly", "biweekly", "monthly"];
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -257,31 +255,6 @@ const CreateGoal = () => {
                           </SelectTrigger>
                           <SelectContent>
                             {priorities.map((item) => (
-                              <SelectItem key={item} value={item}>
-                                {item}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="reminder"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Goal's Priority</FormLabel>
-                        <Select
-                          defaultValue={field.value}
-                          onValueChange={field.onChange}
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a Priority" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {reminders.map((item) => (
                               <SelectItem key={item} value={item}>
                                 {item}
                               </SelectItem>

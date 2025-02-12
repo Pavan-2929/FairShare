@@ -74,3 +74,32 @@ export const updateGoalCurrentValue = async ({
 
   return updatedGoal;
 };
+
+export const changeStatusToCancelled = async (goalId: string) => {
+  await prisma.goal.update({
+    where: {
+      id: goalId,
+    },
+    data: {
+      status: "cancelled",
+    },
+  });
+};
+export const changeStatusToActive = async (goalId: string) => {
+  await prisma.goal.update({
+    where: {
+      id: goalId,
+    },
+    data: {
+      status: "active",
+    },
+  });
+};
+
+export const deleteGoal = async (goalId: string) => {
+  await prisma.goal.delete({
+    where: {
+      id: goalId,
+    },
+  });
+};

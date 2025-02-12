@@ -14,7 +14,6 @@ export default async function createGoalAction(values: GoalValues) {
       image,
       note,
       priority,
-      reminder,
       targetAmount,
       title,
     } = goalSchema.parse(values);
@@ -31,7 +30,6 @@ export default async function createGoalAction(values: GoalValues) {
         completionDate,
         category,
         priority,
-        reminder,
       },
     });
 

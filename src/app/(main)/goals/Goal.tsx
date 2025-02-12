@@ -73,7 +73,7 @@ const Goal = ({ goalData }: GoalProps) => {
           </div>
         </CardTitle>
         <CardDescription className="py-3">
-          <p className="text-sm font-medium tracking-wide">
+          <p className="text-sm font-medium tracking-wide line-clamp-1">
             {goalData.note || "No additional notes."}
           </p>
         </CardDescription>
@@ -97,11 +97,6 @@ const Goal = ({ goalData }: GoalProps) => {
               </p>
             </div>
           )}
-
-          <div className="flex items-center gap-3">
-            <BellIcon className="size-4 text-primary" />
-            <p className="text-sm">Reminder: {goalData.reminder}</p>
-          </div>
 
           <div className="flex items-center gap-3">
             <StarIcon className="size-4 text-primary" />

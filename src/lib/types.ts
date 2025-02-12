@@ -75,7 +75,6 @@ export type GoalType = {
   category: string;
   priority: "low" | "medium" | "high";
   image: string;
-  reminder: "daily" | "every_3_days" | "weekly" | "biweekly" | "monthly";
   createdAt: Date;
   updatedAt: Date;
 };

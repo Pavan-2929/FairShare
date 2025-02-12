@@ -47,11 +47,11 @@ const CreateGoalTransaction = ({ goalId }: CreateGoalTransactionProps) => {
     if (!amount) return;
     startTransition(async () => {
       try {
-        const [newGoalTransaction, updatedUser, updatedGoal] =
+        const [updatedGoal, updatedUser, newGoalTransaction] =
           await Promise.all([
-            addGoalTransaction({ amount, goalId }),
-            updateUserWalletFromGoalsTransaction(amount),
             updateGoalCurrentValue({ amount, goalId }),
+            updateUserWalletFromGoalsTransaction(amount),
+            addGoalTransaction({ amount, goalId }),
           ]);
 
         queryClient.invalidateQueries({
@@ -92,10 +92,14 @@ const CreateGoalTransaction = ({ goalId }: CreateGoalTransactionProps) => {
 
         if (updatedGoal.status === "completed") {
           setShowConfetti(true);
-          setTimeout(() => setShowConfetti(false), 5000);
+          setTimeout(() => {
+            setShowConfetti(false);
+            router.refresh(); 
+          }, 5000);
+        } else {
+          router.refresh();
         }
 
-        router.refresh();
         setAmount(100);
         setIsOpen(false);
       } catch (error: unknown) {
@@ -143,8 +147,16 @@ const CreateGoalTransaction = ({ goalId }: CreateGoalTransactionProps) => {
               onChange={(e) => setAmount(Number(e.target.value))}
             />
             <DialogFooter className="flex gap-3 pt-7">
-              <Button variant="outline">Cancel</Button>
-              <LoadingButton loading={isPending}>Add</LoadingButton>
+              <Button
+                onClick={() => setIsOpen(false)}
+                type="button"
+                variant="outline"
+              >
+                Cancel
+              </Button>
+              <LoadingButton type="submit" loading={isPending}>
+                Add
+              </LoadingButton>
             </DialogFooter>
           </form>
         </DialogContent>
