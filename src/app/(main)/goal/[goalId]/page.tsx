@@ -23,6 +23,7 @@ import React from "react";
 import CreateGoalTransaction from "./CreateGoalTransaction";
 import GoalTransactions from "./GoalTransactions";
 import GoalTransactionMore from "./GoalTransactionMore";
+import Image from "next/image";
 
 type Params = Promise<{ goalId: string }>;
 
@@ -71,10 +72,12 @@ const GoalPage = async ({ params }: GoalPageProps) => {
       </CardHeader>
       <CardDescription className="grid grid-cols-1 gap-11 p-3 text-[15px] font-semibold leading-8 tracking-wider sm:p-6 md:grid-cols-2">
         <div>
-          <img
+          <Image
             src={goalData.image}
             alt="image"
             className="max-h-60 w-full rounded-sm object-cover"
+            width={600}
+            height={240}
           />
         </div>
         <div className="flex flex-col gap-3">
@@ -124,7 +127,9 @@ const GoalPage = async ({ params }: GoalPageProps) => {
             <div className="flex items-center justify-between pt-7 sm:pt-0">
               <div className="text-lg font-bold md:text-2xl">
                 <h1>
-                  <span className="hidden sm:inline-flex">Your Goal's </span>
+                  <span className="hidden sm:inline-flex">
+                    Your Goal&apos;s{" "}
+                  </span>
                   Transactions
                 </h1>
               </div>
@@ -138,7 +143,7 @@ const GoalPage = async ({ params }: GoalPageProps) => {
             </div>
             <GoalTransactions goalId={goalData.id} />
           </div>
-          <div>Other content</div>
+          <div className="hidden">Other content</div>
         </div>
       </CardContent>
     </Card>

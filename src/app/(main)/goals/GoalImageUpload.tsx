@@ -14,9 +14,10 @@ import { Control } from "react-hook-form";
 import Placeholder from "@/assets/Placeholder.png";
 import { CameraIcon, Loader2 } from "lucide-react";
 import kyInstance from "@/lib/ky";
+import { GoalValues } from "@/lib/validations";
 
-interface WalletImageUploadProps {
-  control: Control<any>;
+interface GoalImageUploadProps {
+  control: Control<GoalValues>;
   name: string;
 }
 
@@ -24,7 +25,7 @@ interface CloudinaryResponseProps {
   secure_url: string;
 }
 
-const WalletImageUpload = ({ control, name }: WalletImageUploadProps) => {
+const GoalImageUpload = ({ control, name }: GoalImageUploadProps) => {
   const { user } = useSession();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState<string>("");
@@ -69,7 +70,7 @@ const WalletImageUpload = ({ control, name }: WalletImageUploadProps) => {
   return (
     <>
       <FormField
-        name={name}
+        name="image"
         control={control}
         render={({ field }) => (
           <FormItem>
@@ -118,4 +119,4 @@ const WalletImageUpload = ({ control, name }: WalletImageUploadProps) => {
   );
 };
 
-export default WalletImageUpload;
+export default GoalImageUpload;

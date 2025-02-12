@@ -20,6 +20,7 @@ import { authClient } from "@/lib/auth-client";
 import { redirect, useRouter } from "next/navigation";
 import { useWindowSize } from "react-use";
 import Confetti from "react-confetti";
+import { useToast } from "@/hooks/use-toast";
 
 interface CreateGoalTransactionProps {
   goalId: string;
@@ -33,6 +34,7 @@ const CreateGoalTransaction = ({ goalId }: CreateGoalTransactionProps) => {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const { width, height } = useWindowSize();
+  const { toast } = useToast();
 
   const queryClient = useQueryClient();
   let result;
@@ -86,6 +88,10 @@ const CreateGoalTransaction = ({ goalId }: CreateGoalTransactionProps) => {
         );
 
         if (updatedGoal.status === "completed") {
+          toast({
+            title: "Goal Completed",
+            description: "Your goal has been completed!",
+          });
           setShowConfetti(true);
           setTimeout(() => {
             setShowConfetti(false);
@@ -96,6 +102,10 @@ const CreateGoalTransaction = ({ goalId }: CreateGoalTransactionProps) => {
         }
 
         setAmount(100);
+        toast({
+          title: "Transaction Successful",
+          description: "Goal transaction created successfully.",
+        });
         setIsOpen(false);
       } catch (error: unknown) {
         console.error(error);
@@ -130,7 +140,12 @@ const CreateGoalTransaction = ({ goalId }: CreateGoalTransactionProps) => {
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Select amount to add into your goal</DialogTitle>
+            <DialogTitle>
+              Select amount{" "}
+              <span className="hidden sm:inline-flex">
+                to add into your goal
+              </span>
+            </DialogTitle>
           </DialogHeader>
           {error && <p className="mb-3 text-red-500">{error}</p>}{" "}
           <form onSubmit={handleSubmit}>

@@ -76,10 +76,7 @@ export const goalSchema = z.object({
   title: requiredString,
   note: z.string().trim().optional(),
   image: z.string().trim().min(1, "required"),
-  targetAmount: z
-    .number()
-    .min(1, "Min value should be 1")
-    .max(500000, "Max value should be 1000"),
+  targetAmount: z.coerce.number().min(1, "required"),
   completionDate: z.date(),
   category: requiredString,
   priority: z.enum(["low", "medium", "high"]),

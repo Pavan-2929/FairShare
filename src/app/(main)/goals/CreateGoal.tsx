@@ -33,7 +33,7 @@ import {
   PlusCircle,
   Text,
 } from "lucide-react";
-import WalletImageUpload from "./WalletImageUpload";
+import WalletImageUpload from "./GoalImageUpload";
 import { FormInput } from "@/components/controls/FormInput";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -57,6 +57,7 @@ import LoadingButton from "@/components/controls/LoadingButton";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import { GoalType } from "@/lib/types";
+import { useToast } from "@/hooks/use-toast";
 
 const CreateGoal = () => {
   const [step, setStep] = useState(1);
@@ -64,8 +65,8 @@ const CreateGoal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
 
-  const router = useRouter();
   const queryClient = useQueryClient();
+  const { toast } = useToast();
 
   const form = useForm<GoalValues>({
     resolver: zodResolver(goalSchema),
@@ -76,7 +77,7 @@ const CreateGoal = () => {
       image: "",
       priority: "medium",
       completionDate: new Date(new Date().setDate(new Date().getDate() + 4)),
-      targetAmount: 0 as number,
+      targetAmount: 0,
     },
   });
 
@@ -92,6 +93,11 @@ const CreateGoal = () => {
         queryClient.setQueryData(["goals"], (oldData: GoalType[]) => {
           return oldData ? [newGoal, ...oldData] : [newGoal];
         });
+        toast({
+          title: "success",
+          description: "Goal created successfully!",
+        });
+        form.reset();
         setIsOpen(false);
       } catch (error) {
         console.error(error);
@@ -123,17 +129,17 @@ const CreateGoal = () => {
         <DialogHeader>
           <DialogTitle className="pb-5">
             {step === 1 ? "Create your Goal" : "Set-up your goal"}
+            {error && (
+              <p className="text-medium pt-5 text-center text-destructive">
+                {error}
+              </p>
+            )}
           </DialogTitle>
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(handleSubmit)}
               className="space-y-3"
             >
-              {error && (
-                <p className="text-medium text-center text-destructive">
-                  {error}
-                </p>
-              )}
               {step === 1 && (
                 <>
                   <WalletImageUpload control={form.control} name="image" />
@@ -176,18 +182,14 @@ const CreateGoal = () => {
                     name="targetAmount"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Goal's Amount (₹)</FormLabel>
+                        <FormLabel>Goal&apos;s Amount (₹)</FormLabel>
                         <FormControl>
                           <FormInput
-                            type="number"
                             icon={
                               <CreditCardIcon className="size-4 text-primary" />
                             }
                             placeholder="Enter amount of your goal"
-                            onChange={(e) =>
-                              field.onChange(Number(e.target.value))
-                            }
-                            value={field.value}
+                            {...field}
                           />
                         </FormControl>
                         <FormMessage />
@@ -204,7 +206,7 @@ const CreateGoal = () => {
                       name="category"
                       render={({ field }) => (
                         <FormItem className="flex-1">
-                          <FormLabel>Goal's Category</FormLabel>
+                          <FormLabel>Goal&apos;s Category</FormLabel>
                           <Select
                             defaultValue={field.value}
                             onValueChange={field.onChange}
@@ -245,7 +247,7 @@ const CreateGoal = () => {
                     name="priority"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Goal's Priority</FormLabel>
+                        <FormLabel>Goal&apos;s Priority</FormLabel>
                         <Select
                           defaultValue={field.value}
                           onValueChange={field.onChange}
@@ -270,7 +272,7 @@ const CreateGoal = () => {
                     name="completionDate"
                     render={({ field }) => (
                       <FormItem className="flex flex-col">
-                        <FormLabel>Goal's Priority</FormLabel>
+                        <FormLabel>Goal&apos;s Priority</FormLabel>
                         <Popover>
                           <PopoverTrigger asChild>
                             <FormControl>

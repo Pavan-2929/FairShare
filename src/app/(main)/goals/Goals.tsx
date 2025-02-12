@@ -17,7 +17,7 @@ const Goals = () => {
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-2 gap-7">
+      <div className="grid grid-cols-1 gap-7 md:grid-cols-2">
         <GoalLoader />
         <GoalLoader />
         <GoalLoader />
@@ -44,7 +44,7 @@ const Goals = () => {
   }
 
   return (
-    <div className="grid md:grid-cols-2 grid-cols-1 gap-7">
+    <div className="grid grid-cols-1 gap-7 md:grid-cols-2">
       {data.map((goal) => (
         <Goal key={goal.id} goalData={goal} />
       ))}

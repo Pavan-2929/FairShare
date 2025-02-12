@@ -23,7 +23,7 @@ const GoalLoader = () => {
           </div>
           <div className="flex items-center gap-3">
             <Skeleton className="h-5 w-5 rounded-full" />
-            <Skeleton className="h-5 w-20 rounded-md" />
+            <Skeleton className="h-5 md:w-20 w-5 rounded-md" />
           </div>
         </div>
 

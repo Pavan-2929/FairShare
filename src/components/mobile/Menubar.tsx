@@ -1,6 +1,7 @@
 "use client"; // Add this directive to make it a client component
 
 import {
+  CreditCardIcon,
   Files,
   Home,
   LucideLayoutDashboard,
@@ -77,13 +78,13 @@ const Menubar = () => {
             )}
           </Link>
 
-          <Link href="/target" className="relative">
-            <TargetIcon
+          <Link href="/goals" className="relative">
+            <CreditCardIcon
               className={`size-5 transition-colors ${
-                isActive("/target") ? "text-primary" : "text-foreground"
+                isActive("/goal") ? "text-primary" : "text-foreground"
               }`}
             />
-            {isActive("/target") && (
+            {isActive("/goal") && (
               <div className="absolute -top-1 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-primary" />
             )}
           </Link>

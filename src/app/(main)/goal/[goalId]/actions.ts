@@ -26,6 +26,22 @@ export const handleGoalTransaction = async ({
       throw new Error("Goal not found.");
     }
 
+    // Update User's wallet
+    const newWallet = user.wallet - amount;
+
+    if (newWallet < 0) {
+      throw new Error("You don't have enough balance in your wallet.");
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        wallet: newWallet,
+      },
+    });
+
     // Update Goal's CurrentAmount
     const totalCurrentAmount = amount + goal.currentAmount;
 
@@ -44,18 +60,6 @@ export const handleGoalTransaction = async ({
           increment: amount,
         },
         status: targetAchieved ? "completed" : "active",
-      },
-    });
-
-    // Update User's wallet
-    const newWallet = user.wallet - amount;
-
-    const updatedUser = await prisma.user.update({
-      where: {
-        id: user.id,
-      },
-      data: {
-        wallet: newWallet,
       },
     });
 
