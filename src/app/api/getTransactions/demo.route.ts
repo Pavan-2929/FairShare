@@ -19,35 +19,31 @@ export async function GET(request: NextRequest) {
 
     const skip = (page - 1) * limit;
 
-    const whereClause: any = {
-      userId: user.id,
-    };
+    const whereClause: any = { userId: user.id };
 
+    // Filter by type (income/expense)
     if (type) {
       whereClause.type = type;
     }
 
+    // Search by category
     if (search) {
-      whereClause.category = {
-        contains: search,
-        mode: "insensitive",
-      };
+      whereClause.category = { contains: search, mode: "insensitive" };
     }
 
     const orderBy: any = [];
 
+    // Sort by amount
     if (sortAmount) {
-      orderBy.push({
-        amount: sortAmount === "asc" ? "asc" : "desc",
-      });
+      orderBy.push({ amount: sortAmount === "asc" ? "asc" : "desc" });
     }
 
+    // Sort by date
     if (sortDate) {
-      orderBy.push({
-        createdAt: sortDate === "asc" ? "asc" : "desc",
-      });
+      orderBy.push({ TransactionDate: sortDate === "asc" ? "asc" : "desc" });
     }
 
+    // Default sorting by createdAt if no sorting is applied
     if (orderBy.length === 0) {
       orderBy.push({ createdAt: "desc" });
     }
@@ -59,7 +55,6 @@ export async function GET(request: NextRequest) {
         skip,
         take: limit,
       }),
-
       prisma.transaction.count({
         where: whereClause,
       }),

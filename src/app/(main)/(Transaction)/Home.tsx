@@ -4,7 +4,7 @@ import Transactions from "./Transactions";
 
 const Home = async () => {
   return (
-    <div className="space-y-10">
+    <div className="space-y-7">
       <div className="flex items-center justify-between gap-5 md:flex-row">
         <h1 className="hidden text-xl font-bold md:inline-flex md:text-2xl">
           Keep track of your budget

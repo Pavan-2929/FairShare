@@ -9,7 +9,15 @@ import {
   TableHead,
   TableCell,
 } from "@/components/ui/table";
-import { FileText, Calendar, InfoIcon } from "lucide-react";
+import {
+  FileText,
+  Calendar,
+  InfoIcon,
+  ArrowUp,
+  ArrowDown,
+  SearchIcon,
+  TimerResetIcon,
+} from "lucide-react";
 import TransactionActions from "./TransactionActions";
 import { cn } from "@/lib/utils";
 import {
@@ -25,18 +33,55 @@ import { useQuery } from "@tanstack/react-query";
 import kyInstance from "@/lib/ky";
 import { Button } from "@/components/ui/button";
 import TransactionLoader from "@/components/skeletonLoaders/TransactionLoader";
+import { FormInput } from "@/components/controls/FormInput";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { debounce, filter } from "lodash";
 
 const Transactions = () => {
   const [page, setPage] = useState(1);
+  const [filters, setFilters] = useState({
+    search: "",
+    type: "",
+    sortAmount: "",
+    sortDate: "",
+  });
   const limit = 15;
 
   const { data, isError, isLoading } = useQuery({
-    queryKey: ["transactions", page],
+    queryKey: ["transactions", page, filters],
     queryFn: async () =>
       kyInstance
-        .get(`/api/getTransactions?page=${page}&limit=${limit}`)
+        .get(
+          `/api/getTransactions?page=${page}&limit=${limit}&sortAmount=${filters.sortAmount}&sortDate=${filters.sortDate}&type=${filters.type}&search=${filters.search}`,
+        )
         .json<{ transactions: TransactionType[]; totalTransactions: number }>(),
   });
+
+  const resetFilters = () => {
+    setFilters({
+      search: "",
+      type: "",
+      sortAmount: "",
+      sortDate: "",
+    });
+    setPage(1);
+  };
+
+  const handleFilterChange = (key: string, value: string) => {
+    setFilters((prev) => ({ ...prev, [key]: value }));
+    setPage(1);
+  };
+
+  const handleSearchDebounced = debounce((value: string) => {
+    setFilters((prev) => ({ ...prev, search: value }));
+    setPage(1);
+  }, 500);
 
   if (isLoading) {
     return <TransactionLoader />;
@@ -57,10 +102,41 @@ const Transactions = () => {
   const { transactions, totalTransactions } = data;
   const totalPages = Math.ceil(totalTransactions / limit);
 
-  console.log(totalTransactions);
-
   return (
-    <>
+    <div className="space-y-7">
+      <div className="flex items-center justify-between gap-5">
+        <FormInput
+          icon={<SearchIcon className="size-4 text-muted-foreground" />}
+          className="h-9 min-w-full"
+          defaultValue={filters.search}
+          placeholder={
+            window.innerWidth < 768 ? "Category" : "Enter Category..."
+          }
+          onChange={(e) => handleSearchDebounced(e.target.value)}
+        />
+        <div className="flex items-center sm:gap-5">
+          <Select
+            value={filters.type}
+            onValueChange={(value) => handleFilterChange("type", value)}
+          >
+            <SelectTrigger className="space-x-2">
+              <SelectValue
+                placeholder={
+                  window.innerWidth < 768 ? "Type" : "Filter by type"
+                }
+              />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="income">Income</SelectItem>
+              <SelectItem value="expense">Expense</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button className="ml-2" variant="outline" onClick={resetFilters}>
+            <span className="hidden sm:inline-flex">Reset</span>{" "}
+            <TimerResetIcon />
+          </Button>
+        </div>
+      </div>
       {transactions.length <= 0 ? (
         <div className="flex flex-col items-center gap-4 pt-24 text-muted-foreground">
           <FileText className="size-10 text-muted-foreground md:size-16" />
@@ -80,10 +156,48 @@ const Transactions = () => {
             <TableHeader>
               <TableRow>
                 <TableHead>Category</TableHead>
-                <TableHead>Amount</TableHead>
+                <TableHead>
+                  <div
+                    onClick={() =>
+                      handleFilterChange(
+                        "sortAmount",
+                        filters.sortAmount === "asc" ? "desc" : "asc",
+                      )
+                    }
+                    className="flex cursor-pointer items-center gap-1"
+                  >
+                    <span> Amount</span>
+                    <div className="space-x-2 px-0">
+                      {filters.sortAmount === "asc" ? (
+                        <ArrowUp className="size-4 text-muted-foreground" />
+                      ) : (
+                        <ArrowDown className="size-4 text-muted-foreground" />
+                      )}
+                    </div>
+                  </div>
+                </TableHead>
                 <TableHead>Type</TableHead>
                 <TableHead>Note</TableHead>
-                <TableHead>Date</TableHead>
+                <TableHead>
+                  <div
+                    onClick={() =>
+                      handleFilterChange(
+                        "sortDate",
+                        filters.sortDate === "asc" ? "desc" : "asc",
+                      )
+                    }
+                    className="flex cursor-pointer items-center gap-1"
+                  >
+                    <span>Date</span>
+                    <div className="space-x-2 px-0">
+                      {filters.sortDate === "asc" ? (
+                        <ArrowUp className="size-4 text-muted-foreground" />
+                      ) : (
+                        <ArrowDown className="size-4 text-muted-foreground" />
+                      )}
+                    </div>
+                  </div>
+                </TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -156,7 +270,7 @@ const Transactions = () => {
           )}
         </>
       )}
-    </>
+    </div>
   );
 };
 

@@ -61,10 +61,10 @@ const AddTransaction = () => {
   const form = useForm<TransactionValues>({
     resolver: zodResolver(transactionSchema),
     defaultValues: {
-      amount: 0,
-      note: "",
+      amount: 500,
+      note: "abc",
       type: "expense",
-      category: "",
+      category: "food",
       TransactionDate: new Date(),
     },
   });
