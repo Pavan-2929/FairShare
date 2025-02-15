@@ -1,6 +1,21 @@
 import prisma from "@/lib/prisma";
 import { getUser } from "@/utils/getUser";
+import { TransactionType } from "@prisma/client";
 import { NextRequest } from "next/server";
+
+type WhereClauseType = {
+  userId: string;
+  type?: TransactionType;
+  category?: {
+    contains: string;
+    mode: "insensitive";
+  };
+};
+
+type OrderByType = {
+  amount?: "asc" | "desc";
+  createdAt?: "asc" | "desc";
+};
 
 export async function GET(request: NextRequest) {
   try {
@@ -19,12 +34,12 @@ export async function GET(request: NextRequest) {
 
     const skip = (page - 1) * limit;
 
-    const whereClause: any = {
+    const whereClause: WhereClauseType = {
       userId: user.id,
     };
 
     if (type) {
-      whereClause.type = type;
+      whereClause.type = type as TransactionType;
     }
 
     if (search) {
@@ -34,7 +49,7 @@ export async function GET(request: NextRequest) {
       };
     }
 
-    const orderBy: any = [];
+    const orderBy: OrderByType[] = [];
 
     if (sortAmount) {
       orderBy.push({
