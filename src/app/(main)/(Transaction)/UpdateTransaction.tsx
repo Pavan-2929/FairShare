@@ -55,9 +55,9 @@ const UpdateTransaction = ({
 }) => {
   const queryClinet = useQueryClient();
 
-  const [transactionCategory, setTransactionCategory] = useState<
-    "expense" | "income"
-  >(transactionData.type);
+  const [amountType, setAmountType] = useState<"expense" | "income">(
+    transactionData.type,
+  );
   const [category, setCategory] = useState<string>(transactionData.category);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -174,7 +174,7 @@ const UpdateTransaction = ({
                   <Select
                     onValueChange={(val) => {
                       field.onChange(val);
-                      setTransactionCategory(val as "expense" | "income");
+                      setAmountType(val as "expense" | "income");
                     }}
                     defaultValue={field.value}
                   >
@@ -212,7 +212,7 @@ const UpdateTransaction = ({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {categories[transactionCategory]?.map((category) => (
+                        {categories[amountType]?.map((category) => (
                           <SelectItem key={category} value={category}>
                             {category.charAt(0).toUpperCase() +
                               category.slice(1)}

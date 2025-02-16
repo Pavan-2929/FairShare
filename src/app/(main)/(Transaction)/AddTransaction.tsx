@@ -42,6 +42,8 @@ import { addTransactionHandler } from "./actions";
 import LoadingButton from "@/components/controls/LoadingButton";
 import { useQueryClient } from "@tanstack/react-query";
 import { authClient } from "@/lib/auth-client";
+import ScanTransaction from "./ScanTransaction";
+import Divider from "@/components/Divider";
 
 type oldDataType = {
   transactions: TransactionValues[];
@@ -50,9 +52,7 @@ type oldDataType = {
 const AddTransaction = () => {
   const queryClinet = useQueryClient();
 
-  const [transactionType, setTransactionType] = useState<"expense" | "income">(
-    "expense",
-  );
+  const [amountType, setAmountType] = useState<"expense" | "income">("expense");
   const [category, setCategory] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -61,10 +61,10 @@ const AddTransaction = () => {
   const form = useForm<TransactionValues>({
     resolver: zodResolver(transactionSchema),
     defaultValues: {
-      amount: 500,
-      note: "abc",
-      type: "expense",
-      category: "food",
+      amount: 0,
+      note: "",
+      type: undefined,
+      category: "",
       TransactionDate: new Date(),
     },
   });
@@ -108,6 +108,18 @@ const AddTransaction = () => {
     }
   };
 
+  const handleScanComplete = (data: TransactionValues) => {
+    if (data) {
+      form.setValue("amount", data.amount);
+      form.setValue("note", data.note);
+      form.setValue("type", data.type);
+      form.setValue("category", data.category);
+      form.setValue("TransactionDate", new Date(data.TransactionDate));
+
+      form.trigger();
+    }
+  };
+
   const categories = {
     expense: ["food", "electronics", "travel", "other"],
     income: ["salary", "freelance", "investment", "other"],
@@ -126,6 +138,9 @@ const AddTransaction = () => {
         <DialogHeader>
           <DialogTitle>Add new Transaction</DialogTitle>
         </DialogHeader>
+        <ScanTransaction onScanCompelete={handleScanComplete} />
+        <Divider />
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
             {error && (
@@ -140,7 +155,11 @@ const AddTransaction = () => {
                 <FormItem>
                   <FormLabel>Amount (₹)</FormLabel>
                   <FormControl>
-                    <Input placeholder="Amount" {...field} />
+                    <Input
+                      placeholder="Amount"
+                      {...field}
+                      className="bg-background"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -155,7 +174,7 @@ const AddTransaction = () => {
                   <FormControl>
                     <Textarea
                       placeholder="Notes..."
-                      className="resize-none"
+                      className="resize-none bg-background"
                       {...field}
                     />
                   </FormControl>
@@ -170,11 +189,11 @@ const AddTransaction = () => {
                 <FormItem>
                   <FormLabel>Transaction Type</FormLabel>
                   <Select
+                    value={form.watch("type")}
                     onValueChange={(val) => {
                       field.onChange(val);
-                      setTransactionType((val as "expense") || "income");
+                      setAmountType(val as "expense" | "income");
                     }}
-                    defaultValue={field.value}
                   >
                     <FormControl>
                       <SelectTrigger>
@@ -198,11 +217,11 @@ const AddTransaction = () => {
                   <FormItem className="flex-1">
                     <FormLabel>Category</FormLabel>
                     <Select
+                      value={form.watch("category")}
                       onValueChange={(val) => {
                         field.onChange(val);
-                        setCategory((val as string) || "");
+                        setCategory(val);
                       }}
-                      defaultValue={field.value}
                     >
                       <FormControl>
                         <SelectTrigger>
@@ -210,7 +229,7 @@ const AddTransaction = () => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {categories[transactionType]?.map((category) => (
+                        {categories[amountType]?.map((category) => (
                           <SelectItem key={category} value={category}>
                             {category.charAt(0).toUpperCase() +
                               category.slice(1)}
@@ -245,7 +264,7 @@ const AddTransaction = () => {
                 <FormItem className="flex flex-col">
                   <FormLabel>Transaction Date</FormLabel>
                   <Popover>
-                    <PopoverTrigger asChild className="bg-accent">
+                    <PopoverTrigger asChild>
                       <FormControl>
                         <Button
                           variant={"outline"}
