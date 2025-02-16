@@ -17,7 +17,7 @@ const ThemeToggler = () => {
   }
   return (
     <div
-      className="mr-12 cursor-pointer text-muted-foreground"
+      className="cursor-pointer text-muted-foreground"
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
     >
       {theme === "dark" ? (

@@ -1,4 +1,4 @@
-"use client"; // Add this directive to make it a client component
+"use client";
 
 import {
   CreditCardIcon,
