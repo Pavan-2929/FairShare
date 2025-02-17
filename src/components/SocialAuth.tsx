@@ -24,10 +24,6 @@ const SocialAuth = () => {
         },
         onSuccess: () => {
           setGithubLoading(false);
-          toast({
-            title: "Login Successful",
-            description: "You have successfully logged in with GitHub.",
-          });
         },
         onError: (ctx) => {
           toast({
@@ -53,10 +49,6 @@ const SocialAuth = () => {
         },
         onSuccess: () => {
           setGoogleLoading(false);
-          toast({
-            title: "Login Successful",
-            description: "You have successfully logged in with Google.",
-          });
         },
         onError: (ctx) => {
           setGoogleLoading(false);
