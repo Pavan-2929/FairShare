@@ -3,6 +3,7 @@ import { getUser } from "@/utils/getUser";
 import { FileText } from "lucide-react";
 import React from "react";
 import Invoice from "./Invoice";
+import { InvoiceType } from "@/lib/types";
 
 const Invoices = async () => {
   const user = await getUser();
@@ -35,7 +36,7 @@ const Invoices = async () => {
 
   return (
     <>
-      {InvoicesData.map((invoiceData) => (
+      {InvoicesData.map((invoiceData: InvoiceType) => (
         <div key={invoiceData.id}>
           <Invoice invoiceData={invoiceData} />
         </div>
