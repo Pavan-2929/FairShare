@@ -59,6 +59,8 @@ const GoalPage = async ({ params }: GoalPageProps) => {
     high: <AlertCircle className="size-5 text-destructive" />,
   };
 
+  const priority = goalData.priority as keyof typeof priorityIcons;
+
   return (
     <Card>
       <CardHeader>
@@ -101,7 +103,7 @@ const GoalPage = async ({ params }: GoalPageProps) => {
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="flex flex-col gap-3">
               <div className="flex items-center gap-3">
-                {priorityIcons[goalData.priority]}
+                {priorityIcons[priority]}
                 <p>{goalData.priority}</p>
               </div>
               <div className="flex items-center gap-3">
