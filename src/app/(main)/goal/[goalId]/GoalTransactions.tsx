@@ -16,6 +16,7 @@ import kyInstance from "@/lib/ky";
 import { GoalTransactionType } from "@/lib/types";
 import { Loader2 } from "lucide-react";
 import GoalTransactionLoader from "@/components/skeletonLoaders/GoalTransactionLoader";
+import { formatCurrency } from "@/utils/formatCurrency";
 
 interface GoalTransactionsProps {
   goalId: string;
@@ -72,7 +73,9 @@ const GoalTransactions = ({ goalId }: GoalTransactionsProps) => {
           {data.map((item, index) => (
             <TableRow key={index}>
               <TableCell>{index + 1}</TableCell>
-              <TableCell className="text-center">₹{item.amount}</TableCell>
+              <TableCell className="text-center">
+                {formatCurrency(item.amount)}
+              </TableCell>
               <TableCell className="text-end">
                 {formatDistanceStrict(new Date(item.createdAt), new Date())} ago
               </TableCell>

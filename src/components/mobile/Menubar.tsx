@@ -11,7 +11,8 @@ import {
 import Link from "next/link";
 import React from "react";
 import { usePathname } from "next/navigation";
-import logoImage from "@/assets/logo.png";
+import lightLogo from "@/assets/lightLogo.png";
+import darkLogo from "@/assets/darkLogo.png";
 import Image from "next/image";
 import UserButton from "../UserButton";
 
@@ -33,11 +34,18 @@ const Menubar = () => {
             href="/"
             className="mb-5 flex cursor-pointer items-center space-x-4 pt-3"
           >
-            <Image
-              src={logoImage}
-              alt="Logo"
-              className="h-10 w-10 rounded-full object-cover"
-            />
+            <div className="relative h-10 w-12 lg:ml-3 lg:w-14">
+              <Image
+                src={lightLogo}
+                alt="Logo"
+                className="absolute inset-0 hidden h-10 w-12 dark:block lg:w-14"
+              />
+              <Image
+                src={darkLogo}
+                alt="Logo"
+                className="absolute inset-0 h-10 w-12 dark:hidden lg:w-14"
+              />
+            </div>
             <h1 className="text-2xl font-bold text-primary">FairShare</h1>
           </Link>
           <UserButton />

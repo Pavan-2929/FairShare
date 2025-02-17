@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import InvoiceMore from "./InvoiceMore";
 import PaymentStatus from "./PaymentStatus";
+import { formatCurrency } from "@/utils/formatCurrency";
 
 interface InvoiceProps {
   invoiceData: InvoiceType;
@@ -179,8 +180,8 @@ const Invoice = ({ invoiceData }: InvoiceProps) => {
                     <TableCell className="h-20">{product.id}</TableCell>
                     <TableCell className="w-24">{product.name}</TableCell>
                     <TableCell>{product.quantity}</TableCell>
-                    <TableCell>₹{product.unitPrice}</TableCell>
-                    <TableCell>₹{product.totalPrice}</TableCell>
+                    <TableCell>{formatCurrency(product.unitPrice)}</TableCell>
+                    <TableCell>{formatCurrency(product.totalPrice)}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -190,7 +191,7 @@ const Invoice = ({ invoiceData }: InvoiceProps) => {
               <div className="flex flex-col space-y-2">
                 <div className="flex items-center gap-2 text-[15px]">
                   <CoinsIcon className="size-4" />
-                  <p>Total Amount: ₹{invoiceData.totalAmount}</p>
+                  <p>Total Amount: {formatCurrency(invoiceData.totalAmount)}</p>
                 </div>
                 <div className="flex items-center gap-2 text-[15px]">
                   <Wallet className="size-4" />

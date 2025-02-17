@@ -21,6 +21,7 @@ import { invoiceSchema, InvoiceValues } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   CalendarIcon,
+  FileWarning,
   Info,
   Mail,
   Phone,
@@ -30,12 +31,6 @@ import {
 } from "lucide-react";
 import React, { useTransition } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { FormInput } from "@/components/controls/FormInput";
 import {
   Popover,
@@ -65,11 +60,19 @@ import { Textarea } from "@/components/ui/textarea";
 import { CreateInvoiceAction } from "./actions";
 import LoadingButton from "@/components/controls/LoadingButton";
 import { useToast } from "@/hooks/use-toast";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { useRouter } from "next/navigation";
 
 const CreateTransactionPage = () => {
   const [isPending, startTransition] = useTransition();
 
   const { toast } = useToast();
+  const router = useRouter();
 
   const form = useForm<InvoiceValues>({
     resolver: zodResolver(invoiceSchema),
@@ -121,22 +124,23 @@ const CreateTransactionPage = () => {
   };
 
   const onSubmit = async (data: InvoiceValues) => {
-    try {
-      startTransition(async () => {
+    startTransition(async () => {
+      try {
         await CreateInvoiceAction(data);
-      });
-      toast({
-        title: "Success",
-        description: "Invoice created successfully!",
-      });
-    } catch (error) {
-      console.log(error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to create invoice. Please try again later.",
-      });
-    }
+        toast({
+          title: "Success",
+          description: "Invoice created successfully!",
+        });
+        router.push("/invoice");
+      } catch (error) {
+        console.log(error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Failed to create invoice. Please try again later.",
+        });
+      }
+    });
   };
 
   return (
@@ -150,7 +154,7 @@ const CreateTransactionPage = () => {
             Fill the below details to create new invoice
           </CardDescription>
         </CardHeader>
-        <CardContent >
+        <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-12">
               <div className="pt-8 md:w-1/2 md:py-0 md:pr-4">
@@ -411,7 +415,25 @@ const CreateTransactionPage = () => {
               {/* Product Information */}
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-xl">Products Details</CardTitle>
+                  <CardTitle className="flex items-center gap-3">
+                    <span>Products Details</span>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <Info className="size-5 text-destructive" />
+                        </TooltipTrigger>
+
+                        <TooltipContent>
+                          <p>
+                            <strong>Name:</strong> 1-20 chars,{" "}
+                            <strong>Quantity:</strong> ≥1,{" "}
+                            <strong>Unit Price:</strong> ₹0.01-₹1,00,00,000,{" "}
+                            <strong>Total Price:</strong> ₹0-₹1,00,00,00,000
+                          </p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <Table>

@@ -7,6 +7,11 @@ import LineCharts from "./LineCharts";
 import Category from "./Category";
 import prisma from "@/lib/prisma";
 import ShareTransaction from "../(Transaction)/ShareTransaction";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dashbaord",
+};
 
 const DashboardPage = async () => {
   const user = await getUser();

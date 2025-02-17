@@ -42,6 +42,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { debounce, filter } from "lodash";
+import { formatCurrency } from "@/utils/formatCurrency";
 
 const Transactions = () => {
   const [page, setPage] = useState(1);
@@ -107,7 +108,7 @@ const Transactions = () => {
       <div className="flex items-center justify-between gap-5">
         <FormInput
           icon={<SearchIcon className="size-4 text-muted-foreground" />}
-          className="h-9 min-w-full"
+          className="h-9 min-w-full lg:min-w-80"
           defaultValue={filters.search}
           placeholder={
             window.innerWidth < 768 ? "Category" : "Enter Category..."
@@ -213,7 +214,8 @@ const Transactions = () => {
                       "min-w-[100px] font-semibold",
                     )}
                   >
-                    {txn.type === "income" ? "+" : "-"} ₹{txn.amount}
+                    {txn.type === "income" ? "+" : "-"}
+                    {formatCurrency(txn.amount)}
                   </TableCell>
                   <TableCell className="min-w-[100px] capitalize">
                     {txn.type}

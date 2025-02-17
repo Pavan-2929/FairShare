@@ -20,27 +20,25 @@ const VerifyOTPForm = () => {
 
   const handleVerifyOTP = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
+
     await authClient.signIn.emailOtp(
       {
         email,
         otp: value,
       },
       {
-        onRequest: () => {
-          setLoading(true);
-        },
         onSuccess: () => {
           setValue("");
           router.push(`/`);
-          setLoading(false);
         },
         onError: (ctx) => {
           setError(ctx.error.message);
-          setLoading(false);
           console.error(ctx.error.message);
         },
       },
     );
+    setLoading(false);
   };
 
   return (

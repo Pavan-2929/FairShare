@@ -10,9 +10,12 @@ export const signinSchema = z.object({
 export type SignInValues = z.infer<typeof signinSchema>;
 
 export const transactionSchema = z.object({
-  amount: z.coerce.number().min(1, "required"),
+  amount: z.coerce
+    .number()
+    .min(1, "required")
+    .max(1000000, "Amount cannot exceed ₹10,00,000"),
   type: z.enum(["income", "expense"]),
-  category: requiredString,
+  category: requiredString.max(12, "Length cannot exceed 12 letters"),
   note: z.string().optional(),
   TransactionDate: z.date(),
 });
@@ -41,24 +44,45 @@ export type UpdateUserValues = z.infer<typeof updateUserSchema>;
 export const userOtherDetailsSchema = z.object({
   age: z.coerce.number().min(1, "required"),
   gender: z.enum(["male", "female", "other"]),
-  city: z.string().min(2, "City must be at least 2 characters"),
+  city: z
+    .string()
+    .min(2, "City must be at least 2 characters")
+    .max(20, "Length should not exceed 20 characters"),
 });
 
 export type UserOtherDetailsValues = z.infer<typeof userOtherDetailsSchema>;
 
 const productSchema = z.object({
-  name: z.string().min(1, "Product name is required"),
+  name: z
+    .string()
+    .min(1, "Product name is required")
+    .max(20, "Length should not exceed 20 characters"),
   quantity: z.number().min(1, "Quantity must be at least 1"),
-  unitPrice: z.number().min(0.01, "Unit price must be greater than 0"),
-  totalPrice: z.number().min(0, "Total price must be at least 0"),
+  unitPrice: z
+    .number()
+    .min(0.01, "Unit price must be greater than 0")
+    .max(10000000, "Amount cannot exceed ₹1,00,00,000"),
+  totalPrice: z
+    .number()
+    .min(0, "Total price must be at least 0")
+    .max(1000000000, "Amount cannot exceed ₹1,00,00,00,000"),
 });
 
 export const invoiceSchema = z.object({
-  draftName: z.string().min(1, "required"),
-  totalAmount: z.coerce.number().min(1, "Total amount is required"),
+  draftName: z
+    .string()
+    .min(1, "required")
+    .max(20, "Length should not exceed 20 characters"),
+  totalAmount: z.coerce
+    .number()
+    .min(1, "required")
+    .max(10000000, "Amount cannot exceed ₹1,00,00,000"),
   issueDate: z.date(),
   dueDate: z.date(),
-  clientName: z.string().min(1, "Client name is required"),
+  clientName: z
+    .string()
+    .min(1, "Client name is required")
+    .max(20, "Length should not exceed 20 characters"),
   clientEmail: z.string().email("Invalid email"),
   clientNumber: z
     .string()
@@ -73,12 +97,15 @@ export const invoiceSchema = z.object({
 export type InvoiceValues = z.infer<typeof invoiceSchema>;
 
 export const goalSchema = z.object({
-  title: requiredString,
+  title: requiredString.max(20, "Length should not exceed 20 characters"),
   note: z.string().trim().optional(),
   image: z.string().trim().min(1, "required"),
-  targetAmount: z.coerce.number().min(1, "required"),
+  targetAmount: z.coerce
+    .number()
+    .min(1, "required")
+    .max(1000000000, "Amount cannot exceed ₹1,00,00,00,000"),
   completionDate: z.date(),
-  category: requiredString,
+  category: requiredString.max(15, "Length should not exceed 15 characters"),
   priority: z.enum(["low", "medium", "high"]),
 });
 

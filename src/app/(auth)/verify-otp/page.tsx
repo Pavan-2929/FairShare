@@ -1,5 +1,5 @@
 import React from "react";
-import AuthImage from "@/assets/auth.png";
+import AuthImage from "@/assets/lightLogo.png";
 import Image from "next/image";
 import Divider from "@/components/Divider";
 import VerifyOTPForm from "./VeirfyOTPForm";

@@ -30,15 +30,6 @@ const UserButton = ({ className }: UserButtonProps) => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return null;
-  }
 
   if (!user || isPending) {
     return <Skeleton className="h-12 w-12 rounded-full" />;

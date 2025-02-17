@@ -3,8 +3,6 @@
 import prisma from "@/lib/prisma";
 import { invoiceSchema, InvoiceValues } from "@/lib/validations";
 import { getUser } from "@/utils/getUser";
-import { isRedirectError } from "next/dist/client/components/redirect-error";
-import { redirect } from "next/navigation";
 
 export const CreateInvoiceAction = async (values: InvoiceValues) => {
   try {
@@ -46,10 +44,7 @@ export const CreateInvoiceAction = async (values: InvoiceValues) => {
         clientNumber,
       },
     });
-
-    return redirect("/invoice");
   } catch (error) {
-    if (isRedirectError(error)) throw error;
     console.error("Failed to add Invoice:", error);
     throw new Error("Something went wrong.");
   }

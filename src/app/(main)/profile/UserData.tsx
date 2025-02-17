@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { redirect } from "next/navigation";
 import React from "react";
 import DeleteAccount from "./DeleteAcoount";
+import { formatCurrency } from "@/utils/formatCurrency";
 
 const UserData = () => {
   const { user } = useSession();
@@ -53,13 +54,13 @@ const UserData = () => {
             <div className="space-y-1 rounded-md border p-4 text-center">
               <p className="font-serif text-[15px] font-medium">Income</p>
               <p className="font-semibold text-green-600">
-                ₹{totalIncome.toFixed(2)}
+                {formatCurrency(totalIncome)}
               </p>
             </div>
             <div className="space-y-1 rounded-md border p-4 text-center">
               <p className="font-serif text-[15px] font-medium">Expense</p>
               <p className="font-semibold text-destructive">
-                ₹{totalExpense.toFixed(2)}
+                ₹{formatCurrency(totalExpense)}
               </p>
             </div>
           </div>

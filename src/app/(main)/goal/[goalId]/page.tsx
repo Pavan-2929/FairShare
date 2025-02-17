@@ -24,12 +24,19 @@ import CreateGoalTransaction from "./CreateGoalTransaction";
 import GoalTransactions from "./GoalTransactions";
 import GoalTransactionMore from "./GoalTransactionMore";
 import Image from "next/image";
+import { Metadata } from "next";
+import { formatCurrency } from "@/utils/formatCurrency";
 
 type Params = Promise<{ goalId: string }>;
 
 interface GoalPageProps {
   params: Params;
 }
+
+export const metadata: Metadata = {
+  title: "Goal",
+};
+
 const GoalPage = async ({ params }: GoalPageProps) => {
   const resolvedParams = await params;
   const goaldId = resolvedParams.goalId;
@@ -59,7 +66,7 @@ const GoalPage = async ({ params }: GoalPageProps) => {
           <div className="flex items-center gap-3">
             <h1 className="text-2xl font-bold">{goalData.title}</h1>
             <span className="pt-0.5 text-muted-foreground">
-              (₹{goalData.targetAmount})
+              ({formatCurrency(goalData.targetAmount)})
             </span>
           </div>
           <div className="flex items-center gap-3">
@@ -85,7 +92,8 @@ const GoalPage = async ({ params }: GoalPageProps) => {
             <div className="flex items-center justify-between pb-0.5">
               <span>Progress</span>
               <span>
-                ₹{goalData.currentAmount} / {goalData.targetAmount}
+                {formatCurrency(goalData.currentAmount)} /{" "}
+                {formatCurrency(goalData.targetAmount)}
               </span>
             </div>
             <Progress value={progressValue} className="h-2" />

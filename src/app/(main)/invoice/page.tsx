@@ -3,6 +3,11 @@ import { Plus } from "lucide-react";
 import React from "react";
 import Link from "next/link";
 import InvoiceDisplay from "./Invoices";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Invoice",
+};
 
 const InvoicePage = () => {
   return (
@@ -13,7 +18,7 @@ const InvoicePage = () => {
         <div className="flex gap-5">
           <Link href="/invoice/create">
             <Button>
-              <Plus className="sm:mr-2 mr-1 size-5" />
+              <Plus className="mr-1 size-5 sm:mr-2" />
               Create
               <span className="hidden sm:inline">Invoice</span>
             </Button>

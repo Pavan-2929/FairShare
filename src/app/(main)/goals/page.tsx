@@ -5,6 +5,12 @@ import { Plus } from "lucide-react";
 import React from "react";
 import CreateGoal from "./CreateGoal";
 import Goals from "./Goals";
+import { Metadata } from "next";
+import { formatCurrency } from "@/utils/formatCurrency";
+
+export const metadata: Metadata = {
+  title: "Goals",
+};
 
 const WalletPage = async () => {
   const user = await getUser();
@@ -18,7 +24,7 @@ const WalletPage = async () => {
           </h1>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline">₹{user.wallet}</Button>
+          <Button variant="outline">{formatCurrency(user.wallet)}</Button>
           <CreateGoal />
         </div>
       </div>

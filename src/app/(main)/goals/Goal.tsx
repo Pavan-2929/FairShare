@@ -28,6 +28,7 @@ import { Progress } from "@/components/ui/progress";
 import { formatDistanceStrict, formatDistanceToNow } from "date-fns";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { formatCurrency } from "@/utils/formatCurrency";
 
 interface GoalProps {
   goalData: GoalType;
@@ -73,7 +74,7 @@ const Goal = ({ goalData }: GoalProps) => {
           </div>
         </CardTitle>
         <CardDescription className="py-3">
-          <p className="text-sm font-medium tracking-wide line-clamp-1">
+          <p className="line-clamp-1 text-sm font-medium tracking-wide">
             {goalData.note || "No additional notes."}
           </p>
         </CardDescription>
@@ -83,7 +84,8 @@ const Goal = ({ goalData }: GoalProps) => {
             <div className="flex items-center justify-between">
               <span>Progress</span>
               <span>
-                ₹ {goalData.currentAmount} / {goalData.targetAmount}
+                {formatCurrency(goalData.currentAmount)} /{" "}
+                {formatCurrency(goalData.targetAmount)}
               </span>
             </div>
             <Progress value={progressValue} className="h-2" />

@@ -7,6 +7,11 @@ import { Mail } from "lucide-react";
 import UserOtherDetails from "./UserOtherDetails";
 import UserImage from "./UserImage";
 import UserData from "./UserData";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Profile"
+}
 
 const ProfilePage = async () => {
   const user = await getUser();

@@ -2,6 +2,11 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import Home from "./(Transaction)/Home";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Transaction",
+};
 
 export default async function HomePage() {
   const session = await auth.api.getSession({

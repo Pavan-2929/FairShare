@@ -217,7 +217,7 @@ const AddTransaction = () => {
                   <FormItem className="flex-1">
                     <FormLabel>Category</FormLabel>
                     <Select
-                      value={form.watch("category")}
+                      defaultValue={form.watch("category")}
                       onValueChange={(val) => {
                         field.onChange(val);
                         setCategory(val);
