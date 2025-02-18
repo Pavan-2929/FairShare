@@ -59,6 +59,13 @@ const SignInForm = () => {
         onError: (ctx) => {
           setError(ctx.error.message);
           setLoading(false);
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description:
+              ctx.error.message ||
+              "Something went wrong | Try different method",
+          });
         },
       },
     );
