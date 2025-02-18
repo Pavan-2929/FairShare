@@ -5,7 +5,7 @@ import Home from "./(Transaction)/Home";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Transaction",
+  title: "Transactions",
 };
 
 export default async function HomePage() {
