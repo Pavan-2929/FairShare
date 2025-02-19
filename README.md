@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 💰 Personal Finance Tracker & Admin Panel  
 
-## Getting Started
+A powerful **personal finance management** web application built with **Next.js 15, TypeScript, PostgreSQL, and Prisma**. It includes **AI-powered transaction autofill, goal tracking, authentication, invoicing, and an admin panel** for tracking expenses and income.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Features  
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 🔐 Authentication  
+- Supports **OTP, Magic Link, Google, and GitHub authentication** using **BetterAuth**.
+- Secure and seamless login experience.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 📊 Transactions Management  
+- Add transactions **with category, type, date, and amount** effortlessly.  
+- Built using **React Query**, optimizing database queries for better performance.  
+- Supports **update and delete transactions** with instant UI updates using caching.  
+- **Filters** to quickly find specific transactions.  
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 🖼 AI-Powered Transaction Autofill  
+- Users can **upload transaction images** and have details filled automatically using AI.
 
-## Learn More
+### 💵 Personal Wallet System  
+- Tracks **income and expenses** based on transaction history.  
+- Helps users **manage their finances efficiently**.
 
-To learn more about Next.js, take a look at the following resources:
+### 🎯 Goal Tracking System  
+- Users can **create financial goals** with:  
+  - **Priority, status, dates, and images**  
+  - Optimized updates using **React Query** for real-time changes  
+  - **Progress bar** and **options to delete/terminate** goals  
+- **Wallet-Based Goal Completion**  
+  - Users can contribute to goals via **mini transactions**, ensuring they don't exceed their wallet balance.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 📜 Admin Panel  
+- Complete **admin dashboard** to monitor:  
+  - **Transactions, income, expenses, and categories**  
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 📝 User Profile  
+- Users can **update their personal information**, reflecting changes across the platform in real-time.
 
-## Deploy on Vercel
+### 📄 PDF Export & Email Functionality  
+- Users can **download or email transaction data as a PDF** using **jsPDF**.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 🧾 Invoice Management  
+- Users can create invoices with:  
+  - **Issue & due dates**  
+  - **Client details, product information, and payment info**  
+  - Options to **download or send via email** as a **PDF**  
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 🤖 AI Chatbot Integration  
+- Users can interact with an **AI chatbot** to:  
+  - **Track goals & transactions**  
+  - **Receive financial suggestions**  
+
+### ✅ Form Validation & Type Safety  
+- **All forms are validated** with **Zod**.  
+- Fully **type-safe** implementation using **TypeScript**.
+
+### 🌙 Responsive & Theming  
+- **Fully responsive** design with:  
+  - **Dark & light mode**  
+  - **Consistent UI across all pages**  
+
+---
+
+## 🛠 Tech Stack  
+
+- **Frontend:** Next.js 15, TypeScript  
+- **Database:** PostgreSQL, Prisma  
+- **State Management & API Handling:** React Query  
+- **Authentication:** BetterAuth  
+- **Email Services:** Nodemailer  
+- **File Storage:** Cloudinary  
+- **PDF Generation:** jsPDF  
