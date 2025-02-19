@@ -45,15 +45,23 @@ const CreateGoalTransaction = ({ goalId }: CreateGoalTransactionProps) => {
     if (!amount) return;
     startTransition(async () => {
       try {
-        const { updatedGoal, updatedUser, newGoalTransaction } =
+        const { updatedGoal, updatedUser, newGoalTransaction, error } =
           await handleGoalTransaction({
             amount,
             goalId,
           });
 
-        queryClient.invalidateQueries({
-          queryKey: ["goals"],
-        });
+        if (error) {
+          setError(error);
+          return;
+        }
+
+        if (!updatedGoal || !updatedUser || !newGoalTransaction) {
+          return;
+        }
+          queryClient.invalidateQueries({
+            queryKey: ["goals"],
+          });
 
         queryClient.setQueryData(
           ["goals"],

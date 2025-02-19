@@ -74,8 +74,18 @@ const AddTransaction = () => {
     setError(null);
 
     try {
-      const { newTransaction, newUser } = await addTransactionHandler(values);
+      const { newTransaction, newUser, error } =
+        await addTransactionHandler(values);
 
+      if (error) {
+        setError(error);
+        return;
+        }
+        
+      if (!newTransaction || !newUser) {
+        return;
+        }
+        
       authClient.updateUser({
         name: newUser.name,
         image: newUser.image,

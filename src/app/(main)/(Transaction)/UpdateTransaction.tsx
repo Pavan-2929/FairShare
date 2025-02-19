@@ -53,7 +53,7 @@ const UpdateTransaction = ({
 }: {
   transactionData: TransactionType;
 }) => {
-  const queryClinet = useQueryClient();
+  const queryClient = useQueryClient();
 
   const [amountType, setAmountType] = useState<"expense" | "income">(
     transactionData.type,
@@ -79,15 +79,21 @@ const UpdateTransaction = ({
     setError(null);
 
     try {
-      await updateTransactionAction(values, transactionData.id);
+      const result = await updateTransactionAction(values, transactionData.id);
+
+      if (result?.error) {
+        setError(error);
+        return;
+      }
+
       form.reset();
       setIsOpen(false);
 
-      queryClinet.invalidateQueries({
+      queryClient.invalidateQueries({
         queryKey: ["transactions"],
       });
 
-      queryClinet.setQueryData(["transactions"], (oldData: oldDataType) => {
+      queryClient.setQueryData(["transactions"], (oldData: oldDataType) => {
         if (!oldData) return;
 
         return {

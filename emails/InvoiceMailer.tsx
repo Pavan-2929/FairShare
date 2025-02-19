@@ -15,7 +15,6 @@ const InvoiceMailer = async ({
   clientName,
   clientEmail,
 }: InvoiceMailerProps) => {
-  
   try {
     let transporter = nodemailer.createTransport({
       host: process.env.MAIL_HOST,

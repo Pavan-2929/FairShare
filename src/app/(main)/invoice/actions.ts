@@ -25,7 +25,6 @@ export const UpdateInvoice = async ({
     });
   } catch (error) {
     console.error("Failed to update invoice status:", error);
-    throw new Error("Something went wrong while updating the invoice status.");
   }
 };
 
@@ -48,7 +47,6 @@ export const DeleteInvoiceAction = async (invoiceId: string) => {
     console.log(invoice);
   } catch (error) {
     console.log("Failed to delete invoice:", error);
-    throw new Error("Something went wrong while deleting the invoice.");
   }
 };
 

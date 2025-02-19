@@ -16,7 +16,6 @@ export const addTransactionHandler = async (credentials: TransactionValues) => {
 
     const user = await getUser();
 
-    // update user wallet
     let walletMoney = user.wallet;
 
     if (type === "expense") {
@@ -26,7 +25,9 @@ export const addTransactionHandler = async (credentials: TransactionValues) => {
     }
 
     if (walletMoney < 0) {
-      throw new Error("Insufficient funds in wallet.");
+      return {
+        error: "Insufficient funds in wallet.",
+      };
     }
 
     const newUser = await prisma.user.update({
@@ -38,7 +39,6 @@ export const addTransactionHandler = async (credentials: TransactionValues) => {
       },
     });
 
-    // Create new Transaction
     const newTransaction = await prisma.transaction.create({
       data: {
         userId: user.id,
@@ -68,7 +68,6 @@ export const deleteTransactionAction = async (transactionId: string) => {
     });
   } catch (error) {
     console.error("Failed to delete transaction:", error);
-    throw new Error("Something went wrong while deleting the transaction.");
   }
 };
 
@@ -79,7 +78,9 @@ export const updateTransactionAction = async (
   const { amount, note, type, category, TransactionDate } = transactionData;
 
   if (!amount || !type || !category || !TransactionDate) {
-    throw new Error("All required fields must be provided.");
+    return {
+      error: "All required fields must be provided.",
+    };
   }
 
   try {
@@ -90,11 +91,15 @@ export const updateTransactionAction = async (
     });
 
     if (!existingTransaction) {
-      throw new Error("Transaction not found.");
+      return {
+        error: "Transaction not found.",
+      };
     }
 
     if (existingTransaction.userId !== user.id) {
-      throw new Error("Unauthorized access to this transaction.");
+      return {
+        error: "Unauthorized access to this transaction.",
+      };
     }
 
     await prisma.transaction.update({
@@ -112,7 +117,9 @@ export const updateTransactionAction = async (
       "Failed to update transaction:",
       error instanceof Error ? error.message : error,
     );
-    throw new Error("Something went wrong while updating the transaction.");
+    return {
+      error: "Something went wrong while updating the transaction.",
+    };
   }
 };
 
@@ -130,7 +137,6 @@ export const sendTransaction = async (
       "Failed to update transaction:",
       error instanceof Error ? error.message : error,
     );
-    throw new Error("Something went wrong while updating the transaction.");
   }
 };
 
@@ -191,10 +197,10 @@ Important:
       return data;
     } catch (error) {
       console.error("Failed to parse JSON:", error);
-      throw new Error("Failed to parse JSON response.");
+      throw new Error("Failed to parse JSON");
     }
   } catch (error) {
     console.error("Failed to scan receipt:", error);
-    throw new Error("Failed to scan the receipt.");
+    throw new Error("Failed to scan receipt");
   }
 };

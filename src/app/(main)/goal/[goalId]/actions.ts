@@ -23,14 +23,18 @@ export const handleGoalTransaction = async ({
     });
 
     if (!goal) {
-      throw new Error("Goal not found.");
+      return {
+        error: "Goal not found",
+      };
     }
 
     // Update User's wallet
     const newWallet = user.wallet - amount;
 
     if (newWallet < 0) {
-      throw new Error("You don't have enough balance in your wallet.");
+      return {
+        error: "Insufficient funds in wallet.",
+      };
     }
 
     const updatedUser = await prisma.user.update({
@@ -46,7 +50,9 @@ export const handleGoalTransaction = async ({
     const totalCurrentAmount = amount + goal.currentAmount;
 
     if (totalCurrentAmount > goal.targetAmount) {
-      throw new Error("Amount exceeds target amount.");
+      return {
+        error: "Amount exceeds target amount.",
+      }
     }
 
     const targetAchieved = totalCurrentAmount === goal.targetAmount;
