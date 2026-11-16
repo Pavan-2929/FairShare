@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { CameraIcon } from "lucide-react";
 import React, { useRef, useTransition } from "react";
 import { scanReceipt } from "./actions";
@@ -12,6 +11,36 @@ interface ScanTransactionProps {
   onScanCompelete: (data: TransactionValues) => void;
 }
 
+async function compressImage(file: File): Promise<File> {
+  if (!file.type.startsWith("image/")) return file;
+
+  return new Promise((resolve) => {
+    const img = new window.Image();
+    img.src = URL.createObjectURL(file);
+    img.onload = () => {
+      const maxWidth = 1024;
+      const scale = Math.min(1, maxWidth / img.width);
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width * scale;
+      canvas.height = img.height * scale;
+
+      const ctx = canvas.getContext("2d");
+      ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+      canvas.toBlob(
+        (blob) => {
+          URL.revokeObjectURL(img.src);
+          if (!blob) return resolve(file);
+          resolve(new File([blob], file.name, { type: "image/jpeg" }));
+        },
+        "image/jpeg",
+        0.75,
+      );
+    };
+    img.onerror = () => resolve(file);
+  });
+}
+
 const ScanTransaction = ({ onScanCompelete }: ScanTransactionProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -21,7 +50,8 @@ const ScanTransaction = ({ onScanCompelete }: ScanTransactionProps) => {
   const handleReceiptScan = (file: File) => {
     startTransition(async () => {
       try {
-        const data = await scanReceipt(file);
+        const compressedFile = await compressImage(file);
+        const data = await scanReceipt(compressedFile);
         console.log(data);
         if (!data || Object.keys(data).length === 0) {
           toast({
@@ -51,6 +81,7 @@ const ScanTransaction = ({ onScanCompelete }: ScanTransactionProps) => {
       }
     });
   };
+
   return (
     <div className="pt-5">
       <input
@@ -61,6 +92,7 @@ const ScanTransaction = ({ onScanCompelete }: ScanTransactionProps) => {
         onChange={(e) => {
           const file = e.target.files?.[0];
           if (file) handleReceiptScan(file);
+          e.target.value = "";
         }}
       />
       <LoadingButton
@@ -71,7 +103,7 @@ const ScanTransaction = ({ onScanCompelete }: ScanTransactionProps) => {
         className="w-full bg-input/35"
       >
         <CameraIcon />
-        Scan Recipt with AI
+        Scan Receipt with AI
       </LoadingButton>
     </div>
   );

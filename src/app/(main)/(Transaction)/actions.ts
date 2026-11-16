@@ -7,6 +7,7 @@ import { TransactionValues } from "@/lib/validations";
 import TransactionMailer from "../../../../emails/TransactionsMailer";
 import { authClient } from "@/lib/auth-client";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { generateWithFallback } from "@/lib/gemini";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY as string);
 
@@ -140,14 +141,39 @@ export const sendTransaction = async (
   }
 };
 
+export async function compressImage(file: File): Promise<File> {
+  if (!file.type.startsWith("image/")) return file;
+
+  return new Promise((resolve) => {
+    const img = new window.Image();
+    img.src = URL.createObjectURL(file);
+    img.onload = () => {
+      const maxWidth = 1024;
+      const scale = Math.min(1, maxWidth / img.width);
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width * scale;
+      canvas.height = img.height * scale;
+
+      const ctx = canvas.getContext("2d");
+      ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+      canvas.toBlob(
+        (blob) => {
+          URL.revokeObjectURL(img.src);
+          if (!blob) return resolve(file);
+          resolve(new File([blob], file.name, { type: "image/jpeg" }));
+        },
+        "image/jpeg",
+        0.75,
+      );
+    };
+    img.onerror = () => resolve(file);
+  });
+}
+
 export const scanReceipt = async (file: File) => {
   try {
-    const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash",
-    });
-
     const arrayBuffer = await file.arrayBuffer();
-
     const base64String = Buffer.from(arrayBuffer).toString("base64");
 
     const prompt = `Extract and return transaction details from this receipt image in the following JSON format:
@@ -160,45 +186,34 @@ export const scanReceipt = async (file: File) => {
 }
       
 Data Extraction Rules:
-
-- amount → Extract the total amount as a number. If the currency is in USD ($), convert it to INR using an exchange rate of **₹83 per USD**. Ensure the final value is in INR.
+- amount → Extract the total amount as a number. If the currency is in USD ($), convert it to INR using an exchange rate of ₹83 per USD. Ensure the final value is in INR.
 - note → Provide a short description of the purchase. If no description is found, return "Scanned Transaction".
 - type → Always "expense" unless the receipt explicitly mentions income (e.g., salary, refund).
 - category → Suggest a category from this list:
   "food", "electronics", "travel", "shopping", "entertainment", "utilities", "groceries", "healthcare", "education", "insurance", "bills", "gifts", "other".
   Default to "other" if no clear category is found.
-- TransactionDate → Extract the date from the receipt and return it in ISO format (YYYY-MM-DD).
-  If no date is found, return today’s date.
+- TransactionDate → Extract the date from the receipt and return it in ISO format (YYYY-MM-DD). If no date is found, return today’s date (${new Date().toISOString().split("T")[0]}).
 
 Important:
 - If the image is not a receipt, return {}.
-- Ensure all numeric values are in **Indian Rupees (INR)**.
-- **Only respond with valid JSON in the required format.**`;
+- Ensure all numeric values are in Indian Rupees (INR).`;
 
-    const result = await model.generateContent([
-      {
-        inlineData: {
-          data: base64String,
-          mimeType: file.type,
+    const text = await generateWithFallback({
+      contents: [
+        {
+          inlineData: {
+            data: base64String,
+            mimeType: file.type || "image/jpeg",
+          },
         },
+        prompt,
+      ],
+      generationConfig: {
+        responseMimeType: "application/json",
       },
-      prompt,
-    ]);
+    });
 
-    const response = await result.response;
-
-    const text = response.text();
-
-    const cleanedText = text.replace(/```(?:json)?\n?/g, "").trim();
-
-    try {
-      const data = JSON.parse(cleanedText);
-
-      return data;
-    } catch (error) {
-      console.error("Failed to parse JSON:", error);
-      throw new Error("Failed to parse JSON");
-    }
+    return JSON.parse(text);
   } catch (error) {
     console.error("Failed to scan receipt:", error);
     throw new Error("Failed to scan receipt");
