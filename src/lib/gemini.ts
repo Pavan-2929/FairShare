@@ -1,18 +1,30 @@
-import dns from "node:dns";
 import {
   GoogleGenerativeAI,
   GenerationConfig,
   Part,
 } from "@google/generative-ai";
 
-dns.setDefaultResultOrder("ipv4first");
+// Prefer the latest stable model, then fall back to a cost-efficient model.
+const FALLBACK_MODELS = ["gemini-3.8-flash", "gemini-3.5-flash-lite"];
 
-const FALLBACK_MODELS = [
-  "gemini-3.1-flash-lite",
-  "gemini-3.5-flash-lite",
-  "gemini-3.8-flash",
-  "gemini-3.5-flash",
-];
+function getErrorDetails(error: unknown) {
+  const errorObject =
+    typeof error === "object" && error !== null
+      ? (error as Record<string, unknown>)
+      : undefined;
+
+  const message =
+    error instanceof Error
+      ? error.message
+      : typeof errorObject?.message === "string"
+        ? errorObject.message
+        : String(error);
+
+  const status =
+    typeof errorObject?.status === "number" ? errorObject.status : undefined;
+
+  return { message, status };
+}
 
 export async function generateWithFallback({
   contents,
@@ -24,6 +36,7 @@ export async function generateWithFallback({
   generationConfig?: GenerationConfig;
 }) {
   const apiKey = process.env.GEMINI_API_KEY;
+
   if (!apiKey) {
     throw new Error("GEMINI_API_KEY is missing from environment variables.");
   }
@@ -44,26 +57,30 @@ export async function generateWithFallback({
       });
 
       return result.response.text();
-    } catch (error: any) {
+    } catch (error: unknown) {
       lastError = error;
-      const msg = String(error?.message || "").toLowerCase();
+
+      const { message, status } = getErrorDetails(error);
+      const normalizedMessage = message.toLowerCase();
+
       const isRetryable =
-        error?.status === 503 ||
-        error?.status === 429 ||
-        msg.includes("503") ||
-        msg.includes("429") ||
-        msg.includes("fetch failed") ||
-        msg.includes("timeout") ||
-        msg.includes("aborted");
+        status === 503 ||
+        status === 429 ||
+        normalizedMessage.includes("503") ||
+        normalizedMessage.includes("429") ||
+        normalizedMessage.includes("fetch failed") ||
+        normalizedMessage.includes("timeout") ||
+        normalizedMessage.includes("aborted");
 
       if (!isRetryable) {
         throw error;
       }
+
       console.warn(
-        `Model ${modelName} failed (${error?.message}), trying next fallback...`,
+        `Model ${modelName} failed: ${message}. Trying the next fallback...`,
       );
     }
   }
 
-  throw lastError;
+  throw lastError ?? new Error("All Gemini models failed.");
 }
